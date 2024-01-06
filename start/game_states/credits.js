@@ -13,8 +13,7 @@ credits_elements=[new align({
             "size_y":700*(48/63),
             "align":"center",
             "on_clicked":function(){
-                window.open(
-                    "https://www.youtube.com/channel/UC0C6KjMVCl1iE4ZtlACf4Ug", "_blank");
+
             }
 
 
