@@ -1,2 +1,19 @@
+// alert("G")
+// let oped=true
 
-window.location.href = "start/index.html"
+engin=new engin_class()
+
+document.body.style.backgroundColor="rgb(0,0,0)"
+
+engin.set_game_state(start_screen_setup)
+
+
+
+
+
+
+
+
+
+
+
