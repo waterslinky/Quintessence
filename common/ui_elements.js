@@ -1626,15 +1626,17 @@ class text_object{
 
 
 function reset_slidder(){
-    
-    accended_tabs_ui.organize()
+    try{
+        accended_tabs_ui.organize()
 
 
-    if(typeof accended_tabs_ui!="undefined"){
-        accended_inventory_slidder.point_height=Math.ceil(accended_tabs_ui.elements.length/3)>=3 ? (((accended_inventory_elements.px*52)  /(((slot_size+accended_inventory_elements.px)*(Math.ceil(accended_tabs_ui.elements.length/3)))))*(accended_inventory_elements.px*52)) : (accended_inventory_elements.px*52)
+        if(typeof accended_tabs_ui!="undefined"){
+            accended_inventory_slidder.point_height=Math.ceil(accended_tabs_ui.elements.length/3)>=3 ? (((accended_inventory_elements.px*52)  /(((slot_size+accended_inventory_elements.px)*(Math.ceil(accended_tabs_ui.elements.length/3)))))*(accended_inventory_elements.px*52)) : (accended_inventory_elements.px*52)
+        }
+        // accended_inventory_slidder.point_height=Math.ceil(accended_tabs_ui.elements.length/3)>=3 ? (((accended_inventory_elements.px*52)  /(((slot_size+accended_inventory_elements.px)*(Math.ceil(accended_tabs_ui.elements.length/3)))))*(accended_inventory_elements.px*52)) : (accended_inventory_elements.px*52)
     }
-    // accended_inventory_slidder.point_height=Math.ceil(accended_tabs_ui.elements.length/3)>=3 ? (((accended_inventory_elements.px*52)  /(((slot_size+accended_inventory_elements.px)*(Math.ceil(accended_tabs_ui.elements.length/3)))))*(accended_inventory_elements.px*52)) : (accended_inventory_elements.px*52)
-}
+    catch(err){console.log(err)}
+    }
 
 
 

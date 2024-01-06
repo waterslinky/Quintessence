@@ -241,7 +241,6 @@ loading_images=setInterval(function () {
 
 
             selected_mods = JSON.parse(localStorage.getItem("selected_mod_list_slot"+selected_slot))
-            console.log(selected_mods)
             if(selected_mods == null){
                 selected_mods = []
             }
