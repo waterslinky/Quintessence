@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" crossorigin="*"></script>
+
+    <title>Quintessence</title>
+    
+    <style>
+        body{
+            margin: 0;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;        
+        }
+
+        
+
+
+
+        canvas{
+            padding: 0;
+
+            margin: auto;
+            display: block;
+
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color:rgb(100, 0, 0);
+        }
+        /* 
+        #custom_cursor {
+            position: absolute;
+            image-rendering: pixelated;
+            pointer-events: none;
+            transform: translate(-50%, -50%);   
+             display: none;   
+        } */
+
+
+        
+    </style>
+
+    <link rel="icon" type="textures/png" sizes="8,8" href="icon.png">
+
+</head>
+<body>
+
+    
+  
+    <canvas id="win" width="1680" height="933"></canvas>
+
+    
+    <!-- <div id="custom_cursor">
+
+        <img id="custom_cursor_image" src="">
+
+        </img>
+    </div> -->
+
+    <!-- Modules -->
+    
+    <script src="../common/engin.js"></script>
+    <script src="../common/noise.js"></script>
+    <script src="../common/ui_elements.js"></script>
+    <script src="../common/display_effects.js"></script>
+    <script src="../common/default_inputs.js"></script>
+    <script src="../common/cursor.js"></script>
+    <script src="../common/open_directory.js"></script>
+
+
+    <script src="Client/mod_stuff.js"></script>
+
+
+
+
+
+    
+
+
+    <script src="Server/server/object_functions.js"></script>
+
+
+    
+    <!-- Setup -->
+    <script src="Client/canvas.js"></script>
+    <script src="Client/setup.js"></script>  
+    
+    <script src="Client/inputs.js"></script>
+
+
+    <!-- Textures -->
+    <script src="Client/textures/block_textures.js"></script>
+    <script src="Client/textures/ui_textures.js"></script>
+    <script src="Client/textures/cursor_textures.js"></script>
+    <script src="Client/textures/item_textures.js"></script>
+    <script src="Client/textures/textures.js"></script>
+    
+
+    
+
+    <script src="Client/sound.js"></script>  
+
+
+
+    <script src="Client/layers/exit_layer.js"></script>
+    <script src="Client/layers/settings_layer.js"></script>
+    <script src="Client/layers/load_structure.js"></script>
+
+    <!-- Crafting Table UI -->
+    
+
+
+
+    <script src="Client/layers/extrude_block/extrude_block_tab.js"></script>
+    <script src="Client/layers/extrude_block/end_structure_tab.js"></script>
+    <script src="Client/layers/extrude_block/extrude_range_tab.js"></script>
+
+    
+    <script src="Server/server/save_server.js"></script>
+    <script src="Client/save_client.js"></script>
+    <script src="Client/save.js"></script>
+    
+    
+    <script src="Client/layers/inventory/inventory.js"></script>
+
+    <!-- Crafting Table -->
+    <script src="Client/layers/crafting_table/crafting_table_elements.js"></script>
+    <script src="Client/layers/crafting_table/small_crafting_table.js"></script>   
+    <script src="Client/layers/crafting_table/crafting_table.js"></script>    
+
+    
+
+     
+
+    
+
+    <script src="Client/recipes.js"></script>
+
+
+
+    <script src="Client/multiplayer.js"></script>
+    <script src="Server/server/globle_emit_functions.js"></script>
+
+
+    <!-- Setup World -->
+    
+    <script src="Server/server/block.js"></script>
+    <script src="Server/server/items.js"></script>
+
+    <script src="Server/server/world/generation/world_parts.js"></script>  
+    <script src="Server/server/world/generation/structures.js"></script>  
+    
+    <script src="Client/layers/inventory/accended_inventory.js"></script>
+    <script src="Client/layers/inventory/survival_inventory.js"></script>
+
+    <script src="Server/server/world/generation/over_wold.js"></script>  
+    <script src="Server/server/setup_world.js"></script>
+
+
+    <!-- Setup Entities -->
+    <script src="Server/entities/player.js"></script>
+    
+
+
+
+
+
+    <script src="Client/engin_clint.js"></script>
+    <script src="Client/clint_index.js"></script>
+
+    
+
+    <script src="Server/server/engin_server.js"></script>
+    
+    
+    <script src="Server/server/world_index.js"></script>
+
+
+
+
+    <!-- SET UP -->
+
+
+
+
+
+    
+
+
+
+
+
+    <script src="Client/index.js"></script>
+
+
+
+    
+
+
+
+    
+
+
+    
+</body>
+</html>

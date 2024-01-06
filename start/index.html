@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <!-- <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" crossorigin="*"></script> -->
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" crossorigin="*"></script>
 
     <title>Quintessence</title>
     
@@ -11,9 +11,7 @@
             margin: 0;
             align-items: center;
             justify-content: center;
-
             
-            /* cursor: url("cer.png") 6.5 6.5,auto; */
         }
         canvas{
             padding: 0;
@@ -26,108 +24,29 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background-color:rgb(0, 0, 0);
+            background-color:rgb(100, 0, 0);
         }
     </style>
 
-<link rel="icon" type="textures/png" sizes="8,8" href="icon.png">
-
-
+    <link rel="icon" type="textures/png" sizes="8,8" href="icon.png">
 
 </head>
 <body>
 
+
+  
     <canvas id="win" width="1680" height="933"></canvas>
 
 
-    <a href="" id="downloadlink" style="display:none" download=""> </a<>
-
-    <script>
-                
-        function download(link_name,file_name){
-            var downloadlink = document.getElementById("downloadlink")
-            downloadlink.href = link_name
-            downloadlink.setAttribute("download", file_name)
-            
-            console.log(downloadlink)
-
-            downloadlink.click()
-        }
-
-
-
-        
-
-    </script>
-
-
-    <!-- <script src="/JW2.0/engin.js"></script>
-    <script src="/engin.js"></script> -->
-    <script src="../common/engin.js"></script>
-    <script src="../common/display_effects.js"></script>
-
-    <script src="../common/default_inputs.js"></script>
-
-
-
-    <!-- <script src="../common/ui_elements.js"></script> -->
-
-
-
-    <!-- Sets up window -->
-    <script src="canvas.js"></script>
-
-    <script src="sounds.js"></script>
-
-
-
-
-    <!-- Set up textures -->
-    <script src="textures/ui_elements_textures.js"></script>
-
-
-    <!-- Blockset Up -->
-    <script src="block.js"></script>
-
-
-    <!-- Sets up modules -->
-    <!-- <script src="ui_elements.js"></script> -->
-    <script src="../common/ui_elements.js"></script>
-
-    <script src="set_up.js"></script>
-
-
-
-
-    <!-- Sets up all game_states -->
-    <script src="game_states/credits.js"></script>
-    <script src="game_states/input_name.js"></script>
-    <script src="game_states/online_options.js"></script>
-    <script src="game_states/pick_world.js"></script>
-    <script src="game_states/server_selector.js"></script>
-    
-    <script src="game_states/start_screen.js"></script>
-
-
-
-    
-    <script src="inputs.js"></script>
-
-
-
-
-
-
-
-    <!-- Sets up engin that runs game state -->
+ 
     <script src="index.js"></script>
 
 
-
-
-
-
-    
+    <nav>
+        <a href="start/index.html">start1</a> 
+        <a href="world/index.html">world</a> 
+    </nav>
+        
 
 
 
