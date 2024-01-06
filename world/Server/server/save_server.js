@@ -24,7 +24,6 @@ function import_saved_server(){
     }
     
 
-
     try{
         if(saved_block_list==null){
             return false       
