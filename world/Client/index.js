@@ -597,7 +597,7 @@ world.layers.push(crafting_table_layer)
 
 
 const compile_blocks_and_items = function(){
-
+    
 
     // for(const item_name in items){
     //     let item = items[item_name]

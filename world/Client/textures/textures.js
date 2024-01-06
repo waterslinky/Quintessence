@@ -70,14 +70,20 @@ class texture{
             let chance_total = 0
 
             
-            for(let i=0;i<this.texture.length;i++){
-                // let chance = i<chances.length ? chances[i] : 1
+            try{
+                for(let i=0;i<this.texture.length;i++){
+                    // let chance = i<chances.length ? chances[i] : 1
 
 
 
-                new_chances.push({"name":this.texture[i].name,"chance":chances[i]})
+                    new_chances.push({"name":this.texture[i].name,"chance":chances[i]})
 
+                }                
             }
+            catch(err){
+                console.error(this.texture)
+            }
+
            
             for(let i=0;i<this.chances.length;i++){
                 // let chance = i<chances.length ? chances[i] : 1

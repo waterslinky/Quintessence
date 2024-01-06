@@ -179,7 +179,10 @@ class inventory_slot{
 
 
     let accended_tabs_index={"index":2}
+window.onload = function(){
     let accended_tabs=[new inventory_slot(create_item("grass")),new inventory_slot(create_item("stone")),new inventory_slot(create_item("magnifying_glass"))]
+
+    
     
     
     
@@ -404,3 +407,4 @@ class inventory_slot{
 
 
 
+}

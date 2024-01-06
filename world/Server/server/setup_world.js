@@ -246,7 +246,7 @@ loading_images=setInterval(function () {
                 engin.change_selected_layer(["pick_mod_directory"],"set")
             }
             else{
-                console.log(accended_tabs_ui )
+          
                 start_game()
             }
             
