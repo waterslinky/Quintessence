@@ -5,6 +5,7 @@ credits_elements=[new align({
         new text({"x": innerWidth/2 ,"y": 50,"text": "Quintessence:" ,"size":70,"color":"rgb(66, 242, 245)","align":"center"}),
         new text({"x":innerWidth/2  ,"y":230 ,"text": "By: @Quintessence" ,   "size": 50  ,"color":"rgb(255,255,255)"   ,"align":  "center" }),
         new text( {"x":innerWidth/2  ,"y":320 ,"text": "Pack B: @Calamity1956" ,   "size": 50  ,"color": "rgb(255,255,255)"  ,"align":  "center" } ),
+        new text( {"x":innerWidth/2  ,"y":320 ,"text": "Test By: @duckyguy" ,   "size": 50  ,"color": "rgb(255,255,255)"  ,"align":  "center" } ),
         new button({
             "image":youtube_button_image,
             "x":innerWidth/2,
