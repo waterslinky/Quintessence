@@ -400,12 +400,7 @@ function get_property(item,property){
     
 
     // console.log(item.name)
-    try{
-        blocks_and_items[item.name][property]
-    }
-    catch(err){
-        console.error(item)
-    }
+
     let item_property = blocks_and_items[item.name][property]
 
     if(item_property!=undefined){

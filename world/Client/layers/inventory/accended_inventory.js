@@ -118,6 +118,7 @@ class inventory_slot{
         else{
             item.count=count
         }
+
         
 
     }
@@ -143,7 +144,7 @@ class inventory_slot{
         
 
         if(this.item.count<=0){
-            this.item=get_just_block("blank")
+            this.item=create_item("blank")
         }
 
         return extra
@@ -151,12 +152,20 @@ class inventory_slot{
 
     give_count(count,from=undefined){
 
-        let extra=this.set_count(this.count+count)
+        let extra=this.set_count(this.item.count+count)
+
+
+        
+
         if(extra){
+            
             from.set_count(extra)
+
         }
         else{
-            from.set_count(from.count-count)
+     
+            from.set_count(from.item.count-count)
+
         }
         
 
