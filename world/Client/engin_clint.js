@@ -43,7 +43,6 @@ function draw_entities(){
 
                 if(rainbow_skin==true){
 
-                    console.log(rainbow_skin)
 
                     if(typeof entitie.r!="number"){
                         entitie.r = 0
