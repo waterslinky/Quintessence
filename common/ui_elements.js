@@ -1625,28 +1625,18 @@ class text_object{
 
 
 function reset_slidder(){
-<<<<<<< HEAD
     
     
 
 
     if(typeof accended_tabs_ui!="undefined"){
         accended_tabs_ui.organize()
+        
+
         accended_inventory_slidder.point_height=Math.ceil(accended_tabs_ui.elements.length/3)>=3 ? (((accended_inventory_elements.px*52)  /(((slot_size+accended_inventory_elements.px)*(Math.ceil(accended_tabs_ui.elements.length/3)))))*(accended_inventory_elements.px*52)) : (accended_inventory_elements.px*52)
-=======
-    try{
-        accended_tabs_ui.organize()
-
-
-        if(typeof accended_tabs_ui!="undefined"){
-            accended_inventory_slidder.point_height=Math.ceil(accended_tabs_ui.elements.length/3)>=3 ? (((accended_inventory_elements.px*52)  /(((slot_size+accended_inventory_elements.px)*(Math.ceil(accended_tabs_ui.elements.length/3)))))*(accended_inventory_elements.px*52)) : (accended_inventory_elements.px*52)
-        }
-        // accended_inventory_slidder.point_height=Math.ceil(accended_tabs_ui.elements.length/3)>=3 ? (((accended_inventory_elements.px*52)  /(((slot_size+accended_inventory_elements.px)*(Math.ceil(accended_tabs_ui.elements.length/3)))))*(accended_inventory_elements.px*52)) : (accended_inventory_elements.px*52)
+     
     }
-    catch(err){console.log(err)}
->>>>>>> 58acbad8ef81eb0c9e0b001e431d4ac9881fd783
-    }
-
+}
 
 
 

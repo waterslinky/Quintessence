@@ -241,17 +241,14 @@ loading_images=setInterval(function () {
 
 
             selected_mods = JSON.parse(localStorage.getItem("selected_mod_list_slot"+selected_slot))
-<<<<<<< HEAD
+
 
             if(selected_mods==null){
                 selected_mods = []
             }
 
-=======
-            if(selected_mods == null){
-                selected_mods = []
-            }
->>>>>>> 58acbad8ef81eb0c9e0b001e431d4ac9881fd783
+
+
             if(selected_mods.length!=0){
                 engin.change_selected_layer(["pick_mod_directory"],"set")
             }
