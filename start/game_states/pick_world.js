@@ -277,6 +277,27 @@ let open_mod_directory_icon_3 = new button({
     "align":"center"
 })
 
+let open_mod_list = new button({
+    "x":(innerWidth/2)+1085,
+    "y":(innerHeight/2)+560,
+    "size_x":400,
+    "size_y":150,
+    "on_clicked":function(){
+        console.log("open mod list")
+
+        // selected_world_index = 3
+        // engin.change_selected_layer(["open_mod_directory"],"set")
+        // pick_directory().then((file_tree) => {
+            
+        //     on_mod_directory_opened(file_tree)
+            
+        // })
+
+    },
+    "image":mod_list_image,
+    "align":"center"
+})
+
 let selected_world_index
 let mod_list
 
@@ -312,7 +333,10 @@ pick_world_elements=[
             //Open Mod Directory
             open_mod_directory_icon_1,
             open_mod_directory_icon_2,
-            open_mod_directory_icon_3
+            open_mod_directory_icon_3,
+
+            //Mod list
+            open_mod_list
 
 
            

@@ -232,6 +232,8 @@ gray_delete_world_image = new Image();
 gray_delete_world_image.src = 'textures/ui_elements/gray_delete_world.png'
 
 
+mod_list_image = new Image();
+mod_list_image.src = 'textures/ui_elements/mod_list.png'
 
 
 dark_purple_bar_fade_image = new Image();
