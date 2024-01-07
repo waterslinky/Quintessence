@@ -1,4 +1,4 @@
-version="Alpha 1.2"
+version="Alpha 1.4"
 
 music=new Audio("music/ascend_song.mp3") 
 music.volume=0.05
