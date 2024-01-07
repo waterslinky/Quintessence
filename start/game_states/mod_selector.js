@@ -120,15 +120,18 @@ open_mod_list_elements = [
                 },
                 "on_clicked":function(){
                         
-                        console.log("clicked")
                         if(this.selected){
                
                             this.selected = false
+
+
                         }
                         else{
                             
                             this.selected = true
                         }
+                        
+                        localStorage.setItem("rainbow_skin", JSON.stringify(this.selected))
                         
                 }
             })
@@ -138,5 +141,12 @@ open_mod_list_elements = [
     })
 
 ]
+let rainbow_skin_data = (localStorage.getItem("rainbow_skin"))
+
+if(rainbow_skin_data!=null && JSON.parse(rainbow_skin_data)){
+
+    open_mod_list_elements[0].elements[4].selected = true
+}
+
 
 

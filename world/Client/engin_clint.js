@@ -1,4 +1,5 @@
 
+rainbow_skin = JSON.parse(localStorage.getItem("rainbow_skin"))
 
 function draw_entities(){
 
@@ -40,7 +41,31 @@ function draw_entities(){
                 }
 
 
-                screen.fillStyle = "rgb("+entitie.color+","+AlphaPercent+")" ;
+                if(rainbow_skin==true){
+
+                    console.log(rainbow_skin)
+
+                    if(typeof entitie.r!="number"){
+                        entitie.r = 0
+                    }
+                    if(typeof entitie.g!="number"){
+                        entitie.g = 0
+                    }
+                    if(typeof entitie.b!="number"){
+                        entitie.b = 0
+                    }
+                    entitie.r+=Math.random()*5
+                    entitie.g+=Math.random()*3
+                    entitie.b+=Math.random()*7
+
+
+
+
+                    screen.fillStyle = "rgb("+Math.abs((Math.floor(entitie.r)%512)-256)+","+Math.abs((Math.floor(entitie.g)%512)-256)+","+Math.abs((Math.floor(entitie.b)%512)-256)+","+AlphaPercent+")" ;
+                }
+                else{
+                    screen.fillStyle = "rgb("+entitie.color+","+AlphaPercent+")" ;
+                }
                 screen.fillRect(Math.floor((entitie.x*FOV)-player.cam[0]),Math.floor((entitie.y*FOV)-player.cam[1]),Math.ceil(player.size_x*FOV),Math.ceil(player.size_y*FOV)); 
             
                 

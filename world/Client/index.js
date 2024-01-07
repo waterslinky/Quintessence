@@ -708,6 +708,7 @@ world_load={
                 let mods = await pick_directory("read",selected_mods)
                 
                 
+                console.log(mods)
 
                     
                     
