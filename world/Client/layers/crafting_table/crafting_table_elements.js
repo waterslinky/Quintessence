@@ -17,7 +17,7 @@ function check_recipe(table,x,y,recipe){
     for(let i=0;i<table.items.length;i++){
         let item = table.items[i]
 
-        item.in_recipe = false
+        item.slot.item.in_recipe = false
 
         // if(item.parent_reciple==undefined){
         //     item.in_recipe = false
@@ -43,11 +43,15 @@ function check_recipe(table,x,y,recipe){
         for(let i=0;i<table.items.length;i++){
             
 
-                let item = table.items[i]
+                let item = table.items[i].slot.item
+
                 
-                if((ingredient.item && item.item.item.name == ingredient.item.name) || (item.item.item.tool_part && item.item.item.tool_part.part==ingredient.part_type)){
-                    let item_x = item.x + (item.size_x/2)
-                    let item_y = item.y + (item.size_y/2)
+                
+                if((ingredient.item && item.name == ingredient.item.name) || (get_property(item,"tool_part") && get_property(item,"tool_part").part==ingredient.part_type)){
+
+
+                    let item_x = table.items[i].x + (table.items[i].size_x/2)
+                    let item_y = table.items[i].y + (table.items[i].size_y/2)
 
 
                     if(x_2-(crafting_table_recipe_space/2)<item_x &&  x_2+(crafting_table_recipe_space/2)>item_x ){
@@ -57,7 +61,7 @@ function check_recipe(table,x,y,recipe){
 
                                 if(items_in_recipe.includes(item)==false  && item.in_recipe==false){
                                     possible_items.push(item)
-                                    
+                                    console.log("A")
                                     // item_found=true
                                 }
                                 
@@ -71,13 +75,16 @@ function check_recipe(table,x,y,recipe){
 
             if(possible_items.length==0){
                 recipe_failed=true
+                console.log(possible_items)
             }
             else{
                 let closest_item = possible_items[0]
                 let closest_item_distance = 0
 
                 for(let i=1;i<possible_items.length;i++){
+
                     let possible_item = possible_items[i]
+
                     let distance = Math.hypot(x_2-(possible_item.x + (possible_item.size_x/2)),y_2-(possible_item.y + (possible_item.size_y/2)))
 
                     if(distance<=closest_item_distance){
@@ -118,6 +125,7 @@ function check_recipe(table,x,y,recipe){
 
 
 }
+
 
 class crafting_table_ui extends button{
     constructor(info){
@@ -172,99 +180,115 @@ class crafting_table_ui extends button{
 
                 // console.log(item.draw)
                 // console.log(this.closest_item)
-                if(engin.cursor.image==hammer_cursor_image && this.closest_item!=undefined && this.closest_item.item.parent_reciple && this.closest_item.item.parent_reciple.selected==false){
+                try{
+                    // console.log(this.closest_item.item.hover)
+                }
+                catch(err){
 
-                    // let [size_x,size_y] = item.calculate_size()
-   
+                }
 
-                    // if(mouse_x>item.x && mouse_x<item.x+size_x){
-                    if(this.closest_item.item.hover){
+                
+                
+                if(engin.cursor.image==hammer_cursor_image && this.closest_item!=undefined){
+
+                    let closest_display_item = this.items[this.closest_item.index]
+
                     
-                        this.closest_item.item.parent_reciple.selected = true
+
+                    if(closest_display_item.hover){
+                    
+                        
+                        // this.closest_item.item.parent_reciple.selected = true
                         
 
-                        this.items.forEach(item_2 => {
-                            if(this.closest_item.item.parent_reciple == item_2.parent_reciple){
-                                let old_image = item_2.item.item.image
-                                let old_hand_size = item_2.item.item.hand_size
+                        this.items.forEach(display_item => {
+
+                            let item = display_item.slot.item
+                            let old_item = copy(item)
+                            
+                            if(this.items[this.closest_item.index].parent_reciple == display_item.parent_reciple){
+
             
-            
-                                // item.item.item.hand_size+=0.1
-                                item_2.item.item.image=colorscale(item_2.item.item.image,"255,255,255")
+                                item.image = colorscale(get_property(item,"image"),"255,255,255")
             
                                 
             
-                                let old_x = item_2.x
-                                let old_y = item_2.y
+                                let old_x = display_item.x
+                                let old_y = display_item.y
             
-                                item_2.x-=4
-                                item_2.draw()
-                                item_2.x = old_x
+                                display_item.x-=4
+                                display_item.draw()
+                                display_item.x = old_x
             
                                
-                                item_2.x+=4
-                                item_2.draw()
-                                item_2.x = old_x
+                                display_item.x+=4
+                                display_item.draw()
+                                display_item.x = old_x
             
             
-                                item_2.y-=4
-                                item_2.draw()
-                                item_2.y = old_y
+                                display_item.y-=4
+                                display_item.draw()
+                                display_item.y = old_y
             
-                                item_2.y+=4
-                                item_2.draw()
-                                item_2.y = old_y
+                                display_item.y+=4
+                                display_item.draw()
+                                display_item.y = old_y
             
             
             
                                 //Top Left
             
-                                item_2.y-=4
-                                item_2.draw()
-                                item_2.y = old_y
+                                display_item.y-=4
+                                display_item.draw()
+                                display_item.y = old_y
             
-                                item_2.x-=4
-                                item_2.draw()
-                                item_2.x = old_x
+                                display_item.x-=4
+                                display_item.draw()
+                                display_item.x = old_x
             
             
                                 //Top Right
             
-                                item_2.y-=4
-                                item_2.draw()
-                                item_2.y = old_y
+                                display_item.y-=4
+                                display_item.draw()
+                                display_item.y = old_y
             
-                                item_2.x+=4
-                                item_2.draw()
-                                item_2.x = old_x
+                                display_item.x+=4
+                                display_item.draw()
+                                display_item.x = old_x
             
                                 //bottom Left
             
-                                item_2.y+=4
-                                item_2.draw()
-                                item_2.y = old_y
+                                display_item.y+=4
+                                display_item.draw()
+                                display_item.y = old_y
             
-                                item_2.x-=4
-                                item_2.draw()
-                                item_2.x = old_x
+                                display_item.x-=4
+                                display_item.draw()
+                                display_item.x = old_x
             
             
                                 //bottom Right
             
-                                item_2.y+=4
-                                item_2.draw()
-                                item_2.y = old_y
+                                display_item.y+=4
+                                display_item.draw()
+                                display_item.y = old_y
             
-                                item_2.x+=4
-                                item_2.draw()
-                                item_2.x = old_x
+                                display_item.x+=4
+                                display_item.draw()
+                                display_item.x = old_x
+
+
+                                //Reseting X and Y
+                                display_item.x = old_x
+                                display_item.y = old_y
+
             
-            
-            
-            
-                                item_2.item.item.image = old_image
-                                item_2.item.item.hand_size = old_hand_size
+                                
                             }
+
+                            display_item.slot.item = old_item
+                            
                         });
                     }
 
@@ -408,7 +432,7 @@ class crafting_table_ui extends button{
             });
 
 
-            if(this.hover && KeysDown["Shift"] && inventory_hand.item.item.name=="blank"){
+            if(this.hover && KeysDown["Shift"] && player.inventory_hand.item.name=="blank"){
                 engin.cursor.set_cursor(hammer_cursor_image)
             }
             else if(hammer_cursor_image==engin.cursor.image){
@@ -427,12 +451,13 @@ class crafting_table_ui extends button{
 
             for(let i=this.items.length-1;i>=0;i--){
 
-                let item = this.items[i]
+                let display_item = this.items[i]
 
-                if(item.x<hand_x && item.x+(crafting_table_item_size)>hand_x){
-                    if(item.y<hand_y && item.y+(crafting_table_item_size)>hand_y){
 
-                        let distance = Math.hypot((item.x+(crafting_table_item_size/2))-hand_x,(item.y+(crafting_table_item_size/2))-hand_y)
+                if(display_item.x<hand_x && display_item.x+(crafting_table_item_size)>hand_x){
+                    if(display_item.y<hand_y && display_item.y+(crafting_table_item_size)>hand_y){
+
+                        let distance = Math.hypot((display_item.x+(crafting_table_item_size/2))-hand_x,(display_item.y+(crafting_table_item_size/2))-hand_y)
 
                         if(this.closest_item!=undefined){
                             
@@ -440,7 +465,7 @@ class crafting_table_ui extends button{
 
                             if(distance<this.closest_item.distance){
                                 this.closest_item={
-                                    "item" : item,
+                                    "item" : display_item.slot.item,
                                     "distance" : distance,
                                     "index":i
                                 }           
@@ -449,7 +474,7 @@ class crafting_table_ui extends button{
                         }
                         else{
                             this.closest_item={
-                                "item" : item,
+                                "item" : display_item.slot.item,
                                 "distance" : distance,
                                 "index":i
                             }
@@ -481,7 +506,7 @@ class crafting_table_ui extends button{
 
             
             
-            console.log(item)
+            
             let item_display = new Item_display({
                 "x":x,
                 "y":y,
@@ -524,10 +549,19 @@ class crafting_table_ui extends button{
 
                         
                     if((ingredient.item && ingredient.item.name==item.name) || (get_property(item,"tool_part") && get_property(item,"tool_part").part==ingredient.part_type)){
-                        let completed_recipe = check_recipe(this,x-(ingredient.x*crafting_table_item_size),y-(ingredient.y*crafting_table_item_size),recipe)
                         
-                        if(completed_recipe){
+                        console.log(ingredient.item.name==item.name)
+
+                        let completed_recipe = check_recipe(this,x-(ingredient.x*crafting_table_item_size),y-(ingredient.y*crafting_table_item_size),recipe)
+
+                        
+                        
+                        if(completed_recipe){ 
+
+                            
                             completed_recipes.push(completed_recipe)
+
+
                         }
                         
                         
@@ -606,7 +640,9 @@ class crafting_table_ui extends button{
         
                 // items_in_recipe.forEach(item => {
                 for(let i=0;i<biggest_completed_recipe.items_in_recipe.length;i++){
+
                     let item = biggest_completed_recipe.items_in_recipe[i]
+                    let item_display = this.items[i]
         
                     if(item.parent_reciple!=undefined){
                         for(let i=0;i<this.completed_recipes.length;i++){
@@ -632,9 +668,11 @@ class crafting_table_ui extends button{
                         }
                     }
                     
-                    // console.log("SET")
-                    item.parent_reciple = biggest_completed_recipe
-                    item.recipe_index = i
+                    
+                    
+                    item_display.parent_reciple = biggest_completed_recipe
+                    item_display.recipe_index = i
+
                 }
             }
 
@@ -733,7 +771,7 @@ class crafting_table_ui extends button{
 
 
                     
-                    player.inventory_hand.set_count(player.inventory_hand.count-1)
+                    player.inventory_hand.set_count(player.inventory_hand.item.count-1)
                 }
 
 
@@ -759,19 +797,20 @@ class crafting_table_ui extends button{
             if(engin.cursor.image==undefined){
                 if(this.closest_item!=undefined){
                     
-            
-                    if(this.closest_item.item.item.item.name==player.inventory_hand.item.name){
+                    let item = this.closest_item.item
+
+                    if(item.name==player.inventory_hand.item.name){
 
                         this.remove_item(this.closest_item.index)
-                        Entity_class.give_item(this.closest_item.item.item,[player.inventory_hand],1)
+                        Entity_class.give_item(item,[player.inventory_hand],1)
 
                     }
                     else if(player.inventory_hand.item.name=="blank"){
 
                         this.remove_item(this.closest_item.index)
 
-                        player.inventory_hand.item = this.closest_item.item.item.item
-                        player.inventory_hand.count = 1
+                        player.inventory_hand.item = item
+                        player.inventory_hand.item.count = 1
 
 
                     }
@@ -779,50 +818,30 @@ class crafting_table_ui extends button{
                 }                
             }
             else if(engin.cursor.image==hammer_cursor_image){
+
+                let parent_reciple = this.items[this.closest_item.index].parent_reciple
+
                 
-                if(this.closest_item.item.parent_reciple){
-                    if(this.closest_item.item.parent_reciple.hits==undefined){
-                        this.closest_item.item.parent_reciple.hits = 0
+                if(parent_reciple){
+                    if(parent_reciple.hits==undefined){
+                        parent_reciple.hits = 0
                     }
 
-                    this.closest_item.item.parent_reciple.hits++
+                    parent_reciple.hits++
 
-                    let hits = this.closest_item.item.parent_reciple.hits
+                    let hits = parent_reciple.hits
 
                     let items_removed = []
 
-                    this.closest_item.item.parent_reciple.items_in_recipe.forEach(recipe_item => {
-                        for(let i=0;i<this.items.length;i++){
-                            let item = this.items[i]
-
-                            if(item == recipe_item){
-
-
-                                if(hits==1 || 2){
-                                    // items_removed.push(this.items.splice(i,1)[0]) 
-                                }
-
-                                if(hits==3){
-                                    
-                                }
-
-
-
-                                if(hits==4){
-                                    this.items.splice(i,1)    
-
-
-                                }
-
-                            }
-                        }                    
-                    });
+                    // parent_reciple.items_in_recipe.forEach(recipe_item => {
+            
+                    // });
 
                     if(hits==1){
                         
                         let removed_items = []
                         // for(let i=0;i<this.closest_item.item.parent_reciple.items_in_recipe.length;i++){
-                        this.closest_item.item.parent_reciple.items_in_recipe.forEach(item_in_recipe => {
+                      
                             
 
 
@@ -830,9 +849,11 @@ class crafting_table_ui extends button{
                         
                             for(let i=0;i<this.items.length;i++){
 
-                                let item = this.items[i]
-                    
-                                if(item_in_recipe == item){
+                                let item_display = this.items[i]
+
+                                if(parent_reciple == item_display.parent_reciple){
+                  
+                                    
                                     removed_items.push(this.items.splice(i,1)[0])
                                 }
                                 
@@ -846,16 +867,16 @@ class crafting_table_ui extends button{
                             // for(let i=0;i<this.closest_item.item.parent_reciple.recipe.ingredients.length){
                                 
                             // }
-                            
-                        });
+                           
 
-                        for(let ingredient_i=0;ingredient_i<this.closest_item.item.parent_reciple.recipe.ingredients.length;ingredient_i++){
+                        for(let ingredient_i=0;ingredient_i<parent_reciple.recipe.ingredients.length;ingredient_i++){
 
                             for(let i=0;i<removed_items.length;i++){
+                                
                                 let removed_item = removed_items[i]
         
            
-                                let depth = this.closest_item.item.parent_reciple.recipe.ingredients[removed_item.recipe_index].depth
+                                let depth = parent_reciple.recipe.ingredients[removed_item.recipe_index].depth
 
                                 if(depth==undefined){
                                     depth=0
@@ -894,55 +915,67 @@ class crafting_table_ui extends button{
 
                         let center_item_index
 
-                        for(let i=0;i<this.closest_item.item.parent_reciple.recipe.ingredients.length;i++){
+                        for(let i=0;i<parent_reciple.recipe.ingredients.length;i++){
                         // this.closest_item.item.parent_reciple.recipe.ingredients.forEach(ingredient_item => {
-                            let ingredient_item = this.closest_item.item.parent_reciple.recipe.ingredients[i]
+                            let ingredient_item = parent_reciple.recipe.ingredients[i]
                             if(ingredient_item.center==true){
                                 center_item_index = i
                             }
                         }
 
-                        this.closest_item.item.parent_reciple.items_in_recipe.forEach(recipe_item => {
-                  
-                            if(center_item_index==recipe_item.recipe_index){
+                        parent_reciple.items_in_recipe.forEach(recipe_item => {
+               
+                            
+                     
 
-                                let [size_x,size_y] = recipe_item.calculate_size()
+                            this.items.forEach(display_item => {
+                               
+                                if(display_item.parent_reciple && display_item.parent_reciple==parent_reciple){
 
-                                result_x = recipe_item.x+crafting_table_item_size/2
-                                result_y = recipe_item.y+crafting_table_item_size/2
+                                  
 
-                            }
+                                        // let [size_x,size_y] = recipe_item.calculate_size()
+        
+                                        result_x = display_item.x+crafting_table_item_size/2
+                                        result_y = display_item.y+crafting_table_item_size/2
+
+                                        console.log(display_item.y)
+        
+
+                                }
+                            });
+                            
+
                         });
 
                         
-                        this.closest_item.item.parent_reciple.recipe.result.forEach(result_item => {
-                            // console.log(result_item)
+                        parent_reciple.recipe.result.forEach(result_item => {
+                            
 
                             if(result_item.tool){
                                 let parts = {}
 
 
-                                this.closest_item.item.parent_reciple.items_in_recipe.forEach(recipe_item2 => {
+                                parent_reciple.items_in_recipe.forEach(recipe_item2 => {
                                     parts[recipe_item2.item.item.tool_part.part] = recipe_item2.item.item
                                 });
 
                  
                                 this.add_item(
-                                    {
-                                        "item":create_item(result_item.tool,{"parts":parts}),
-                                        "count":1
-                                    },
-                                
+                                    
+                                        create_item(result_item.tool,{"parts":parts}),
+                                  
+                                    
                                 
                                 
                                 result_x+(result_item.x*crafting_table_item_size),result_y+(result_item.y*crafting_table_item_size))   
 
                             }
                             else{
-                                this.add_item({
-                                    "item":create_item(result_item.item.name),
-                                    "count":1
-                                },
+                                this.add_item(
+                                    create_item(result_item.item.name),
+                                 
+                            
                                 
                                 
                                 
@@ -963,6 +996,20 @@ class crafting_table_ui extends button{
                             // console.log(result_item.item.name)
                         });
 
+
+                        for(let i=0;i<this.items.length;i++){
+                            let item_display = this.items[i]
+
+                            if(item_display.parent_reciple == parent_reciple){
+
+
+                           
+                                this.items.splice(i,1)    
+
+
+
+                            }
+                        }        
                     }                    
                 }
 

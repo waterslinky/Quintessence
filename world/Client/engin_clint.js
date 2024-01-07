@@ -1240,7 +1240,7 @@ function clint_update(){
                     let destroy_block = block_list[player.block_brocking[0]][player.block_brocking[1]]  
                     let tool_types = get_property(selected_item,"tool_type")  
 
-                    let loot_table = block_list[player.block_brocking[0]][player.block_brocking[1]].loot_table
+                    let loot_table = get_property(block_list[player.block_brocking[0]][player.block_brocking[1]],"loot_table")
 
                     let replace_with = "air"
                     
@@ -1251,9 +1251,10 @@ function clint_update(){
                             get_property(destroy_block,"broken_with").forEach(element => {
 
                                 if(element.tool_type == tool.tool_type){
-   
-                                    if(element.loot_table){
-                                        loot_table = element.loot_table
+
+                                    if(get_property(element,"loot_table")){
+                                        
+                                        loot_table = get_property(element,"loot_table")
                                     }
                                     if(element.replace_with){
                                         replace_with=element.replace_with.name
@@ -1337,6 +1338,7 @@ function clint_update(){
                 is_placing=false
             }
             else{
+             
                 // blank_area(world_mouse_x,world_mouse_y,(typeof block_list[world_mouse_x][world_mouse_y].hit_box!="undefined" ? block_list[world_mouse_x][world_mouse_y].hit_box[0] : 1),(typeof block_list[world_mouse_x][world_mouse_y].hit_box!="undefined" ? block_list[world_mouse_x][world_mouse_y].hit_box[1] : 1))
                 // console.log(player.inventory[player.selected_slot_index.index])
                 if(selected_item.name!="blank" && get_property(selected_item,"type")=="block" && blank_area(world_mouse_x,world_mouse_y,(typeof get_property(selected_item,"hit_box")!="undefined" ? get_property(selected_item,"hit_box")[0] : 1),(typeof get_property(selected_item,"hit_box")!="undefined" ? get_property(selected_item,"hit_box")[1] : 1))){

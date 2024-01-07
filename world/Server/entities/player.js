@@ -714,12 +714,12 @@ class player_class{
             
             try{
                 
-                let old_item=this.inventory[i]
+                let old_item=this.inventory[i].item
                 
                 this.inventory[i]=new inventory_slot(create_item("blank"))
 
-                this.inventory[i].item = old_item.item
-                this.inventory[i].count=old_item.count
+                this.inventory[i].item = old_item
+                this.inventory[i].item.count=old_item.count
                 
             }
             catch{
