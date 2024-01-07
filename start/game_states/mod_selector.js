@@ -56,3 +56,87 @@ open_mod_directory_elements = [
     })
 
 ]
+
+open_mod_list_elements = [
+
+    new align({ 
+        "elements":[  
+
+            new text({
+                "x": innerWidth/2,
+                "y": 60,
+                "text": "Select Mod",
+                "size": 48,
+                "color": "rgb(255,255,255)",
+                "align": "center"
+            }),
+
+            new image({
+                "x":(innerWidth/2)-1050,
+                "y":(innerHeight/2)-500,
+                "size_x":150,
+                "size_y":150,
+                "align" : "center",
+                "image":rainbow_skin_mod_icon
+            }),
+
+            new text({
+                "x": (innerWidth/2)-800,
+                "y": (innerHeight/2)-520,
+                "text": "Rainbow Skin",
+                "size": 48,
+                "color": "rgb(255,255,255)",
+                "align": "center"
+            }),
+
+            new text({
+                "x": (innerWidth/2)-880,
+                "y": (innerHeight/2)-460,
+                "text": "Makes your character rainbow",
+                "size": 40,
+                "color": "rgb(255,255,255)",
+                "align": "left"
+            }),
+    
+            new button({
+                "x": 140,
+                "y": 50,
+                "size_x":900,
+                "size_y":185,
+                "update_func":function(){
+                 
+                        if(this.hover || this.selected){
+
+                            this.stretch_image_rectangle = mod_selector_stretch_image
+                            
+                        }
+                        else{
+                                
+                            this.stretch_image_rectangle = undefined
+                            
+                        }
+                
+                    
+                },
+                "on_clicked":function(){
+                        
+                        console.log("clicked")
+                        if(this.selected){
+               
+                            this.selected = false
+                        }
+                        else{
+                            
+                            this.selected = true
+                        }
+                        
+                }
+            })
+           
+        ],
+        "groups":["ui"]
+    })
+
+]
+
+

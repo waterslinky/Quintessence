@@ -283,15 +283,10 @@ let open_mod_list = new button({
     "size_x":400,
     "size_y":150,
     "on_clicked":function(){
-        console.log("open mod list")
+        console.log("open mod list"),
 
-        // selected_world_index = 3
-        // engin.change_selected_layer(["open_mod_directory"],"set")
-        // pick_directory().then((file_tree) => {
-            
-        //     on_mod_directory_opened(file_tree)
-            
-        // })
+        engin.change_selected_layer(["open_mod_list"],"set")
+        
 
     },
     "image":mod_list_image,

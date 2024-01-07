@@ -325,6 +325,16 @@ icon=new Image();
 icon.src = 'textures/icons/gest_icon.png'
 
 
+rainbow_skin_mod_icon=new Image();
+rainbow_skin_mod_icon.src = 'textures/ui_elements/rainbow_skin_mod.png'
+
+
+mod_selector=new Image();
+mod_selector.src = "textures/ui_elements/mod_selector.png"
+
+mod_selector_stretch_image=new border_image_box({"image":mod_selector,"cap_size_x_px":8,"cap_size_y_px":8})
+
+// stretch_image_box(image, cap_size_x_px,cap_size_y_px , 2,2    ,x,y,width,height)
 
 // dirt_image = new Image();
 // dirt_image.src = 'textures/blocks/dirt.png'
