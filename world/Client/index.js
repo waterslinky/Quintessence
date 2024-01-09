@@ -626,7 +626,13 @@ const compile_blocks_and_items = function(){
     // console.log(accended_inventory_search)
     redo_accended_blocks()
 }
+const tipsArray = ["You can break blocks with left click.", "Crafting is still in development.", "Multiplayer coming soon...", "Press G to enter accended mode!", "Knowledge will be added in the future..."];
 
+function getRandomTip(){
+    const randomIndex = Math.floor(Math.random() * tipsArray.length);
+    return tipsArray[randomIndex];
+}
+console.log(getRandomTip())
 
 world_load={
 
@@ -658,6 +664,7 @@ world_load={
         // console.log("loading")
 
     },
+
     layers:[
         {
             "name":"default",
@@ -669,6 +676,16 @@ world_load={
                                 "y": innerHeight/2,
                                 
                                 "text": "Loading World...",
+                                "size": 48,
+                                "color": "rgb(255,255,255)",
+                                "align": "center"
+                            }),
+
+                            new text({
+                                "x": innerWidth/2,
+                                "y": (innerHeight/2)+500,
+                                
+                                "text": getRandomTip(),
                                 "size": 48,
                                 "color": "rgb(255,255,255)",
                                 "align": "center"
@@ -708,6 +725,7 @@ world_load={
                 let mods = await pick_directory("read",selected_mods)
                 
                 
+                console.log(mods)
 
                     
                     

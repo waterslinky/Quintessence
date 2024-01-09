@@ -434,6 +434,7 @@ class image extends align{
 
             }
             else if(typeof this.stretch_image_rectangle!="undefined"){
+
                 this.stretch_image_rectangle.draw(this.x,this.y,this.cap_size_x,this.cap_size_y,this.display_size_x,this.display_size_y)
 
 

@@ -295,7 +295,8 @@
             {"name":"online_options","elements":online_options_elements},
             {"name":"pick_world","elements":pick_world_elements},
             {"name":"mod_selector","elements":mod_selector_elements},
-            {"name":"open_mod_directory","elements":open_mod_directory_elements}
+            {"name":"open_mod_directory","elements":open_mod_directory_elements},
+            {"name":"open_mod_list","elements":open_mod_list_elements},
 
         ],
 
