@@ -375,12 +375,12 @@ function block_to_image(block){
 
 
 
-    let block_dir=block.dir
+    let block_dir=get_property(block,"dir")
     if(block_dir){
         image_object.dir=block_dir
     }
 
-    let block_hit_box=block.hit_box
+    let block_hit_box=get_property(block,"hit_box")
     if(block_hit_box){
         image_object.hit_box=block_hit_box
     }
@@ -391,7 +391,7 @@ function block_to_image(block){
     }
 
 
-    if(block.void){
+    if(get_property(block,"void")){
         image_object.image.push(void_block_image)
      
     }
@@ -2130,17 +2130,17 @@ function engin_draw(){
 
 
     let x=(player.block_brocking!=false ?  x_block_index_to_world(player.block_brocking[0]) : block_mouse_x*display_block_size)
-    let y=((player.block_brocking!=false ? y_block_index_to_world(player.block_brocking[1]) : block_mouse_y*display_block_size))-(display_block_size*(((block_in_hand.hit_box) && !mining) ? block_in_hand.hit_box[1]-1 : 0))
+    let y=((player.block_brocking!=false ? y_block_index_to_world(player.block_brocking[1]) : block_mouse_y*display_block_size))-(display_block_size*((get_property(block_in_hand,"hit_box") && !mining) ? get_property(block_in_hand,"hit_box")[1]-1 : 0))
     
-    if(block_in_hand && block_in_hand.name!="blank" && !mining && block_in_hand.type=="block"){
+    if(block_in_hand && block_in_hand.name!="blank" && !mining && get_property(block_in_hand,"type")=="block"){
         screen.save()
         screen.globalAlpha = 0.25
         
-        width=display_block_size*(block_in_hand.hit_box ? block_in_hand.hit_box[0] : 1)
-        height=display_block_size*(block_in_hand.hit_box ? block_in_hand.hit_box[1] : 1)
+        width=display_block_size*(get_property(block_in_hand,"hit_box") ? get_property(block_in_hand,"hit_box")[0] : 1)
+        height=display_block_size*(get_property(block_in_hand,"hit_box") ? get_property(block_in_hand,"hit_box")[1] : 1)
         
 
-        draw_image(block_in_hand.image,0,0,block_in_hand.image.width,block_in_hand.image.height,x,y,width,height);
+        draw_image(get_property(block_in_hand,"image"),0,0,get_property(block_in_hand,"image").width,get_property(block_in_hand,"image").height,x,y,width,height);
     
         
 

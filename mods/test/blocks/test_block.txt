@@ -1,0 +1,6 @@
+{
+    name:"test_block",
+    display_name:"Test Block",
+    image:test_image_2,
+    transparent:true
+}

@@ -129,10 +129,11 @@ function new_world(){
     world_size=[200,100]
 
 
-    seed=parseInt(Math.random()*1000)
+    // seed=parseInt(Math.random()*1000)
     // seed=388
     // seed=204
     // seed=105
+    seed = 13
     //GOOD SEED 849
 
 

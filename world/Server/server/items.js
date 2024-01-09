@@ -400,8 +400,8 @@ function get_property(item,property){
     
 
     // console.log(item.name)
-
     let item_property = blocks_and_items[item.name][property]
+
 
     if(item_property!=undefined){
     

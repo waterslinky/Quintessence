@@ -989,7 +989,7 @@ class Item_display extends button{
                     
                     // console.log(item_name_display.text)
                     
-                    if(item.has_knowledge){
+                    if(get_property(item,"has_knowledge")){
                         item_name_display.text.push({"name":"Knowledge:","color":"219, 209, 7"})
                         
     

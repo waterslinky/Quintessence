@@ -73,13 +73,15 @@ change_block=function(x,y,block_name,break_block=false,this_block_list=undefined
     let new_block=create_item(block_name,{x,y})
 
 
-    if(new_block.hit_box!=undefined){
+    if(get_property(new_block,"hit_box")!=undefined){
 
-        for(let y_index=0;y_index<new_block.hit_box[1];y_index++){
-            for(let x_index=0;x_index<new_block.hit_box[0];x_index++){
-                    block_list[x+x_index][y-((new_block.hit_box[1]-1)-y_index)] = create_item(block_name,{x:x+x_index,y:y-((new_block.hit_box[1]-1)-y_index)})
-                    block_list[x+x_index][y-((new_block.hit_box[1]-1)-y_index)].hit_box_index=[x_index,y_index]  
-                    block_list[x+x_index][y-((new_block.hit_box[1]-1)-y_index)].main_hit_box_size=new_block.hit_box
+        for(let y_index=0;y_index<get_property(new_block,"hit_box")[1];y_index++){
+            for(let x_index=0;x_index<get_property(new_block,"hit_box")[0];x_index++){
+                    block_list[x+x_index][y-((get_property(new_block,"hit_box")[1]-1)-y_index)] = create_item(block_name,{x:x+x_index,y:y-((get_property(new_block,"hit_box")[1]-1)-y_index)})
+                    block_list[x+x_index][y-((get_property(new_block,"hit_box")[1]-1)-y_index)].hit_box_index=[x_index,y_index]  
+                    block_list[x+x_index][y-((get_property(new_block,"hit_box")[1]-1)-y_index)].main_hit_box_size=get_property(new_block,"hit_box")
+
+                    
                     // console.log([x_index,y_index])
                 
             }
@@ -1327,20 +1329,20 @@ const knowledge_tablet = {
                     
                         if(mushroom.effect=="poison"){
                             chat.push({
-                                "text":"Knowledge: "+get_just_block(all_mushrooms_colors[mushroom_index]).display_name+"s are poisonous.",
+                                "text":"Knowledge: "+create_item(all_mushrooms_colors[mushroom_index]).display_name+"s are poisonous.",
                                 "end_time":engin.time_in_loop+5000,"color":"219, 209, 7"
                             })                              
                         }
                         if(mushroom.effect=="regeneration"){
                             chat.push({
-                                "text":"Knowledge: "+get_just_block(all_mushrooms_colors[mushroom_index]).display_name+"s heal you when eaten.",
+                                "text":"Knowledge: "+create_item(all_mushrooms_colors[mushroom_index]).display_name+"s heal you when eaten.",
                                 "end_time":engin.time_in_loop+5000,"color":"219, 209, 7"
                             })                                
                         }
 
                         if(mushroom.effect=="saturation"){
                             chat.push({
-                                "text":"Knowledge: "+get_just_block(all_mushrooms_colors[mushroom_index]).display_name+"s are safe to eat.",
+                                "text":"Knowledge: "+create_item(all_mushrooms_colors[mushroom_index]).display_name+"s are safe to eat.",
                                 "end_time":engin.time_in_loop+5000,"color":"219, 209, 7"
                             })                               
                         }                    

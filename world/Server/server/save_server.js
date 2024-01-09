@@ -16,7 +16,7 @@ function import_saved_server(){
     let saved_block_list=null
 
 
-    if(get_local("slot"+selected_slot)!=undefined){
+    if(typeof selected_slot!="undefined" && get_local("slot"+selected_slot)!=undefined){
         saved_block_list=get_local("world_slot"+selected_slot)
 
         saved_custom_structures=get_local("custom_structures_slot"+selected_slot)
