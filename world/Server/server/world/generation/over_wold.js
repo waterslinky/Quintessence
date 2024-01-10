@@ -14,9 +14,73 @@ blue=0
 test_map=[]
 let chuck_size = 20
 
-function generate_block(x,y){
+function generate_block(block_name,x,y,block_list){
+
+    let new_block = create_item(block_name)
+
+
+    let chuck_x = x-(parseInt(x/chuck_size)*chuck_size)
+    let chuck_y = y-(parseInt(y/chuck_size)*chuck_size)
+    
+
+    //Check if block can be placed
+    if(get_property(new_block,"hit_box")!=undefined){
+
+        let can_place = true
+        for(let x_index=0;x_index<get_property(new_block,"hit_box")[0];x_index++){
+                for(let y_index=0;y_index<get_property(new_block,"hit_box")[1];y_index++){
+                
+                    if(0>=chuck_x+x_index && chuck_size<chuck_x+x_index && 0>=chuck_y+y_index && chuck_size<chuck_y+y_index){
+                        console.log("G")
+                    }   
+                    
+                }
+        }
+
+        if(can_place){
+
+            let hit_box = get_property(new_block,"hit_box")
+
+            for(let x_index=0;x_index<hit_box[0];x_index++){
+                for(let y_index=0;y_index<hit_box[1];y_index++){
+                
+                    if((0>=chuck_x+x_index && chuck_size<chuck_x+x_index && 0>=chuck_y+y_index && chuck_size<chuck_y+y_index)==false){
+                        console.log(chuck_x+x_index,chuck_y-y_index)
+                        block_list[chuck_x+x_index][chuck_y-y_index] = create_item("stone")
+                        
+                        // new_block = create_item("stone")
+                    }   
+                    
+                }
+            }
+
+            return
+        }
+        else{
+            new_block = create_item("air")
+        }
+
+    }
+    else{
+
+        return new_block
+
+    }
+
+
+
+    
+  
+
 
 }
+
+//Structure propertys
+
+let generation_structures = [{
+
+}]
+
 
 function generate_chuck(chuck_x,chuck_y,noise_settings){
     let chuck = []
@@ -42,7 +106,7 @@ function generate_chuck(chuck_x,chuck_y,noise_settings){
         for(let y_index=0;y_index<chuck_size;y_index++){
             let y = (chuck_y*chuck_size) + y_index
 
-            let block = create_item("air")
+            let block_name = "air"
 
             let elevation = parseInt((noise(200,x*3,1,{
                 "seed":seed,
@@ -52,11 +116,12 @@ function generate_chuck(chuck_x,chuck_y,noise_settings){
             if(y>=elevation){
 
                 if(noise(x*8,y*8,.5,noise_settings)>0.6){
-                    block=(create_item("stone_boulder",{x,y}))
+                    
+                    block_name = "stone_boulder"
                 }
                 else{
                 
-                    block=(create_item("stone",{x,y}))
+                    block_name = "stone"
                 
                 }
 
@@ -67,14 +132,14 @@ function generate_chuck(chuck_x,chuck_y,noise_settings){
 
 
                 if(y==elevation){
-                    block = create_item("grass")
+                    block_name = "grass"
                 }
 
                 if(y-1==elevation){
-                    block = create_item("dirt")
+                    block_name = "dirt"
                 }
                 if(y-2==elevation){
-                    block = create_item("dirt")
+                    block_name = "dirt"
                 }                
             }
             else{
@@ -83,20 +148,31 @@ function generate_chuck(chuck_x,chuck_y,noise_settings){
                     if(grass_block_noise>.6 && number_from_2D_index(x,y,seed*25)>.2){
                         if(grass_block_noise>.8){
 
-                            block = create_item("tall_grass_block")
+                            block_name = "tall_grass_block"
 
                         }
                         else{
 
-                            block = create_item("grass_block")
+                            block_name ="grass_block"
 
                         }
                     }                    
                 }
             }
 
+  
 
-                chuck[x_index][y_index] = block
+            let generated_block = generate_block(block_name,x,y,chuck)
+            if(generated_block!=undefined){
+                    if(generated_block.name!="air"){
+                     
+                        chuck[x_index][y_index] = generated_block
+                }
+            }
+
+                
+            
+            
             }
 
         }
