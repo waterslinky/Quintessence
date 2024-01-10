@@ -552,7 +552,7 @@ function over_world(noise_settings){
 
     for(let chuck_x=0;chuck_x<world_size[0]/chuck_size;chuck_x++){
         for(let chuck_y=0;chuck_y<world_size[1]/chuck_size;chuck_y++){
-            let chuck = generate_chuck(8,1,noise_settings)
+            let chuck = generate_chuck(chuck_x,chuck_y,noise_settings)
 
             for(let x=0;x<chuck.length;x++){
                 for(let y=0;y<chuck[x].length;y++){
