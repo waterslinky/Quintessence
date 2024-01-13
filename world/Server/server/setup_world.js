@@ -133,7 +133,9 @@ function new_world(){
     // seed=388
     // seed=204
     // seed=105
-    seed = 13
+    // seed = 13
+    seed = 473
+
     //GOOD SEED 849
 
 

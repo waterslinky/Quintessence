@@ -77,12 +77,181 @@ function generate_block(block_name,x,y,block_list){
 
 //Structure propertys
 
-let generation_structures = [{
+let generation_structures = [
+    {
 
-}]
+        "type" : "surface",
+        "blocks" : [ ["stone","stone"] ],
+        "only_noise_x" : true,
+        "effect_drop" : 0.5,
+        "multiplier_x" : 8,
+        "multiplier_y" : 8,
+        "noise_setting" : {
+            "seed_multiplier":5,
+            "oct":1
+        },
+        "max_chucks" : [1,2],
+        "offset_x" : 0,
+        "offset_y" : 1,
+
+        // "in_range" : [0.6,0.8]
+        "noise_range" : [0.5,1],
+
+        "random_number_seed_multiplier" : 25,
+        "random_number_range" : [0,0.8]
 
 
-function generate_chuck(chuck_x,chuck_y,noise_settings){
+
+    },
+    // {
+
+    //     "type" : "surface",
+    //     "blocks" : [ ["stone"] ],
+    //     "one_dimensional_noise" : true,
+    //     "effect_drop" : 0.5,
+    //     "multiplier_x" : 8,
+    //     "multiplier_y" : 8,
+    //     "noise_setting" : {
+    //         "seed_multiplier":5,
+    //         "oct":1
+    //     }
+
+    // }
+]
+
+function generate_structcher_layer(structure,orgin_chuck_x,orgin_chuck_y){
+
+    
+
+
+    let chuck_x = orgin_chuck_x
+
+    for(let i_y=-(structure.max_chucks[1]-1);i_y<((structure.max_chucks[1]-1)+1);i_y++){
+
+        let chuck_y = orgin_chuck_y + i_y
+
+        let chuck = []
+
+        for(let x_index=0;x_index<chuck_size;x_index++){
+            let line = []
+
+            for(let y_index=0;y_index<chuck_size;y_index++){
+                line.push(create_item("stone"))
+            }
+
+            chuck.push(line)
+
+
+
+        }
+
+
+        for(let x_index=0;x_index<chuck_size;x_index++){
+                let x = (chuck_x*chuck_size) + x_index
+
+                
+
+
+
+
+            let elevation = parseInt((noise(1000,x*3,1,{
+                    "seed":seed,
+                    "oct":3
+            })*10)+20)
+
+            let noise_value
+
+            if(structure.only_noise_x){
+
+                noise_value = noise(x*structure.multiplier_x,1000,structure.effect_drop,{"seed":seed*structure.seed_multiplier,"oct":structure.noise_setting.seed_multiplier})
+        
+            }
+
+            for(let y_index=0;y_index<chuck_size;y_index++){
+                
+                let y = (chuck_y*chuck_size) + y_index
+
+                
+                let random_number = number_from_2D_index(x,y,seed*structure.random_number_seed_multiplier)
+
+                if(random_number>=structure.random_number_range[0] && random_number<=structure.random_number_range[1]){
+                    if(structure.type=="surface"){
+                        if(y+structure.offset_y==elevation){
+                            if(noise_value>=structure.noise_range[0] && noise_value<=structure.noise_range[1]){
+                                chuck[x_index][y_index] = create_item("dirt")  
+
+                            }
+                        }    
+
+
+                        
+
+            
+            
+                    }
+                    else{
+                        if(structure.only_noise_y){
+
+                                    noise_value = noise(1000,y*structure.multiplier_y,structure.effect_drop,{"seed":seed*structure.seed_multiplier,"oct":structure.noise_setting.seed_multiplier})
+
+                        }
+                        else if(structure.only_noise_x==undefined){
+
+                                    noise_value = noise(x*structure.multiplier_x,structure.effect_drop,y*structure.multiplier_y,structure.effect_drop,{"seed":seed*structure.seed_multiplier,"oct":structure.noise_setting.seed_multiplier})
+
+                        }                    
+                    }
+                }
+                
+
+                        
+                
+
+
+
+            }                    
+        }        
+
+
+
+
+
+
+
+        // for(let x_index=0;x_index<chuck_size;x_index++){
+
+
+        //     for(let y_index=0;y_index<chuck_size;y_index++){
+        //         chuck[x_index][y_index] = create_item("grass")
+        //     }
+
+        // }
+
+        
+
+
+        for(let x=0;x<chuck.length;x++){
+            for(let y=0;y<chuck[x].length;y++){
+
+    
+                block_list[x+(chuck_x*chuck_size)][y+(chuck_y*chuck_size)] = chuck[x][y]
+
+
+            }
+        }
+
+    }
+
+
+
+
+
+
+}
+
+function generate_chuck(chuck_x,chuck_y,noise_settings,block_list){
+    //REMOVE block_list
+
     let chuck = []
 
 
@@ -97,85 +266,135 @@ function generate_chuck(chuck_x,chuck_y,noise_settings){
 
     }
 
+    
+    // for(let x_index=0;x_index<chuck_size;x_index++){
+
+
+    //     let x = (chuck_x*chuck_size) + x_index
+
+    //     for(let y_index=0;y_index<chuck_size;y_index++){
+    //         let y = (chuck_y*chuck_size) + y_index
+
+    //         let a = noise((x-8)*10,y*10,0.5,{
+    //             "seed":seed,
+    //             "oct":3
+    //         })
+
+    //         if(a>0.9){
+    //             chuck[x_index][y_index] = create_item("grass")
+    //             console.log("grass")
+    //         }
+    //         else{
+    //             chuck[x_index][y_index] = create_item("stone")
+    //         }
+            
+    //     }
+    // }
+
+    // for(let x_index=0;x_index<chuck_size;x_index++){
+
+
+    //     let x = (chuck_x*chuck_size) + x_index
+
+    //     for(let y_index=0;y_index<chuck_size;y_index++){
+    //         let y = (chuck_y*chuck_size) + y_index
+
+    //         let block_name = "air"
+
+    //         let elevation = parseInt((noise(200,x*3,1,{
+    //             "seed":seed,
+    //             "oct":3
+    //         })*10)+20)
+
+    //         if(y>=elevation){
+
+    //             if(noise(x*8,y*8,.5,noise_settings)>0.6){
+                    
+    //                 block_name = "stone_boulder"
+    //             }
+    //             else{
+                
+    //                 block_name = "stone"
+                
+    //             }
+
+
+
+
+
+
+
+    //             if(y==elevation){
+    //                 block_name = "grass"
+    //             }
+
+    //             if(y-1==elevation){
+    //                 block_name = "dirt"
+    //             }
+    //             if(y-2==elevation){
+    //                 block_name = "dirt"
+    //             }                
+    //         }
+
+
+
+
+
+  
+
+    //         let generated_block = generate_block(block_name,x,y,chuck)
+    //         if(generated_block!=undefined){
+    //                 if(generated_block.name!="air"){
+                     
+    //                     chuck[x_index][y_index] = generated_block
+    //             }
+    //         }
+
+                
+            
+            
+    //         }
+
+    // }
+
 
     for(let x_index=0;x_index<chuck_size;x_index++){
 
 
         let x = (chuck_x*chuck_size) + x_index
 
+        let elevation = parseInt((noise(200,x*3,1,{
+            "seed":seed,
+            "oct":3
+        })*10)+20)
+
         for(let y_index=0;y_index<chuck_size;y_index++){
             let y = (chuck_y*chuck_size) + y_index
 
-            let block_name = "air"
+            generation_structures.forEach(structure => {
 
-            let elevation = parseInt((noise(200,x*3,1,{
-                "seed":seed,
-                "oct":3
-            })*10)+20)
+                generate_structcher_layer(structure,chuck_x,chuck_y)
 
-            if(y>=elevation){
-
-                if(noise(x*8,y*8,.5,noise_settings)>0.6){
-                    
-                    block_name = "stone_boulder"
-                }
-                else{
-                
-                    block_name = "stone"
-                
-                }
-
-
-
-
-
-
-
-                if(y==elevation){
-                    block_name = "grass"
-                }
-
-                if(y-1==elevation){
-                    block_name = "dirt"
-                }
-                if(y-2==elevation){
-                    block_name = "dirt"
-                }                
-            }
-            else{
-                if(y+1==elevation){
-                    let grass_block_noise=noise(x*8,y*8,.5,{"seed":seed*5,"oct":1})
-                    if(grass_block_noise>.6 && number_from_2D_index(x,y,seed*25)>.2){
-                        if(grass_block_noise>.8){
-
-                            block_name = "tall_grass_block"
-
-                        }
-                        else{
-
-                            block_name ="grass_block"
-
-                        }
-                    }                    
-                }
-            }
-
-  
-
-            let generated_block = generate_block(block_name,x,y,chuck)
-            if(generated_block!=undefined){
-                    if(generated_block.name!="air"){
-                     
-                        chuck[x_index][y_index] = generated_block
-                }
-            }
 
                 
-            
-            
-            }
+            });
 
         }
+    }
+
+
+
+
+
+        
+
+
+            // for(let x=0;x<chuck.length;x++){
+            //     for(let y=0;y<chuck[x].length;y++){
+            //         block_list[x+(chuck_x*chuck_size)][y+(chuck_y*chuck_size)] = chuck[x][y]
+            //     }
+            // }
+
 
     return chuck
 
@@ -550,18 +769,25 @@ function over_world(noise_settings){
     // }
 
 
-    for(let chuck_x=0;chuck_x<world_size[0]/chuck_size;chuck_x++){
-        for(let chuck_y=0;chuck_y<world_size[1]/chuck_size;chuck_y++){
-            let chuck = generate_chuck(chuck_x,chuck_y,noise_settings)
+            
 
-            for(let x=0;x<chuck.length;x++){
-                for(let y=0;y<chuck[x].length;y++){
-                    block_list[x+(chuck_x*chuck_size)][y+(chuck_y*chuck_size)] = chuck[x][y]
-                }
-            }
-        }
 
-    }
+
+
+    // for(let chuck_x=0;chuck_x<world_size[0]/chuck_size;chuck_x++){
+    //     for(let chuck_y=0;chuck_y<world_size[1]/chuck_size;chuck_y++){
+    //         let chuck = generate_chuck(chuck_x,chuck_y,noise_settings)
+
+    //         for(let x=0;x<chuck.length;x++){
+    //             for(let y=0;y<chuck[x].length;y++){
+    //                 block_list[x+(chuck_x*chuck_size)][y+(chuck_y*chuck_size)] = chuck[x][y]
+    //             }
+    //         }
+    //     }
+
+    // }
+
+
 
 
     return block_list
