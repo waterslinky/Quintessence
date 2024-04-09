@@ -162,7 +162,7 @@ function world_keys(){
     // }
 
     // if(player.x+player.size_x>=(block_list.length)*block_size){
-    //     console.log("XXXXXXXXXXXXXXXXXXXXX")
+
     //     player.x=((block_list.length)*block_size)-player.size_x
     //     // console.log("SET 0")
     // }
@@ -173,11 +173,11 @@ function world_keys(){
 
 
 
-    if(player.x+player.size_x>(block_list.length)*block_size){
-        player.x=((block_list.length)*block_size)-player.size_x
+    if(world_setting.world_size[0] && player.x+player.size_x>(world_setting.world_size[0]*chuck_size)*block_size){
+        player.x=((world_setting.world_size[0]*chuck_size)*block_size)-player.size_x
     }
-    if(player.y+player.size_y>(block_list[0].length)*block_size){
-        player.y=((block_list[0].length)*block_size)-player.size_y
+    if(world_setting.world_size[1] && player.y+player.size_y>(world_setting.world_size[1]*chuck_size)*block_size){
+        player.y=((world_setting.world_size[1]*chuck_size)*block_size)-player.size_y
     }
     if(player.y<0){
         player.y=0
@@ -200,29 +200,29 @@ function world_keys(){
 }
 
 function reload_etrude_ghost(randomize = false){
-    // alert("t")
-    for(let x=0;x<block_list.length;x++){
-        for(let y=0;y<block_list[x].length;y++){
+    console.error("Reload Etrude Ghost Error!")
+    // for(let x=0;x<block_list.length;x++){
+    //     for(let y=0;y<block_list[x].length;y++){
 
-            let block = block_list[x][y]
+    //         let block = block_list[x][y]
 
-            if(block.name == "extrude_block" ){
+    //         if(block.name == "extrude_block" ){
         
 
-                if(randomize){
-                    randomize_extrude_distance(block)
-                }
+    //             if(randomize){
+    //                 randomize_extrude_distance(block)
+    //             }
                 
 
-                // console.log(block)
-                // if(block.offset_x != undefined  ){
-                    remake_etrude_structcher_ghosts(block)
-                // }
+    //             // console.log(block)
+    //             // if(block.offset_x != undefined  ){
+    //                 remake_etrude_structcher_ghosts(block)
+    //             // }
                 
-            }
+    //         }
 
-        }
-    }
+    //     }
+    // }
 }
 
 
@@ -285,6 +285,7 @@ function world_keys_down(event){
         else if(player.game_mode=="Servival"){
             // player.game_mode="AscendedGost"
             player.set_game_mode("AscendedGost",true,["flying",["flying_emitter","particle"]])
+            start_flying(player)
 
 
         }
@@ -494,7 +495,7 @@ world={
             "draw":function(){},
             "update":function(){},
             "keys_down":function(){},
-            "elements":load_structure_elements,
+            "elements":[load_structure_ui],
             "on_removed":on_load_structure_layer_removed,
             "draw":load_structure_draw
         },
@@ -540,7 +541,11 @@ world={
             "keys_up":world_keys_up,
             "mousedown":world_mousedown,
             "mouseup":world_mouseup,
-            "elements":[hot_bar_main_elements],
+            "elements":[
+                stomach,
+                hot_bar_main_elements,
+                
+            ],
             "draw":  engin_draw,
             "update":engin_update
 
@@ -567,9 +572,10 @@ world={
         }
 
 
-
         //Item Name Display
         if(item_name_display.active){
+
+            
 
             item_name_display.x = mouse_x
             item_name_display.y = mouse_y - 60
@@ -592,6 +598,7 @@ world={
 world.layers.push(survival_inventory_layer)
 world.layers.push(accended_inventory_layer)
 world.layers.push(crafting_table_layer)
+world.layers.push(camp_fire_layer)
 
 
 
@@ -679,17 +686,17 @@ world_load={
                                 "size": 48,
                                 "color": "rgb(255,255,255)",
                                 "align": "center"
-                            }),
-
-                            new text({
-                                "x": innerWidth/2,
-                                "y": (innerHeight/2)+500,
-                                
-                                "text": getRandomTip(),
-                                "size": 48,
-                                "color": "rgb(255,255,255)",
-                                "align": "center"
                             })
+                            // ,
+                            // new text({
+                            //     "x": innerWidth/2,
+                            //     "y": (innerHeight/2)+500,
+                                
+                            //     "text": getRandomTip(),
+                            //     "size": 48,
+                            //     "color": "rgb(255,255,255)",
+                            //     "align": "center"
+                            // })
                     ],
                     "groups":["ui"]
                 })
@@ -725,7 +732,6 @@ world_load={
                 let mods = await pick_directory("read",selected_mods)
                 
                 
-                console.log(mods)
 
                     
                     
@@ -810,7 +816,7 @@ world_load={
                     
                     
                     
-                    start_game()
+                start_game()
 
 
             }
@@ -985,10 +991,13 @@ function start_game(){
 
 }
 
+if(selected_mods){
+    engin.set_game_state(world_load)
+}
+else{
+    start_game()
+}
 
-
-engin.set_game_state(world_load)
-// engin.change_selected_layer(["pick_mod_directory"],"set")
 
 
 

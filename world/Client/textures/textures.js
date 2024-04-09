@@ -58,7 +58,7 @@ class texture{
     }
     image(chances,x=undefined,y=undefined){
 
-        let c=undefined
+        let c = 0
 
         if(chances==undefined){
             chances=this.chances
@@ -72,9 +72,6 @@ class texture{
             
             try{
                 for(let i=0;i<this.texture.length;i++){
-                    // let chance = i<chances.length ? chances[i] : 1
-
-
 
                     new_chances.push({"name":this.texture[i].name,"chance":chances[i]})
 
@@ -103,7 +100,61 @@ class texture{
             // console.log(chance_table(new_chances))
             // console.log(new_chances[1].name)
 
+            return chance_table(new_chances,c)
+        // }
+        
+        // return chance_table(this.texture)
+
+        // if(this.texture.length==undefined){
+        //     return this.texture
+        // }
+
+
+        
+       
+
+
+    }
+
+    random_image(){
+
+        let c = 0
+
+        let chances=this.chances
+        
+
+        let new_chances=[]
+
+
+        let chance_total = 0
+
             
+            try{
+                for(let i=0;i<this.texture.length;i++){
+
+                    new_chances.push({"name":this.texture[i].name,"chance":chances[i]})
+
+                }                
+            }
+            catch(err){
+                console.error(this.texture)
+            }
+
+           
+            for(let i=0;i<this.chances.length;i++){
+                // let chance = i<chances.length ? chances[i] : 1
+           
+                // console.log(chances)
+                chance_total+=chances[i]
+
+                // new_chances.push({"name":this.texture[i].name,"chance":chance})
+            }
+            
+          
+                c=Math.round((chance_total-1)*Math.random())+1
+
+            // console.log(chance_table(new_chances))
+            // console.log(new_chances[1].name)
 
             return chance_table(new_chances,c)
         // }
@@ -232,7 +283,7 @@ function file_type(path,correct_type){
 }
 
 
-function load_as_image(var_name,path,chances){
+async function load_as_image(var_name,path,chances){
     // window[var_name] = {}
     
     let variable=window[var_name]
@@ -249,7 +300,7 @@ function load_as_image(var_name,path,chances){
         }
         else{
             loads_started++
-            texture_chain(var_name,path,chances)
+            await texture_chain(var_name,path,chances)
             
 
    
@@ -264,14 +315,22 @@ function load_as_image(var_name,path,chances){
 
         let image=new Image();
         image.src = 'Client/textures/'+pack_name+'/'+path
-
-        image.onload=function(){
-            window[var_name].src = image.src
-        }
-
         image.onerror=function(){
+
             window[var_name].src = old_src
+            
         }
+        image.onload = await function(){
+            window[var_name].src = image.src
+            
+        }
+
+        
+
+        
+
+        
+        // return window[var_name]
       
         // window[var_name].src = 'Client/textures/'+pack_name+'/'+path  
 
@@ -300,10 +359,37 @@ function load_as_image(var_name,path,chances){
         // }
         
     }
+
+    return (window[var_name])
     
 
 
     // image.waitLoad()
+
+}
+
+    
+async function load_as_animation(var_name,path,cell_width,animation_time,chances){
+
+
+     
+    variable = await load_as_image(var_name,path,chances)
+
+    if(variable.texture==undefined){
+
+        new_variable = new texture()
+        new_variable.set_up([variable])
+
+        window[var_name] = new_variable
+
+        
+    }
+
+
+    window[var_name].cell_width = cell_width
+    window[var_name].animation_time = animation_time
+
+
 
 }
 
@@ -520,6 +606,7 @@ function reload_other_texters(){
 function reload_texters(new_pack_name="default_pack"){
     pack_name=new_pack_name
     reload_other_texters()
+    reload_particle_texters()
     reload_item_texters()
     reload_ui_texters()
     reload_block_texters()

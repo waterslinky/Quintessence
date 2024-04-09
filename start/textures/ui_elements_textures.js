@@ -131,7 +131,7 @@ function file_type(path,correct_type){
     return type==correct_type
 }
 
-function load_as_image(var_name,path,chances){
+async function load_as_image(var_name,path,chances){
     // window[var_name] = {}
     
     let variable=window[var_name]
@@ -170,6 +170,7 @@ function load_as_image(var_name,path,chances){
 
         image.onerror=function(){
             window[var_name].src = old_src
+            return window[var_name]
         }
       
         // window[var_name].src = 'Client/textures/'+pack_name+'/'+path  
@@ -206,6 +207,9 @@ function load_as_image(var_name,path,chances){
 
 }
 
+
+
+
 function reverse_string(string){
     let new_string=[]
     for(let i=string.length-1;i>=0;i--){
@@ -231,9 +235,6 @@ edit_mods_image.src = 'textures/ui_elements/edit_mods.png'
 gray_delete_world_image = new Image();
 gray_delete_world_image.src = 'textures/ui_elements/gray_delete_world.png'
 
-
-mod_list_image = new Image();
-mod_list_image.src = 'textures/ui_elements/mod_list.png'
 
 
 dark_purple_bar_fade_image = new Image();

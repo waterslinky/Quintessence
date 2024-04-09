@@ -30,80 +30,11 @@ load_structure_save_switch_bg=new text( {
 
 
 let save_or_load_switch="load"
-load_structure_save_switch=new text( {
-
-    "x": (innerWidth*.09)+25,
-    "y": (innerHeight*.06)+150,  
 
 
-    
 
 
-    "text": "Save",
-    "size": 70,
-    "color": "rgb(255,255,255)",
-    "align": "left", 
-    "base_line":"middle",
-    "border_align": "left", 
-    // "border_size_multiplier":.8,
 
-    // "border_image":rock_bar_stretch_image,
-    "border_align": "left",
-    // "border_x_offset":240,
-    
-
-    "on_clicked":function(){
-        console.log("SAVE")
-        replace_list_object(load_structure_elements,load_structure_elements_type_save)
-        
-
-        load_structure_save_switch.border_image=underline_bar
-        load_structure_load_switch.border_image=undefined
-
-        save_or_load_switch="save"
-
-    
-    },
-    "make_text_button":true
-})
-
-
-load_structure_load_switch=new text( {
-
-    "x": (innerWidth*.09)+200,
-    "y": (innerHeight*.06)+150,  
-
-    // "border_image":left_display_bar_stretch_image,
-
-    "text": "Load",
-    "size": 70,
-    "color": "rgb(255,255,255)",
-    "align": "left", 
-    "base_line":"middle",
-
-    "border_image":underline_bar,
-
-    // "border_align": "left", 
-
-
-    // "border_image":rock_bar_stretch_image,
-    // "border_align": "center",
-    // "border_x_offset":240,
-    
-
-    "on_clicked":function(){
-        console.log("Load")
-        replace_list_object(load_structure_elements,load_structure_elements_type_load)
-
-        load_structure_save_switch.border_image=undefined
-        load_structure_load_switch.border_image=underline_bar
-
-        save_or_load_switch="load"
-
-    
-    },
-    "make_text_button":true
-})
 
 var load_structure_name = new text_controller({
                 "text": "",
@@ -431,6 +362,8 @@ load_structure_size_y=new text_controller({
 
 function area_in_world(x,y,width,height){
 
+    alert("fix")
+
     if(x+width<=block_list.length && x>=0){
         if(y+height<=block_list[x].length && y>=0){
             return true
@@ -532,33 +465,10 @@ load_structure_draw=function(){
     // }
     
 }
-load_structure_elements_type_save=[
-    new align({
+load_structure_elements_type_save=new align({
         "elements":[
-            new image({
-                "stretch_image_rectangle": gray_display_box_stretch_image,
-                "x": innerWidth*.09,
-                "y": innerHeight*.06,
-                "size_x": (innerWidth*.82),
-                "size_y": (innerHeight*.88)
-        
-        
-                
-            }),
+          
 
-            new text({
-                "text": "Structure Block",
-                "color":"rgb(255,255,255)",
-                "x": (innerWidth*.09)+25,
-                "y": (innerHeight*.06)+60,  
-
-                "size": 60,    
-                "align":"LEFT",
-                "base_line":"middle",
-             
-            
-            
-            }),
 
             //Input structure name
             load_structure_name,
@@ -574,122 +484,32 @@ load_structure_elements_type_save=[
             load_structure_size_y,
 
 
-            //Save
-            new text( {
-
-                "x": (innerWidth*.09)+25,
-                "y": (innerHeight*.06)+800,  
-
-                "border_image":left_display_bar_stretch_image,
-
-                "text": "Save",
-                "size": 70,
-                "color": "rgb(255,255,255)",
-                "align": "left", 
-                "base_line":"middle",
-                "border_align": "left", 
-                "border_size_multiplier":1.25,
 
 
-                // "border_image":rock_bar_stretch_image,
-                // "border_align": "center",
-                "border_x_offset":24,
+
+
+
+            // new align({
                 
-
-                "on_clicked":function(){
-
-                    let new_structure=[]
-
-                    
-
-                    
-                    console.log("Start X"+(load_structure_block.x+load_structure_block.structure_x))
-                    console.log("X size"+((load_structure_block.x+load_structure_block.structure_size_x)+1))
-
-                    console.log("start Y"+((load_structure_block.y+load_structure_block.structure_y+1)-load_structure_block.structure_size_y))
-                    console.log("Y size"+(load_structure_block.y))
-
-
-                    for(let x=load_structure_block.x+load_structure_block.structure_x;x<(load_structure_block.x+load_structure_block.structure_size_x)+1;x++){
-                        let line=[]
-                        for(let y=(load_structure_block.y+load_structure_block.structure_y+1)-load_structure_block.structure_size_y;y<(load_structure_block.y)+1;y++){
-                            line.push(block_list[x][y])
-                        }
-                        new_structure.push(line)
-                    }
-
-                    // console.log(new_structure)
-
-                    // console.log(new_structure)
-                    // let structure=structures[load_structure_name.text]
-
-                    // if(structure){
-                    //     load_structure(load_structure_x.text,load_structure_y.text,structure)
-                    // }
-
-                    add_custom_structure(load_structure_name.text,new_structure)
-                    
-                    
-
-                    // engin.change_selected_layer([],"set")
-
-                
-                },
-                "make_text_button":true
-            }),          
-
-
-
-
-            load_structure_save_switch_bg,
-
-            load_structure_save_switch,
-            load_structure_load_switch,
-
-
-
-            new image({
-
-                "stretch_image_rectangle": dark_gray_display_box_stretch_image,
-                "x": (innerWidth*.09)+((innerWidth*.41)),
-                "y": (innerHeight*.06),
-                "size_x": (innerWidth*.41),
-                "size_y": (innerHeight*.88)
-        
-            }),
-
-            new align({
-                
-                "draw":load_structure_draw
-            })
+            //     "draw":load_structure_draw
+            // })
         
         ],
         groups:["ui"]   
-    })
-]
-load_structure_elements_type_load=[
-    new align({
-        "elements":[
-            new image({
-                "stretch_image_rectangle": gray_display_box_stretch_image,
-                "x": innerWidth*.09,
-                "y": innerHeight*.06,
-                "size_x": (innerWidth*.82),
-                "size_y": (innerHeight*.88)
-        
-        
-                
-            }),
-            
-            new image({
+})
 
-                "stretch_image_rectangle": dark_gray_display_box_stretch_image,
-                "x": (innerWidth*.09)+((innerWidth*.41)),
-                "y": (innerHeight*.06),
-                "size_x": (innerWidth*.41),
-                "size_y": (innerHeight*.88)
-        
-            }),
+
+
+
+
+
+
+
+
+
+load_structure_elements_type_load = new align({
+        "elements":[
+
 
 
             //Input structure name
@@ -729,6 +549,7 @@ load_structure_elements_type_load=[
                     let structure=structures[load_structure_block.structure_name]
 
                     if(structure){
+                        alert("FIX")
                         load_structure(load_structure_block.x + load_structure_block.structure_x,load_structure_block.y+(load_structure_block.structure_y-structure[0].length)+1,convert_names_to_blocks(structure),block_list)
                     }
                     
@@ -756,10 +577,7 @@ load_structure_elements_type_load=[
             
             }),
 
-            load_structure_save_switch_bg,
 
-            load_structure_save_switch,
-            load_structure_load_switch,
 
 
 
@@ -771,10 +589,105 @@ load_structure_elements_type_load=[
         
         ],
         groups:["ui"]   
-    })
-]
-load_structure_elements=[]
-replace_list_object(load_structure_elements,load_structure_elements_type_load)
+})
+
+let load_structure_ui = new align({
+    "elements":[
+        new image({
+            "stretch_image_rectangle": gray_display_box_stretch_image,
+            "x": innerWidth*.09,
+            "y": innerHeight*.06,
+            "size_x": (innerWidth*.82),
+            "size_y": (innerHeight*.88)   
+        }),
+            
+        new image({
+
+                "stretch_image_rectangle": dark_gray_display_box_stretch_image,
+                "x": (innerWidth*.09)+((innerWidth*.41)),
+                "y": (innerHeight*.06),
+                "size_x": (innerWidth*.41),
+                "size_y": (innerHeight*.88)
+        
+        }),
+        new text({
+                "text": "Structure Block",
+                "color":"rgb(255,255,255)",
+                "x": (innerWidth*.09)+25,
+                "y": (innerHeight*.06)+60,  
+
+                "size": 60,    
+                "align":"LEFT",
+                "base_line":"middle",
+             
+            
+            
+        }),
+
+        load_structure_save_switch_bg,
+
+        new tabs({
+
+            "buttons":{
+                "save_structure_tab":new text( {
+
+                    "x": (innerWidth*.09)+25,
+                    "y": (innerHeight*.06)+150,  
+                
+                    "select_tab":"save_structure_tab",
+                
+                    "text": "Save",
+                    "size": 70,
+                    "color": "rgb(255,255,255)",
+                    "align": "left", 
+                    "base_line":"middle",
+                    "border_align": "left", 
+                    // "border_size_multiplier":.8,
+                
+                    // "border_image":rock_bar_stretch_image,
+                    "border_align": "left",
+                    // "border_x_offset":240,
+                    
+                    "make_text_button":true
+                }),
+                "load_structure_tab":new text( {
+
+                    "x": (innerWidth*.09)+200,
+                    "y": (innerHeight*.06)+150,  
+                
+                    // "border_image":left_display_bar_stretch_image,
+                    "select_tab":"load_structure_tab",
+                    "text": "Load",
+                    "size": 70,
+                    "color": "rgb(255,255,255)",
+                    "align": "left", 
+                    "base_line":"middle",
+                
+                    "make_text_button":true
+                })
+            },
+
+            "on_tab_selected":function(tab){
+                tab.border_image=underline_bar
+            },
+
+            "on_tab_unselected":function(tab){
+                tab.border_image=undefined
+            },
+
+            "tabs":{
+                "load_structure_tab":load_structure_elements_type_load,
+                "save_structure_tab":load_structure_elements_type_save
+            },
+
+            "starting_tab":"save_structure_tab"
+
+        })          
+    ]
+})
+
+// load_structure_elements=[]
+// replace_list_object(load_structure_elements,load_structure_elements_type_load)
 
 function on_load_structure_layer_removed(){
     // // remake_structcher_ghosts()

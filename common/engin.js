@@ -248,8 +248,8 @@ class engin_class{
 
     }
     
-    loop(time_stamp){
-        this.time_stamp=time_stamp
+    loop(){
+        // this.time_stamp=time_stamp
         
         
         // loops_func=0
@@ -259,24 +259,24 @@ class engin_class{
         
         
 
-        if(this.time_paused>time_stamp){
-            // console.log("Error time stamp is out of sync. Time Paused: "+this.time_paused+' Time Stamp: '+time_stamp)
-        }
+        // if(this.time_paused>time_stamp){
+        //     // console.log("Error time stamp is out of sync. Time Paused: "+this.time_paused+' Time Stamp: '+time_stamp)
+        // }
         
         
-        this.loop_run_time=((time_stamp-this.time_paused)-(this.engin_current_time-this.time_paused))
-        if(this.loop_run_time<0){
-            console.log("Error time stamp is out of sync. Time_stamp: "+time_stamp+" this.time_paused: "+this.time_paused+"this.current_time: "+this.current_time)
-        }
+        // this.loop_run_time=((time_stamp-this.time_paused)-(this.engin_current_time-this.time_paused))
+        // if(this.loop_run_time<0){
+        //     console.log("Error time stamp is out of sync. Time_stamp: "+time_stamp+" this.time_paused: "+this.time_paused+"this.current_time: "+this.current_time)
+        // }
         if(!this.dont_add_time){
             this.all_time+=this.loop_run_time
         }
         // else{
         //     this.time_paused=Date.now()-engin.start_time_paused
         // }
-        this.engin_current_time=time_stamp
+        this.engin_current_time=this.time_stamp
         
-        this.current_time=time_stamp-this.time_paused
+        
         
         // console.log(this.current_time)
 
@@ -1015,18 +1015,64 @@ class engin_class{
 
 
     }
+
+    set time_in_loop(val){
+    }
+
+    get time_in_loop(){
+        return this.engin_current_time-this.all_time
+    }
+
+    set current_time(val){
+    }
+
+    get current_time(){
+        return this.time_stamp-this.time_paused
+    }
+
+    set loop_run_time(val){
+    }
+
+    get loop_run_time(){
+        // console.log(time_stamp)
+        let val = ((this.time_stamp-this.time_paused)-(this.engin_current_time-this.time_paused))
+
+        if(val<0){
+            console.log("Error time stamp is out of sync. Time_stamp: "+this.time_stamp+" this.time_paused: "+this.time_paused+"this.current_time: "+this.current_time)
+        }
+
+        return val
+    }
+
+    set time_stamp(val){
+    }
+
+    get time_stamp(){
+
+
+       
+        return new Date().getTime()-start_time;
+    }
+
+
+    
+
+     
     run_loop(){
 
 
         return (time_stamp) => {
-            if(is_server){
+            // if(is_server){
                 let date = new Date();
                 time_stamp=date.getTime()-start_time;
-            }
+            // }
 
 
        
-            this.loop(time_stamp)
+            // this.loop(time_stamp)
+            this.loop()
+
+            
         
         }
     }

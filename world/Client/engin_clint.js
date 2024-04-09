@@ -65,17 +65,21 @@ function draw_entities(){
                 else{
                     screen.fillStyle = "rgb("+entitie.color+","+AlphaPercent+")" ;
                 }
-                screen.fillRect(Math.floor((entitie.x*FOV)-player.cam[0]),Math.floor((entitie.y*FOV)-player.cam[1]),Math.ceil(player.size_x*FOV),Math.ceil(player.size_y*FOV)); 
+
+                screen.fillRect(Math.round((entitie.x*FOV)-player.cam[0]),Math.round((entitie.y*FOV)-player.cam[1]),Math.round(player.size_x*FOV),Math.round(player.size_y*FOV)); 
             
                 
         
-                screen.fillStyle = "rgb(0,0,0"+","+AlphaPercent+")" ;
-        
-                screen.textAlign = "center";
-                screen.textBaseline = "middle";
+                if(entitie!=player){
+                    screen.fillStyle = "rgb(0,0,0"+","+AlphaPercent+")" ;
+            
+                    screen.textAlign = "center";
+                    screen.textBaseline = "middle";
 
-                screen.font = (27*FOV)+"px serif";
-                screen.fillText(entitie.name, (entitie.x*FOV)-player.cam[0]+((entitie.size_x/2)*FOV),(entitie.y*FOV)-player.cam[1]-((block_size/4)*FOV));
+                    screen.font = (27*FOV)+"px serif";
+                    screen.fillText(entitie.name, (entitie.x*FOV)-player.cam[0]+((entitie.size_x/2)*FOV),(entitie.y*FOV)-player.cam[1]-((block_size/4)*FOV));                    
+                }
+
                     
         
                 // entitie.pos_buffer_index+=.5
@@ -303,43 +307,44 @@ function draw_out_line_rect(x,y,width,height,size=3){
 
 function draw_block(block,x,y,size_x,size_y){
     // console.log(block)
-    let block_image
-    try{
-        block_image = (block.image)
-    }
-    catch{
-    console.error(block)
+    // let block_image = get_property(block,"image") 
 
-    }
+    let block_image = block.image
+   
     
     // console.error(get_property(block,"image"))
     if(block && block_image!=undefined){
-        let image_px_width
 
-        // console.log(block)
-        try{
-            image_px_width = typeof block_image.length!="undefined" ? block_image[0].width : block_image.width
-        }
-        catch(err){
-            console.log(block)
-    
-        }
-        // console.log(image_px_width)
-        
-        // console.log(block)
+
+ 
+
+
+
         let image = typeof block_image.length!="undefined" ? block_image[0] : block_image
+
+        let px_x=0
+        let px_y=0
+
+        let px_width = image.width
+        let px_height = image.height
+
+
+        if(block.hit_box){
+            px_width = image.width/block.hit_box[0]
+            px_height =  image.height/block.hit_box[1]
+
+            px_x = px_width*block.hit_box_index[0]
+            px_y = px_height*block.hit_box_index[1]
+
+        }
+        
+        
 
         if(image!=undefined){
         
-            let image_px_height =  image.height
- 
+            
         
-            // console.log(image_px_width,image_px_height)
-            let px_width=image_px_width/(block.hit_box!=undefined ? block.hit_box[0] : 1)
-            let px_height=image_px_height/(block.hit_box!=undefined ? block.hit_box[1] : 1)
-        
-            let px_x=0+((px_width)*(block.hit_box_index!=undefined ? block.hit_box_index[0] : 0))
-            let px_y=0+((px_height)*(block.hit_box_index!=undefined ? block.hit_box_index[1] : 0))
+
         
         
         
@@ -360,14 +365,9 @@ function draw_block(block,x,y,size_x,size_y){
                 screen.restore()
             }
             else{
-                try{
-                    draw_image(block_image,px_x,px_y,px_width,px_height,x,y,width,height);
-                }
-                catch(err){
-                    // console.log(block.image[0][0])
-                }
-                    
-        
+                
+                draw_image(block_image,px_x,px_y,px_width,px_height,x,y,width,height);
+              
             }
         
             // console.log()
@@ -422,7 +422,7 @@ function block_to_image(block){
 
     return image_object
 }
-function make_image_layer_from_blocks(start_x,start_y,width,hieght,all_blocks){
+function make_image_layer_from_blocks(start_x,start_y,width,hieght){
 
     let air_layer=make_new_2D_array(Math.ceil(width),Math.ceil(hieght))
     let block_list_mask=make_new_2D_array(Math.ceil(width),Math.ceil(hieght))
@@ -441,33 +441,36 @@ function make_image_layer_from_blocks(start_x,start_y,width,hieght,all_blocks){
                     // blocks_drawn++
 
                     // try{
-                        let block = get_block_from_index(x,y,all_blocks)
-                        if(get_property(block,"transparent")){
-                            air_layer[x-start_x][y-start_y]={"image":filled_air_image}
-                        }
-                        // draw_block(block_list[x][y],(x*display_block_size)-player.cam[0],(y*display_block_size)-player.cam[1],display_block_size,display_block_size)
-                        // console.log(x,y)
-                        // if(block.image!=air_image){
-                            
+                        let block = get_block_from_index(x,y)
+                        if(is_block(block)){
+                            if(get_property(block,"transparent")){
+                                air_layer[x-start_x][y-start_y]={"image":filled_air_image}
+                            }
+                            // draw_block(block_list[x][y],(x*display_block_size)-player.cam[0],(y*display_block_size)-player.cam[1],display_block_size,display_block_size)
+                            // console.log(x,y)
+                            // if(block.image!=air_image){
+                                
                             block_list_mask[x-start_x][y-start_y]=block_to_image(block) 
+                                
+                                // console.log(block_list_mask[x-start_x][y-start_y])
                             
-                            // console.log(block_list_mask[x-start_x][y-start_y])
-                        
+                            // }
+                            // else{
+                            //     block_list_mask[x-start_x][y-start_y]=(undefined)
+                            // }
+                            
+                            
                         // }
-                        // else{
-                        //     block_list_mask[x-start_x][y-start_y]=(undefined)
+                        // catch{
+                        //     // console.log(x,y)
                         // }
-                        
-                        
-                    // }
-                    // catch{
-                    //     // console.log(x,y)
-                    // }
 
 
 
 
 
+
+                        }
 
                     
                 }
@@ -488,33 +491,35 @@ function make_image_layer_from_blocks(start_x,start_y,width,hieght,all_blocks){
                 if(-1<y){
                     
                     
-                    if(get_property(all_blocks[x][y],"side_image") || get_property(all_blocks[x][y],"left_side_image") || get_property(all_blocks[x][y],"top_side_image") || get_property(all_blocks[x][y],"bottom_side_image") || get_property(all_blocks[x][y],"right_side_image")){
-
+                    if(get_block_from_index(x,y) && (get_property(get_block_from_index(x,y),"side_image") || get_property(get_block_from_index(x,y),"left_side_image") || get_property(get_block_from_index(x,y),"top_side_image") || get_property(get_block_from_index(x,y),"bottom_side_image") || get_property(get_block_from_index(x,y),"right_side_image"))){
+                        // render_side_image_on
                         
-                      
+                        let render_side_image_on = get_property(get_block_from_index(x,y),"render_side_image_on")
+                        
                         //Up
-                        let up_block=get_block_from_index(x,y-1,all_blocks)
-                        if(up_block!=undefined && up_block.name=="air"){
+                        let up_block=get_block_from_index(x,y-1)
+                        let render_on_up_side = get_property(get_block_from_index(x,y),"render_top_side_image_on")
+                        if(up_block!=undefined && (up_block.name=="air" || (render_on_up_side && render_on_up_side.includes(up_block.name)) || (render_side_image_on && render_side_image_on.includes(up_block.name)))){
                                 // if((x-start_x)>=0 && (y-start_y)-1>=0 && x-start_x<=all_blocks.length-1 && (y-start_y)-1<=all_blocks[0].length-1){
 
 
                                     let extension_block = block_extensions_layer[x-start_x][(y-start_y)-1]
                                     let side_block
 
-                                    if(get_property(all_blocks[x][y],"side_image")){
+                                    if(get_property(get_block_from_index(x,y),"side_image")){
 
                                         side_block={
-                                            "image":get_property(all_blocks[x][y],"side_image"),
+                                            "image":get_property(get_block_from_index(x,y),"side_image"),
                                             "dir":0
                                         }
                                         
     
                                     }
-                                    else if(get_property(all_blocks[x][y],"top_side_image")){
+                                    else if(get_property(get_block_from_index(x,y),"top_side_image")){
                                         
         
                                         side_block={
-                                            "image":get_property(all_blocks[x][y],"top_side_image"),
+                                            "image":get_property(get_block_from_index(x,y),"top_side_image"),
                                             "dir":0
                                         }
                                     
@@ -545,77 +550,78 @@ function make_image_layer_from_blocks(start_x,start_y,width,hieght,all_blocks){
                         }
 
                         //Right
-                        let right_block=get_block_from_index(x+1,y,all_blocks)
-                        if(right_block!=undefined && right_block.name=="air"){
-                                // if(x-start_x>=0 && (y-start_y)+1>=0 && x-start_x<=all_blocks.length-1 && (y-start_y)+1<=all_blocks[0].length-1){
+                        let right_block=get_block_from_index(x+1,y)
+                        let render_on_right_side = get_property(get_block_from_index(x,y),"render_right_side_image_on")
+                        if(right_block!=undefined && (right_block.name=="air" || (render_on_right_side && render_on_right_side.includes(right_block.name)) || (render_side_image_on && render_side_image_on.includes(right_block.name)))){
 
+                                if(block_extensions_layer[(x-start_x)+1]){
+                                    let extension_block = block_extensions_layer[(x-start_x)+1][y-start_y]
+                                    let side_block
 
-                                let extension_block = block_extensions_layer[(x-start_x)+1][y-start_y]
-                                let side_block
+                                    if(get_property(get_block_from_index(x,y),"side_image")){
 
-                                if(get_property(all_blocks[x][y],"side_image")){
+                                        side_block={
+                                            "image":get_property(get_block_from_index(x,y),"side_image"),
+                                            "dir":1
+                                        }
 
-                                    side_block={
-                                        "image":get_property(all_blocks[x][y],"side_image"),
-                                        "dir":1
+                                    }
+                                    else if(get_property(get_block_from_index(x,y),"right_side_image")){
+                                        side_block={
+                                            "image":get_property(get_block_from_index(x,y),"right_side_image"),
+                                            "dir":0
+                                        }
                                     }
 
-                                }
-                                else if(get_property(all_blocks[x][y],"right_side_image")){
-                                    side_block={
-                                        "image":get_property(all_blocks[x][y],"right_side_image"),
-                                        "dir":0
+                                
+                                
+                                    
+
+                                    
+                                    if(extension_block!=undefined){
+
+                                            if(extension_block.length!=undefined){
+                                                block_extensions_layer[(x-start_x)+1][(y-start_y)].push(side_block)
+                                            }
+                                            else{
+                                                block_extensions_layer[(x-start_x)+1][(y-start_y)]=[extension_block,side_block]
+                                            }
+                            
+                                            
+                            
+                                    }
+                                    else{
+                            
+                                        block_extensions_layer[(x-start_x)+1][y-start_y]=side_block
+                                                    
+
                                     }
                                 }
-
-                             
-                            
                                 
-
-                                
-                                if(extension_block!=undefined){
-
-                                        if(extension_block.length!=undefined){
-                                            block_extensions_layer[(x-start_x)+1][(y-start_y)].push(side_block)
-                                        }
-                                        else{
-                                            block_extensions_layer[(x-start_x)+1][(y-start_y)]=[extension_block,side_block]
-                                        }
-                        
-                                        
-                        
-                                }
-                                else{
-                        
-                                    block_extensions_layer[(x-start_x)+1][y-start_y]=side_block
-                                                
-
-                                }
-                                // }
-                            
                         }
 
 
                         //Down
-                        let down_block=get_block_from_index(x,y+1,all_blocks)
-                        if(down_block!=undefined && down_block.name=="air"){
+                        let down_block=get_block_from_index(x,y+1)
+                        let render_on_bottom_side = get_property(get_block_from_index(x,y),"render_bottom_side_image_on")
+                        if(down_block!=undefined && (down_block.name=="air" || (render_on_bottom_side && render_on_bottom_side.includes(down_block.name)) || (render_side_image_on && render_side_image_on.includes(down_block.name)))){
                                 // if(x-start_x>=0 && (y-start_y)+1>=0 && x-start_x<=all_blocks.length-1 && (y-start_y)+1<=all_blocks[0].length-1){
 
 
                                 let extension_block = block_extensions_layer[x-start_x][(y-start_y)+1]
                                 let side_block
 
-                                if(get_property(all_blocks[x][y],"side_image")){
+                                if(get_property(get_block_from_index(x,y),"side_image")){
 
                                     side_block={
-                                        "image":get_property(all_blocks[x][y],"side_image"),
+                                        "image":get_property(get_block_from_index(x,y),"side_image"),
                                         "dir":2
                                     }
 
                                 }
-                                else if(get_property(all_blocks[x][y],"bottom_side_image")){
+                                else if(get_property(get_block_from_index(x,y),"bottom_side_image")){
                                     side_block={
-                                        "image":get_property(all_blocks[x][y],"bottom_side_image"),
+                                        "image":get_property(get_block_from_index(x,y),"bottom_side_image"),
                                         "dir":0
                                     }
                                 }
@@ -647,31 +653,32 @@ function make_image_layer_from_blocks(start_x,start_y,width,hieght,all_blocks){
                         }
 
                         //Left
-                        let left_block=get_block_from_index(x-1,y,all_blocks)
-                        if(left_block!=undefined && left_block.name=="air"){
-                                if(x-start_x-1>=0 && (y-start_y)>=0 && x-start_x-1<=all_blocks.length-1 && (y-start_y)<=all_blocks[0].length-1){
-                                    let extension_block = block_extensions_layer[x-start_x-1][(y-start_y)]
-                                    let side_block
+                        let left_block=get_block_from_index(x-1,y)
+                        let render_on_left_side = get_property(get_block_from_index(x,y),"render_left_side_image_on")
+                        if(left_block!=undefined && (left_block.name=="air" || (render_on_left_side && render_on_left_side.includes(left_block.name)) || (render_side_image_on && render_side_image_on.includes(left_block.name)))){
+
+                            if(block_extensions_layer[x-start_x-1]){
+                                let extension_block = block_extensions_layer[x-start_x-1][(y-start_y)]
+                                let side_block
                                     
-                                    
-                                    if(get_property(all_blocks[x][y],"side_image")){
+                                if(get_property(get_block_from_index(x,y),"side_image")){
 
                                         side_block={
-                                            "image":get_property(all_blocks[x][y],"side_image"),
+                                            "image":get_property(get_block_from_index(x,y),"side_image"),
                                             "dir":3
                                         }
                                
     
-                                    }
-                                    else if(get_property(all_blocks[x][y],"left_side_image")){
+                                }
+                                else if(get_property(get_block_from_index(x,y),"left_side_image")){
                                         side_block={
-                                            "image":get_property(all_blocks[x][y],"left_side_image"),
+                                            "image":get_property(get_block_from_index(x,y),"left_side_image"),
                                             "dir":0
                                         }
-                                    }
+                                }
 
 
-                                    if(extension_block!=undefined){
+                                if(extension_block!=undefined){
 
                                         if(extension_block.length!=undefined){
                                             block_extensions_layer[(x-start_x)-1][(y-start_y)].push(side_block)
@@ -682,22 +689,16 @@ function make_image_layer_from_blocks(start_x,start_y,width,hieght,all_blocks){
                             
                                             
                             
-                                    }
-                                    else{
-                                        block_extensions_layer[(x-start_x)-1][(y-start_y)]=side_block
-                                    }                                    
                                 }
+                                else{
+                                        block_extensions_layer[(x-start_x)-1][(y-start_y)]=side_block
+                                }                                                                      
+                            }
                         }
-                    
-
 
                         air_layer[x-start_x][y-start_y]={"image":filled_air_image}
 
                     }
-
-
-
-
                 }
             }
         }
@@ -708,9 +709,6 @@ function make_image_layer_from_blocks(start_x,start_y,width,hieght,all_blocks){
 
 
 
-    // block_extensions_layers.forEach(block_extensions_layer => {
-    //     all_layers.push(block_extensions_layer)
-    // });
     let all_layers=[air_layer,block_list_mask,block_extensions_layer]
     
     return all_layers
@@ -725,14 +723,16 @@ function draw_blocks(){
     let start_y=parseInt(player.cam[1]/display_block_size)
     
     let render_to=[parseInt(player.cam[0]/display_block_size)+(innerWidth/display_block_size)+1,  parseInt(player.cam[1]/display_block_size)+(innerHeight/display_block_size)+1  ]
-    if(render_to[0]>block_list.length){
-        render_to[0]=block_list.length
-        }
-    if(render_to[1]>block_list[1].length){
-        render_to[1]=block_list[1].length
+    if(world_setting.world_size[0]!=undefined && render_to[0]>world_setting.world_size[0]*chuck_size){
+        
+        render_to[0]=world_setting.world_size[0]*chuck_size
+
     }
 
-    let block_list_layers=make_image_layer_from_blocks(start_x,start_y,render_to[0],render_to[1],block_list)
+    if(world_setting.world_size[1]!=undefined && render_to[1]>world_setting.world_size[1]*chuck_size){
+        render_to[1]=world_setting.world_size[1]*chuck_size
+    }
+    let block_list_layers=make_image_layer_from_blocks(start_x,start_y,render_to[0],render_to[1])
 
 
 
@@ -941,7 +941,7 @@ function render_blocks_fram(x,y,width,hight,all_blocks){
     }
 
    
-    let block_list_layers = make_image_layer_from_blocks(0,0,all_blocks.length,all_blocks[0].length,all_blocks)
+    let block_list_layers = make_image_layer_from_blocks(0,0,all_blocks.length,all_blocks[0].length)
     // console.log(all_blocks)        
 
 //     if(all_blocks[0].length!=0){
@@ -956,14 +956,13 @@ function render_blocks(x,y,display_layers,block_size=display_block_size){
    
     let display_layer = display_layers[0]
     
-        // console.log(display_layer)
-        for(let x_index=0;x_index<display_layer.length;x_index++){
-            let draw_x = Math.round(x+(x_index*block_size))
-            for(let y_index=0;y_index<display_layer[x_index].length;y_index++){
+    for(let x_index=0;x_index<display_layer.length;x_index++){
+        let draw_x = Math.round(x+(x_index*block_size))
+        for(let y_index=0;y_index<display_layer[x_index].length;y_index++){
 
-                let block_layers=[]
+            let block_layers=[]
 
-                display_layers.forEach(display_layer => {
+            display_layers.forEach(display_layer => {
 
                     let block=display_layer[x_index][y_index]
 
@@ -993,20 +992,19 @@ function render_blocks(x,y,display_layers,block_size=display_block_size){
                         
 
                     }
-                });
+            });
 
                 
-                let draw_y = Math.round(y+(y_index*block_size))
+            let draw_y = Math.round(y+(y_index*block_size))
 
-                let draw_size_x = Math.round(x+((x_index+1)*block_size))-Math.round(x+(x_index*block_size))
-                let draw_size_y = Math.round((y+((y_index+1)*block_size)))-Math.round(y+(y_index*block_size))
+            let draw_size_x = Math.round(x+((x_index+1)*block_size))-Math.round(x+(x_index*block_size))
+            let draw_size_y = Math.round((y+((y_index+1)*block_size)))-Math.round(y+(y_index*block_size))
 
 
 
-                block_layers.forEach(block => {
+            block_layers.forEach(block => {
 
-                            //fix
-                            if(block!=undefined){
+                if(block!=undefined){
                                 draw_block(
                                     block,
                                     draw_x,
@@ -1014,29 +1012,59 @@ function render_blocks(x,y,display_layers,block_size=display_block_size){
                                     draw_size_x,
                                     draw_size_y
                                 )
-                            }
-                });
+                }
+            });
 
-            }
-        }        
+        }
+    }        
     
 
     
 }
 
 
+function run_object(object,run_function){
 
+    if(typeof object=="object" && typeof object.length!="undefined"){
+
+        object.forEach(element => {
+            run_function(element)
+        });
+
+    }
+    else{
+
+        run_function(object)
+
+    }
+
+}
+
+
+
+let hunger_time=15000
+let hunger_end_timer=hunger_time
 
 function clint_update(){
-    
+
+        
+    if(hunger_end_timer<=engin.time_in_loop){
+        hunger_end_timer=engin.time_in_loop+hunger_time
+
+        if(player.hungry>=15){
+            heal_heart(1)
+        }
+
+        player.take_hungar(1)
+    }
 
 
-        players.forEach(player => {
-            if(player.pos_buffer_index >= 0){
-                player.pos_buffer_index+=.5
-            }
+        // players.forEach(player => {
+        //     if(player.pos_buffer_index >= 0){
+        //         player.pos_buffer_index+=.5
+        //     }
             
-        });
+        // });
 
 
 
@@ -1057,6 +1085,7 @@ function clint_update(){
 
         player.pos_buffer.splice(0,1)
         player.pos_buffer.push([player.x,player.y])
+
 
 
 
@@ -1175,8 +1204,8 @@ function clint_update(){
                 let same_block=false
 
                 if(player.block_brocking){
-                    let break_block_hit_box_index=get_property(block_list[player.block_brocking[0]][player.block_brocking[1]],"hit_box_index")
-                    let world_mouse_hit_box_index=get_property(block_list[world_mouse_x][world_mouse_y],"hit_box_index")
+                    let break_block_hit_box_index=get_property(get_block_from_index(player.block_brocking[0],player.block_brocking[1]),"hit_box_index") 
+                    let world_mouse_hit_box_index=get_property(get_block_from_index(world_mouse_x,world_mouse_y))
 
                     
                     
@@ -1195,22 +1224,25 @@ function clint_update(){
                     // console.log("REDO")
                     
                     
-                    if(get_property(block_list[world_mouse_x][world_mouse_y],"destroy_time")!=undefined){
+                    if(get_property(get_block_from_index(world_mouse_x,world_mouse_y),"destroy_time")!=undefined){
 
                         let mining_mult = 1
 
                         let held_item_tool_type = get_property(selected_item,"tool_type")
-                        let block_brocking = block_list[world_mouse_x][world_mouse_y]
+                        
+                        let block_brocking = get_block_from_index(world_mouse_x,world_mouse_y)
 
-                        if(block_brocking.broken_with && held_item_tool_type){
+                        if(get_property(block_brocking,"broken_with") && held_item_tool_type){
 
                             get_property(block_brocking,"broken_with").forEach(element => {
+                                
 
                                 held_item_tool_type.forEach(tool_type => {
-                                    
+
                                     if(tool_type.tool_type==element.tool_type){
+
                                         mining_mult = tool_type.minning_speed
-                                        // console.log(tool_type.minning_speed)
+
                                     }
                                 });
                                 
@@ -1220,7 +1252,7 @@ function clint_update(){
         
                         player.started_breakking=engin.time_in_loop
         
-                        player.end_break=engin.time_in_loop+((get_property(block_list[world_mouse_x][world_mouse_y],"destroy_time")*1000)/mining_mult)
+                        player.end_break=engin.time_in_loop+((get_property(get_block_from_index(world_mouse_x,world_mouse_y),"destroy_time")*1000)/mining_mult)
 
                         player.break_with_slot.index = player.selected_slot_index.index
                 
@@ -1241,7 +1273,7 @@ function clint_update(){
                 if(player.block_brocking && engin.time_in_loop>=player.end_break){
         
                     // for(let i=0;i<5;i++){
-                    //     let current_block=block_list[player.block_brocking[0]][player.block_brocking[1]].image
+                    //     let current_block=get_block_from_index(player.block_brocking[0],player.block_brocking[1]).image
                     //     let color=false
         
                     //     try{
@@ -1261,11 +1293,12 @@ function clint_update(){
                         
                     // }
                     
-                    let destroy_block = block_list[player.block_brocking[0]][player.block_brocking[1]]  
+                    let destroy_block = get_block_from_index(player.block_brocking[0],player.block_brocking[1])
                     let tool_types = get_property(selected_item,"tool_type")  
 
-                    let loot_table = get_property(block_list[player.block_brocking[0]][player.block_brocking[1]],"loot_table")
+                    let loot_table = get_property(get_block_from_index(player.block_brocking[0],player.block_brocking[1]),"loot_table")
 
+                    
                     let replace_with = "air"
                     
                     if(get_property(destroy_block,"broken_with") && tool_types){
@@ -1276,9 +1309,9 @@ function clint_update(){
 
                                 if(element.tool_type == tool.tool_type){
 
-                                    if(get_property(element,"loot_table")){
+                                    if(element.loot_table){
                                         
-                                        loot_table = get_property(element,"loot_table")
+                                        loot_table = element.loot_table
                                     }
                                     if(element.replace_with){
                                         replace_with=element.replace_with.name
@@ -1306,7 +1339,7 @@ function clint_update(){
                     }
                     else{
                         
-                        player.give_item(block_list[player.block_brocking[0]][player.block_brocking[1]].name)
+                        player.give_item(get_block_from_index(player.block_brocking[0],player.block_brocking[1]).name)
 
                     }
 
@@ -1356,8 +1389,8 @@ function clint_update(){
 
         if(is_placing){
 
-            if(get_property(block_list[world_mouse_x][world_mouse_y],"on_right_clicked") && !old_is_placing){
-                get_property(block_list[world_mouse_x][world_mouse_y],"on_right_clicked")()
+            if(get_property(get_block_from_index(world_mouse_x,world_mouse_y),"on_right_clicked") && !old_is_placing){
+                get_property(get_block_from_index(world_mouse_x,world_mouse_y),"on_right_clicked")(get_block_from_index(world_mouse_x,world_mouse_y),world_mouse_x,world_mouse_y)
 
                 is_placing=false
             }
@@ -1365,11 +1398,21 @@ function clint_update(){
              
                 // blank_area(world_mouse_x,world_mouse_y,(typeof block_list[world_mouse_x][world_mouse_y].hit_box!="undefined" ? block_list[world_mouse_x][world_mouse_y].hit_box[0] : 1),(typeof block_list[world_mouse_x][world_mouse_y].hit_box!="undefined" ? block_list[world_mouse_x][world_mouse_y].hit_box[1] : 1))
                 // console.log(player.inventory[player.selected_slot_index.index])
-                if(selected_item.name!="blank" && get_property(selected_item,"type")=="block" && blank_area(world_mouse_x,world_mouse_y,(typeof get_property(selected_item,"hit_box")!="undefined" ? get_property(selected_item,"hit_box")[0] : 1),(typeof get_property(selected_item,"hit_box")!="undefined" ? get_property(selected_item,"hit_box")[1] : 1))){
+
+                if(selected_item.name!="blank" && item_type(selected_item)=="block" && blank_area(world_mouse_x,world_mouse_y,(typeof get_property(selected_item,"hit_box")!="undefined" ? get_property(selected_item,"hit_box")[0] : 1),(typeof get_property(selected_item,"hit_box")!="undefined" ? get_property(selected_item,"hit_box")[1] : 1))){
 
                     if(selected_item.count>=1){
                         if(typeof get_property(selected_item,"on_used")=="undefined"){
+           
                             change_block(world_mouse_x,world_mouse_y,selected_item.name)
+
+                            let block = get_block_from_index(world_mouse_x,world_mouse_y)
+
+                            
+
+                            if(get_property(block,"on_placed")){
+                                get_property(block,"on_placed")(block,world_mouse_x,world_mouse_y)
+                            }
                         
                             if(player.game_mode=="Servival"){
 
@@ -1423,7 +1466,10 @@ function clint_update(){
                     if(selected_item.count>=1){
 
                         
-                        change_block(world_mouse_x,world_mouse_y,selected_item.name)
+                        if(item_type(selected_item.name)=="block"){
+                            change_block(world_mouse_x,world_mouse_y,selected_item.name)
+                        }
+                        
                             
                         if(player.game_mode=="Servival"){
 
@@ -1475,6 +1521,7 @@ function clint_update(){
 
 
         particles.forEach(particle => {
+
             particle.update()
         });
 
@@ -1497,13 +1544,16 @@ function clint_update(){
 
 
 
-        if(world_cam[0]>(block_list.length*block_size)-innerWidth){
-            world_cam[0]=(block_list.length*block_size)-innerWidth
+        if(world_setting.world_size[0]){
+            if(world_cam[0]>((world_setting.world_size[0]*chuck_size)*block_size)-innerWidth){
+                world_cam[0]=((world_setting.world_size[0]*chuck_size)*block_size)-innerWidth
+            }
         }
 
-
-        if(world_cam[1]>(block_list[0].length*block_size)-innerHeight){
-            world_cam[1]=(block_list[0].length*block_size)-innerHeight
+        if(world_setting.world_size[1]){
+            if(world_cam[1]>((world_setting.world_size[1]*chuck_size)*block_size)-innerHeight){
+                world_cam[1]=((world_setting.world_size[1]*chuck_size)*block_size)-innerHeight
+            }
         }
 
     
@@ -1578,35 +1628,34 @@ function engin_draw(){
     player.cam[1]=((player.y+(block_size/2))*FOV)-(innerHeight/2)
 
     if(camera_bounded){
-            if((player.cam[0]<0 || player.cam[1]<0) &&  (innerWidth>=((block_list.length)*display_block_size) || innerHeight>=((block_list[0].length)*display_block_size))){
-                if(player.cam[0]<0 && innerWidth>=((block_list.length)*display_block_size)){
-                    player.cam[0]=innerWidth/-2
-                }
-                if(player.cam[1]<0 && innerHeight>=((block_list[0].length)*display_block_size)){
-                    player.cam[1]=(innerHeight/-2)+((block_list[0].length*display_block_size)/2)
-                }
-                
-                // console.log("G")
+
+
+        if(world_setting.world_size[0] && player.cam[0]<0 && innerWidth>=((world_setting.world_size[0]*chuck_size)*display_block_size)){
+            player.cam[0]=innerWidth/-2
+        }
+        else if(world_setting.world_size[0]){
+            if(player.cam[0]<0){
+                player.cam[0]=0
             }
-            else{
-                if(player.cam[0]<0){
-                    player.cam[0]=0
-                }
-                if(player.cam[0]>((block_list.length)*display_block_size)-innerWidth){
-                    player.cam[0]=((block_list.length)*display_block_size)-innerWidth
-                }
-
-
-
-                
-                if(player.cam[1]<0){
-                    player.cam[1]=0
-                }
-                if(player.cam[1]>((block_list[0].length)*display_block_size)-innerHeight){
-                    player.cam[1]=((block_list[0].length)*display_block_size)-innerHeight
-                }
+            if(player.cam[0]>((world_setting.world_size[0]*chuck_size)*display_block_size)-innerWidth){
+                player.cam[0]=((world_setting.world_size[0]*chuck_size)*display_block_size)-innerWidth
             }
+        }
 
+        if(world_setting.world_size[1] && player.cam[1]<0 && innerHeight>=((world_setting.world_size[1]*chuck_size)*display_block_size)){
+            player.cam[1]=(innerHeight/-2)+(((world_setting.world_size[1]*chuck_size)*display_block_size)/2)
+        }
+        else if(world_setting.world_size[1]){
+                        
+            if(player.cam[1]<0){
+                player.cam[1]=0
+            }
+            if(player.cam[1]>((world_setting.world_size[1]*chuck_size)*display_block_size)-innerHeight){
+                player.cam[1]=((world_setting.world_size[1]*chuck_size)*display_block_size)-innerHeight
+            }          
+
+        }            
+    
     }
 
 
@@ -1632,138 +1681,6 @@ function engin_draw(){
     blocks_drawn=0
     draw_blocks()
 
-    // let render_to=[parseInt(player.cam[0]/display_block_size)+(innerWidth/display_block_size)+1,  parseInt(player.cam[1]/display_block_size)+(innerHeight/display_block_size)+1  ]
-    // for(let x=parseInt(player.cam[0]/display_block_size);x<render_to[0];x++){
-    //     if(-1<x){
-    //         for(let y=parseInt(player.cam[1]/display_block_size);y<render_to[1];y++){
-    //             if(-1<y){
-    //                 let block=get_block_from_index(x,y)
-    //                 if(block && block.name=="laod_block"){
-    //                     let x=block.structure_x
-    //                     let y=block.structure_y
-
-    //                     if(block.structure_size_x!=undefined && block.structure_size_y!=undefined && save_or_load_switch=="save"){
-    //                         draw_out_line_rect(x_block_index_to_world(block_list[x][y].x),y_block_index_to_world(block_list[x][y].y),block.structure_size_x*display_block_size,block.structure_size_y*display_block_size,3)
-
-    //                     }
-    //                     else{
-    //                         let structure=structures[block.structure_name]
-
-    //                         if(structure){
-    //                             let gost_list=[]
-
-
-    //                             for(let x_index=0;x_index<structure.length;x_index++){
-    //                                 let line=[]
-    //                                 for(let y_index=0;y_index<structure[x_index].length;y_index++){
-    //                                     line.push(get_just_block("blank"))
-    //                                 }
-    //                                 gost_list.push(line)
-    //                             }
-
-    //                             load_structure(0,0,structure,gost_list)
-
-    //                             screen.save()
-
-    //                             screen.globalAlpha=.5
-
-    //                             for(let x_index=0;x_index<structure.length;x_index++){
-    //                                 for(let y_index=0;y_index<structure[x_index].length;y_index++){
-
-    //                                     draw_block(gost_list[x_index][y_index],x_block_index_to_world(x+x_index),y_block_index_to_world(y+y_index),display_block_size,display_block_size)
-                                    
-    //                                 }
-    //                             }
-
-    //                             screen.restore()
-
-    //                             draw_out_line_rect(x_block_index_to_world(block_list[x][y].x),y_block_index_to_world(block_list[x][y].y),structure.length*display_block_size,structure[0].length*display_block_size,3)
-    //                         }                            
-    //                     }
-
-
-                        
-    //                 }
-
-    //                 if(block && block.name=="extrude_block"){
-    //                     // let x=block.structure_x
-    //                     // let y=block.structure_y
-
-    //                     // if(block.structure_size_x!=undefined && block.structure_size_y!=undefined && save_or_load_switch=="save"){
-    //                     //     draw_out_line_rect(x_block_index_to_world(block_list[x][y].x),y_block_index_to_world(block_list[x][y].y),block.structure_size_x*display_block_size,block.structure_size_y*display_block_size,3)
-
-    //                     // }
-    //                     // else{
-    //                         // let structure=structures[block.structure_name]
-
-    //                         // if(structure){
-    //                             // let gost_list=[]
-
-
-    //                             // for(let x_index=0;x_index<structure.length;x_index++){
-    //                             //     let line=[]
-    //                             //     for(let y_index=0;y_index<structure[x_index].length;y_index++){
-    //                             //         line.push(get_just_block("blank"))
-    //                             //     }
-    //                             //     gost_list.push(line)
-    //                             // }
-
-    //                             // load_structure(0,0,structure,gost_list)
-
-    //                             let extrude_block=get_just_block(block.extrude_block)
-    //                             if(extrude_block){
-    //                                 // console.log(get_just_block(block.extrude_block))
-    //                             // if(block.extrude_block!=""){
-                                    
-                                
-    //                                 screen.save()
-
-    //                                 screen.globalAlpha=.5
-    //                                 let extrude_dist=0
-
-    //                                 if(block.extrude_min!=0){
-    //                                     extrude_dist=block.extrude_min
-    //                                     // extrude_dist++
-    //                                 }
-                                    
-
-    //                                 for(let dist=0;dist<extrude_dist;dist++){
-    //                                         let offsetX=0
-    //                                         let offsetY=0
-
-    //                                         if(block.extrude_min){
-    //                                             offsetY+=(dist*-(block.dir==0))+(dist*(block.dir==2))
-    //                                             offsetX+=(dist*-(block.dir==3))+(dist*(block.dir==1))
-    //                                             // console.log(block.dir==0)
-
-    //                                         }
-
-                                            
-
-    //                                 //     for(let y_index=0;y_index<structure[x_index].length;y_index++){
-
-    //                                         draw_block(extrude_block,x_block_index_to_world(x+offsetX),y_block_index_to_world(y+offsetY),display_block_size,display_block_size)
-                                        
-    //                                 //     }
-    //                                 }
-
-    //                                 screen.restore()
-    //                             }
-                                
-
-    //                             // draw_out_line_rect(x_block_index_to_world(block_list[x][y].x),y_block_index_to_world(block_list[x][y].y),structure.length*display_block_size,structure[0].length*display_block_size,3)
-    //                         // }                            
-    //                     // }
-
-
-                        
-    //                 }
-
-
-    //             }
-    //         }
-    //     }
-    // }
 
 
     let render_to=[parseInt(player.cam[0]/display_block_size)+(innerWidth/display_block_size)+1,  parseInt(player.cam[1]/display_block_size)+(innerHeight/display_block_size)+1  ]
@@ -2156,7 +2073,7 @@ function engin_draw(){
     let x=(player.block_brocking!=false ?  x_block_index_to_world(player.block_brocking[0]) : block_mouse_x*display_block_size)
     let y=((player.block_brocking!=false ? y_block_index_to_world(player.block_brocking[1]) : block_mouse_y*display_block_size))-(display_block_size*((get_property(block_in_hand,"hit_box") && !mining) ? get_property(block_in_hand,"hit_box")[1]-1 : 0))
     
-    if(block_in_hand && block_in_hand.name!="blank" && !mining && get_property(block_in_hand,"type")=="block"){
+    if(block_in_hand && block_in_hand.name!="blank" && !mining && item_type(block_in_hand)=="block"){
         screen.save()
         screen.globalAlpha = 0.25
         
@@ -2176,61 +2093,68 @@ function engin_draw(){
 
 
 
-    if(player.block_brocking && block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box_index){
+    if(player.block_brocking && get_block_from_index(player.block_brocking[0],player.block_brocking[1]).hit_box_index){ 
 
-        height=display_block_size*(block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box ? block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box[1] : 1)
-        width=display_block_size*(block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box ? block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box[0] : 1)
-        y+=((block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box_index[1])*display_block_size)*-1
-        x-=((block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box_index[0])*display_block_size)  
+        height=display_block_size*(get_property(get_block_from_index(player.block_brocking[0],player.block_brocking[1]),"hit_box") ? get_property(get_block_from_index(player.block_brocking[0],player.block_brocking[1]),"hit_box")[1] : 1)
+        width=display_block_size*(get_property(get_block_from_index(player.block_brocking[0],player.block_brocking[1]),"hit_box") ? get_property(get_block_from_index(player.block_brocking[0],player.block_brocking[1]),"hit_box")[0] : 1)
+        y+=((get_block_from_index(player.block_brocking[0],player.block_brocking[1]).hit_box_index[1])*display_block_size)*-1
+        x-=((get_block_from_index(player.block_brocking[0],player.block_brocking[1]).hit_box_index[0])*display_block_size)  
 
-        // console.log((block_list[player.block_brocking[0]][player.block_brocking[1]].main_hit_box_size[1]-1)-block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box_index[1])
+        // console.log((get_block_from_index(player.block_brocking[0],player.block_brocking[1]).hit_box_index[1]-1)-get_block_from_index(player.block_brocking[0],player.block_brocking[1]).hit_box_index[1])
     }
  
 
 
     draw_out_line_rect(x,y,width,height)
 
-    // screen.fillStyle = "rgb(0,0,0)" ;
-
-
-
-    // screen.drawImage(break_block_sheet,parseInt(((engin.time_in_loop-player.started_breakking)/(player.end_break-player.started_breakking))*5)*8,0,8,8,(player.block_brocking[0]*display_block_size)-player.cam[0],(player.block_brocking[1]*display_block_size)-player.cam[1],display_block_size,display_block_size);
-
 
     if(player.block_brocking){
-        let width=display_block_size*(block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box ? block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box[0] : 1)
-        let height=display_block_size*(block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box ? block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box[1] : 1)
+        let width=display_block_size*(get_property(get_block_from_index(player.block_brocking[0],player.block_brocking[1]),"hit_box") ? get_property(get_block_from_index(player.block_brocking[0],player.block_brocking[1]),"hit_box")[0] : 1)
+        let height=display_block_size*(get_property(get_block_from_index(player.block_brocking[0],player.block_brocking[1]),"hit_box") ? get_property(get_block_from_index(player.block_brocking[0],player.block_brocking[1]),"hit_box")[1] : 1)
         
 
 
-        // console.log(player.block_brocking[1])
         screen.drawImage(
             break_block_sheet,
             parseInt(((engin.time_in_loop-player.started_breakking)/(player.end_break-player.started_breakking))*5)*8,
             0,
             8,
             8,
-            ((player.block_brocking[0]*display_block_size)-player.cam[0])+( typeof block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box_index!="undefined" ? ( ((block_list[player.block_brocking[0]][player.block_brocking[1]].main_hit_box_size[0])-block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box_index[0])-2 )*display_block_size : 0   ),
-            (((player.block_brocking[1]*display_block_size)-player.cam[1] ))-(display_block_size*(block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box ? block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box[1]-1 : 0))+( typeof block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box_index!="undefined" ?  (((block_list[player.block_brocking[0]][player.block_brocking[1]].main_hit_box_size[1]-1)-block_list[player.block_brocking[0]][player.block_brocking[1]].hit_box_index[1]))*display_block_size : 0  ),
+            ((player.block_brocking[0]*display_block_size)-player.cam[0])+( typeof get_block_from_index(player.block_brocking[0],player.block_brocking[1]).hit_box_index!="undefined" ? ( ((get_property(get_block_from_index(player.block_brocking[0],player.block_brocking[1]),"hit_box")[0])-get_block_from_index(player.block_brocking[0],player.block_brocking[1]).hit_box_index[0])-2 )*display_block_size : 0   ),
+            (((player.block_brocking[1]*display_block_size)-player.cam[1] ))-(display_block_size*(get_property(get_block_from_index(player.block_brocking[0],player.block_brocking[1]),"hit_box") ? get_property(get_block_from_index(player.block_brocking[0],player.block_brocking[1]),"hit_box")[1]-1 : 0))+( typeof get_block_from_index(player.block_brocking[0],player.block_brocking[1]).hit_box_index!="undefined" ?  (((get_property(get_block_from_index(player.block_brocking[0],player.block_brocking[1]),"hit_box")[1]-1)-get_block_from_index(player.block_brocking[0],player.block_brocking[1]).hit_box_index[1]))*display_block_size : 0  ),
             width,
             height
         );
-        // console.log(parseInt(((engin.time_in_loop-player.started_breakking)/(player.end_break-player.started_breakking))*5))
+
 
         
 
     }
 
     for(let i=particles.length-1;i>=0;i--){
-        
-        if(particles[i].end_time_time<engin.time_in_loop){
+
+        let particle = particles[i]
+        // 
+//         if(particle.parent_location){
+// console.log(particle.parent_location.base)
+//         }
+
+
+        if(particle.end_time_time<engin.time_in_loop || particle.life<=0 || (particle.parent_location && ((particle.parent_location.base && particle!==particle.parent_location.base[particle.parent_location.property]) || (particle.parent_location.string && particle!==particle.parent_location.string()))  )){
+            
             particles.splice(i,1)
+        }
+        else{
+            // console.log(particle)
         }
     }
 
     particles.forEach(par => {
         // if(par.layer==1){
+        if(par.draw){
             par.draw()
+        }
+            
         // }
         
 
@@ -2312,47 +2236,7 @@ function engin_draw(){
             screen.fillText(players[i].name, (innerWidth/2), 35*(i+1));
         };
     }
-    
-
-    // fly_par_tick++
-    // if(fly_par_tick>=9 && player.flying){
-    //     fly_par_tick=0
-    //     // alert(" PART")
-
-    //         // particles.push(new fly_par(player.x+(player.size_x/2),player.y+(player.size_y),engin.time_in_loop+700+(Math.random()*400),"181, 255, 250 ",(Math.PI*0) ))
-    //         particles.push(new fly_par(player.x+(player.size_x/2),player.y+(player.size_y/2),engin.time_in_loop+700+(Math.random()*400),"181, 255, 250 ",(Math.PI*(Math.random()*2)) ))
-
-    //     // alert(" PART")
-
-    // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // screen.fillStyle = "rgb(200,200,255)";
-    // screen.fillRect(0, 0, innerWidth, innerHeight)
-
-
-    // this.end_time_time=engin.time_in_loop+6000
-
-
-    // screen.fillStyle = "rgb(200,0,0)";
-
-
-    // screen.beginPath();
-    // screen.arc(innerWidth/2, innerHeight/2, 8, 0, 2 * Math.PI);
-    // screen.fill();
-
+   
 
 
     //Draw Heart

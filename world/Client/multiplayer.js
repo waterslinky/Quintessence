@@ -103,7 +103,10 @@ alert("K")
             new_block_list.push(line)
                 
         });
-        block_list=new_block_list
+
+        alert("FIX")
+
+        // block_list=new_block_list
     
         callback("q")
 

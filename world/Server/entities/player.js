@@ -94,8 +94,15 @@ start_flying = function (identifier,x=undefined,y=undefined){
                     this_player.flying_emitter={}
                 }
 
-                this_player.flying_emitter.particle=new particle_emitter({"parent":this_player,"particle":fly_par}) 
-                particles.push(new particle_link({"link": this_player.flying_emitter }))            
+                this_player.flying_emitter.particle=new particle_emitter({
+                    "parent":this_player,
+                    "parent_location":{"base":this_player.flying_emitter,"property":"particle"},
+
+
+
+                    "particle":fly_par
+                }) 
+                particles.push(this_player.flying_emitter.particle)            
             
 
 
@@ -110,7 +117,7 @@ start_flying = function (identifier,x=undefined,y=undefined){
             this_player.flying=true
                             
             for(let i=0;i<10;i++){
-                particles.push(new fly_par(this_player.x+(this_player.size_x/2),this_player.y+(this_player.size_y/2),engin.time_in_loop+700+(Math.random()*400),"181, 255, 250 ",(Math.PI*(Math.random()*2)) ))
+                particles.push(new fly_par({"x":this_player.x+(this_player.size_x/2),"y":this_player.y+(this_player.size_y/2),"color":"181, 255, 250 ","angle":(Math.PI*(Math.random()*2)) }))
             }        
             // }
         }
@@ -448,8 +455,6 @@ class Entity_class{
 
     static give_item(item,inventory,count=undefined){
 
-    
-
         if(typeof item=="string"){
             item = create_item(item)
         }
@@ -470,13 +475,13 @@ class Entity_class{
             
          
             if(inventory[i].item.name=="blank"){
-
-                inventory[i].item.count = 0
                 inventory[i].item = item
+                inventory[i].item.count = 0
 
             }       
             
-            slot_stack_size = get_property(inventory[i].item,"stack_size")     
+            slot_stack_size = get_property(inventory[i].item,"stack_size")  
+            
             
             if(inventory[i].item.name==item.name){
        
@@ -491,10 +496,11 @@ class Entity_class{
                             count-=(slot_stack_size-inventory[i].item.count)
 
                             inventory[i].item.count=slot_stack_size
+
+                            
                             
                     }
                     else{
-                        
 
                        inventory[i].item.count+=count 
                        count = 0
@@ -537,6 +543,9 @@ class player_class{
             }
             
         }
+
+        this.hungry=19
+        this.max_hungry=20
 
 
 
@@ -602,10 +611,15 @@ class player_class{
 
         this.show_hot_bar=true
         this.show_inventory_hand=false
+
         this.inventory_hand=undefined
+ 
+
         this.inventory=[
 
         ]
+
+        // this.inventory_ui=[]
 
 
         
@@ -613,6 +627,9 @@ class player_class{
 
         this.old_x=0
         this.old_y=0
+
+        // this.size_x=25
+        // this.size_y=56
 
         this.size_x=32
         this.size_y=32
@@ -646,6 +663,33 @@ class player_class{
 
 
 
+    }
+
+    take_hungar(hungry_pionts){
+
+        this.hungry-=hungry_pionts
+
+        if(this.hungry<0){
+
+            this.hungry=0
+
+            damage_heart(1)
+
+        }
+       
+    }
+
+    give_hungar(hungry_pionts){
+
+        this.hungry+=hungry_pionts
+
+        if(this.hungry>this.max_hungry){
+
+            this.hungry=this.max_hungry
+            
+
+        }
+       
     }
 
 
@@ -692,14 +736,14 @@ class player_class{
         if(player.y<0){
             player.y=0
         }
-    
-        if(player.x+player.size_x>=(block_list.length)*block_size){
-            // console.log("XXXXXXXXXXXXXXXXXXXXX")
-            player.x=((block_list.length)*block_size)-player.size_x
-            // console.log("SET 0")
+ 
+        if(world_setting.world_size && player.x+player.size_x>=(world_setting.world_size[0]*chuck_size)*block_size){
+
+            player.x=((world_setting.world_size[0]*chuck_size)*block_size)-player.size_x
+
         }
-        if(player.y+player.size_y>=(block_list[0].length)*block_size){
-            player.y=((block_list[0].length)*block_size)-player.size_y
+        if(world_setting.world_size && player.y+player.size_y>=(world_setting.world_size[1]*chuck_size)*block_size){
+            player.y=((world_setting.world_size[1]*chuck_size)*block_size)-player.size_y
         }
     
     }
@@ -707,32 +751,44 @@ class player_class{
 
 
     reset_inventory(){
+
+        this.inventory.splice(0,this.inventory.length)
+
         for(let i=0;i<4*9;i++){
 
-
-
-            
-            try{
-                
-                let old_item=this.inventory[i].item
-                
-                this.inventory[i]=new inventory_slot(create_item("blank"))
-
-                this.inventory[i].item = old_item
-                this.inventory[i].item.count=old_item.count
-                
-            }
-            catch{
-                this.inventory.push(new inventory_slot(create_item("blank")))
-            }
-
-            
-        
+            // this.inventory.push(create_item("blank"))
+            this.inventory.push(new inventory_slot(create_item("blank")))
+          
         }
+
+        // for(let i=0;i<4*9;i++){
+
+
+
+            
+        //     // try{
+                
+        //     //     let old_item=this.inventory[i].item
+                
+        //     //     this.inventory[i]=new inventory_slot(create_item("blank"))
+
+        //     //     this.inventory[i].item = old_item
+        //     //     this.inventory[i].item.count=old_item.count
+                
+        //     // }
+        //     // catch{
+        //     this.inventory_ui.push(new inventory_slot(create_item("blank")))
+        //     // }
+
+            
+        
+        // }
         
         
 
+        // this.inventory_hand=create_item("blank")
         this.inventory_hand=new inventory_slot(create_item("blank"))
+
         // console.log(this.inventory_hand)
         // console.log(this.inventory)
 
@@ -1063,71 +1119,107 @@ class player_class{
         if(this.game_mode!="AscendedGost"){        
             for(let x=Math.floor(this.x/block_size);x<Math.ceil((this.x+this.size_x)/block_size);x++){
                 for(let y=Math.floor(this.y/block_size);y<Math.ceil((this.y+this.size_y)/block_size);y++){
-                    // change_block(x,y,"stone")
-                    // if()
-                    // if(Math.random()<.004){
-                    //     alert("F")
-                    //     alert(old_player.x)
+                    
 
-                    // }
+                    let collision_boxs
+                    if(get_block_from_index(x,y)!=undefined){
+                        collision_boxs = get_property(get_block_from_index(x,y),"collision_box")
+                    }
 
-                    if(get_property(block_list[x][y],"collision_box")){
+                    let collision_boxs_top
+                    if(get_block_from_index(x,y-1)!=undefined){
+                        collision_boxs_top = get_property(get_block_from_index(x,y-1),"collision_box")
+                    }
+
+                    let collision_boxs_top_left
+                    if(get_block_from_index(x-1,y-1)!=undefined){
+                        collision_boxs_top_left = get_property(get_block_from_index(x-1,y-1),"collision_box")
+                    }
+
+                    let collision_boxs_top_right
+                    if(get_block_from_index(x+1,y-1)!=undefined){
+                        collision_boxs_top_right = get_property(get_block_from_index(x+1,y-1),"collision_box")
+                    }
+                    
+            
+                    if(typeof collision_boxs=="object"){
+                        collision_boxs.forEach(collision_box => {
 
 
+                            if(this.x+this.size_x>(x*block_size)+collision_box.x && this.old_x+this.size_x<=(x*block_size)+collision_box.x){
+
+                                if((collision_boxs_top_left==false) && (collision_boxs_top==false) && this.grouded){
+    
+                                    this.y=((y-1)*block_size)+collision_box.y
+                                    
+                                }
+                                else{
+    
+                                    this.x=((x*block_size)+collision_box.x)-this.size_x
+                                    this.x_val=0
+    
+                                }
+    
+                            }
+    
+    
+                            if(this.x<(x*block_size)+(collision_box.x+collision_box.size_x) && this.old_x>=(x*block_size)+(collision_box.x+collision_box.size_x)){
+                                
+                                if((collision_boxs_top_right==false) && (collision_boxs_top==false) && this.grouded){
+                                    this.y=((y-1)*block_size)+collision_box.y
+                                }
+                                else{
+    
+                                    this.x=(x*block_size)+(collision_box.x+collision_box.size_x)
+                                    this.x_val=0
+    
+    
+                                }
+    
+                            }
+                        });
+
+                    }
+                    else if(collision_boxs!=false){
 
                         if(this.x+this.size_x>(x)*block_size && this.old_x+this.size_x<=(x)*block_size){
-                            // this.x=((x)*block_size)-this.size_x
-                            if(!get_property(block_list[x-1][y-1],"collision_box") && !get_property(block_list[x][y-1],"collision_box") && this.grouded){
+
+                            if((collision_boxs_top_left==false) && (collision_boxs_top==false) && this.grouded){
+
                                 this.y=(y-1)*block_size
                                 
                             }
                             else{
 
                                 this.x=((x)*block_size)-this.size_x
-
-                                
-                                // //If you hit a wall Val is splite in half
-                                // this.x_val/=2
-                                // if(this.x_val<1){
-                                //     this.x_val=0
-                                // }
-
                                 this.x_val=0
-
 
                             }
 
                         }
+
+
                         if(this.x<(x+1)*block_size && this.old_x>=(x+1)*block_size){
                             
-                            if(!get_property(block_list[x+1][y-1],"collision_box") && !get_property(block_list[x][y-1],"collision_box") && this.grouded){
+                            if((collision_boxs_top_right==false) && (collision_boxs_top==false) && this.grouded){
                                 this.y=(y-1)*block_size
                             }
                             else{
 
                                 this.x=((x+1)*block_size)
-
-
-                                // //If you hit a wall Val is splite in half
-                                // this.x_val/=2
-                                // if(this.x_val>-1){
-                                //     this.x_val=0
-                                // }
                                 this.x_val=0
-
 
 
                             }
 
-                            // alert("G")
                         }
-
+                
                     }
-                    
-                }
 
+                }
             }
         }
+
     }
 
     spawn_point(){
@@ -1147,41 +1239,69 @@ class player_class{
 
         if(this.game_mode!="AscendedGost"){
             for(let x=Math.floor(this.x/block_size);x<Math.ceil((this.x+this.size_x)/block_size);x++){
-                            for(let y=Math.floor(this.y/block_size);y<Math.ceil((this.y+this.size_y)/block_size);y++){
-                                // change_block(x,y,"stone")
-                                // if()
-                                // if(Math.random()<.004){
-                                //     alert("F")
-                                //     alert(old_player.x)
-                                // }
+                for(let y=Math.floor(this.y/block_size);y<Math.ceil((this.y+this.size_y)/block_size);y++){
 
-                                if(get_property(block_list[x][y],"collision_box")){
-                                    if(this.y+this.size_y>(y)*block_size && this.old_y+this.size_y<=(y)*block_size){
-                                        this.y=((y)*block_size)-this.size_y
-
-                                        this.y_val=0
-                                        this.grouded=true
-
-                                        
-                                    }
-
-                                    if(this.y<((y)*block_size)+block_size && this.old_y>=((y)*block_size)+block_size){
-                                        this.y=((y)*block_size)+block_size 
-
-                                        this.y_val=0
-                                        // this.grouded=true
-
-                                        
-
-                                    }
+                    let collision_boxs
+                    if(get_block_from_index(x,y).name!=undefined){
+                        collision_boxs = get_property(get_block_from_index(x,y),"collision_box")
+                    }
+                    
+            
+                    if(typeof collision_boxs=="object"){
 
 
+                        collision_boxs.forEach(collision_box => {
 
+                            if(this.x+this.size_x>(x*block_size)+collision_box.x && this.x<(x*block_size)+(collision_box.x+collision_box.size_x)){
+                                if(this.y+this.size_y>(y*block_size)+collision_box.y && this.old_y+this.size_y<=(y*block_size)+collision_box.y){
+                                    this.y=((y*block_size)+collision_box.y)-this.size_y
+        
+                                    this.y_val=0
+                                    this.grouded=true
+        
+                                                
                                 }
-                                
+
+
+                                if(this.y<((y)*block_size)+(collision_box.y+collision_box.size_y) && this.old_y>=(y*block_size)+(collision_box.y+collision_box.size_y)){
+
+                                    this.y=((y)*block_size)+(collision_box.y+collision_box.size_y)
+        
+                                    this.y_val=0
+                        
+                                }                                
                             }
+
+
+
+                        });
+                        
+
+                    }
+                    else  if(collision_boxs!=false){
+
+                        if(this.y+this.size_y>(y)*block_size && this.old_y+this.size_y<=(y)*block_size){
+                            this.y=((y)*block_size)-this.size_y
+
+                            this.y_val=0
+                            this.grouded=true
+
+                                        
+                        }
+
+                        if(this.y<((y)*block_size)+block_size && this.old_y>=((y)*block_size)+block_size){
+
+                            this.y=((y)*block_size)+block_size 
+
+                            this.y_val=0
+                
+                        }
+                
+                    }
+                                
+                }
             }
-         }
+        }
 
     }
     set_old_pos(){

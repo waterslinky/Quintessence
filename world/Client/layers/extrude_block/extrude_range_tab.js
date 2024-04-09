@@ -366,6 +366,9 @@ extrude_layer_draw=function(){
             let line=[]
             for(let y=selected_extrude_block.y+lowest_offset_y-2;y<selected_extrude_block.y+most_offset_y+2;y++){
                 // console.log(x+" "+y)
+
+                alert("FIX")
+
                 line.push(block_list[x][y])
             }
             layer.push(line)

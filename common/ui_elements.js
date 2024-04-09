@@ -1,4 +1,5 @@
-// class base_element{
+
+            // class base_element{
 //     constructor(info){
 //         if(info.elements){
 //             this.elements=info.elements
@@ -341,8 +342,11 @@ class image extends align{
         this.cap_size_x=info.cap_size_x!=undefined ? info.cap_size_x : 100
         this.cap_size_y=info.cap_size_y!=undefined ? info.cap_size_y : 100
 
+        if(this.after_draw_func==undefined){[
+            this.after_draw_func = info.after_draw_func 
+        ]}
 
-        this.after_draw_func = info.after_draw_func || function(){} 
+        
         
         
         this.show=true
@@ -471,7 +475,10 @@ class image extends align{
 
         }
 
-        this.after_draw_func()
+        if(this.after_draw_func){
+            this.after_draw_func()
+        }
+        
 
     }
 
@@ -542,6 +549,8 @@ class button extends image {
         // }
 
         //DRAW
+
+
         
 
         // this.color=info.color
@@ -561,9 +570,9 @@ class button extends image {
         }
 
 
-        // if(info.on_clicked){
-        this.on_clicked = info.on_clicked != undefined ? info.on_clicked : undefined
-        // }
+        if(info.on_clicked){
+            this.on_clicked = info.on_clicked
+        }
 
         this.last_button_clicked=false
 
@@ -733,7 +742,6 @@ class button extends image {
                     
 
                     if(mouse_down && this.on_clicked){
-                        // alert("GRGRRG")
                         this.on_clicked() 
    
                         mouse_down=false
@@ -831,6 +839,83 @@ class button extends image {
         }
     }
 
+}
+
+class tabs{
+    constructor(info){
+
+        this.tabs = info.tabs || {}
+
+        
+        this.selected_tab = {"elements":[]}
+        this.elements = [this.selected_tab]
+
+        this.on_tab_selected = info.on_tab_selected || function(){}
+        this.on_tab_unselected = info.on_tab_unselected || function(){}
+        
+
+
+        if(info.buttons){
+            this.buttons = info.buttons
+            for(let button_name in this.buttons){
+                // alert(button_name)
+
+
+                let button = this.buttons[button_name]
+                if(info.starting_tab==button_name){
+                    this.on_tab_selected(button)
+                }
+                let old_clicked = button.on_clicked
+
+                button.parent = this
+                
+                
+
+                button.on_clicked = function(){
+                    for(let button_name in this.parent.buttons){
+                        let button = this.parent.buttons[button_name]
+
+                        if(button.selected_tab){
+                            button.selected_tab = false
+                            this.parent.on_tab_unselected(button)
+                        }
+                    }
+
+                    this.selected_tab = true
+                    this.parent.on_tab_selected(button)
+
+                    for(let button_name in this.parent.buttons){
+                        if(this.parent.buttons[button_name]===button){
+                            this.parent.set_tab(button_name)
+                        }
+                    }
+
+                    
+
+                    if(old_clicked){
+                        old_clicked()
+                    }
+                }
+                
+
+                this.elements.push(button)
+            }
+        }
+
+        
+        this.set_tab(info.starting_tab)
+
+        
+    }
+    set_tab(tab_name){
+
+        if(this.tabs[tab_name]){
+
+            replace_list_object(this.selected_tab.elements,[this.tabs[tab_name]])
+
+        }
+
+    }
 }
 
 
@@ -940,6 +1025,23 @@ class inventory_group{
     }
 }
 
+// function replace_diconary(base_diconary,diconary){
+
+//     for(let index in base_diconary){
+//         delete base_diconary[index]
+//     }
+
+
+//     Object.assign(base_diconary, diconary)
+
+// }
+
+function make_container(contents){
+    return {
+        "contents":contents
+    }
+}
+
 
 class Item_display extends button{
     constructor(info){
@@ -963,27 +1065,19 @@ class Item_display extends button{
 
         this.hover_func = function(){
             let item = this.slot.item
-          
-    
+
     
             if(item.name!="blank" && engin.cursor.image==undefined){
 
                 item_name_display.active=true
-                // item_name_display.x=mouse_x
-                // item_name_display.y=mouse_y-60
-                
-        
-                
-            
-                // console.log(this.type)
-                
-                // console.log(item.display_name)
+                  
                 if(get_property(item,"display_name") && this.type!="bar_slot"){
                     
                     if(typeof get_property(item,"display_name")=="object"){
                         item_name_display.text = get_property(item,"display_name")
                     }
                     else{
+                        // console.log(get_property(item,"display_name"))
                         item_name_display.text = [get_property(item,"display_name")]
                     }
 
@@ -1015,18 +1109,13 @@ class Item_display extends button{
                     
                     
                 }
-    
-                
-                // console.log("P")
                 
             }
-            // console.log(this.type)
             
             if((item.name=="blank" || !get_property(item,"display_name")) || this.type=="bar_slot" || player.inventory_hand.item.name!="blank" ){
-                    // item_name_display.text=this.inventory_parent[this.index].item.name
                     item_name_display.active=false
     
-                }
+            }
             
         }
     
@@ -1034,53 +1123,42 @@ class Item_display extends button{
     
             let item = this.slot.item
     
-            
     
             // alert("LLLL")
             if(this.type=="slot"){
      
-                
-                if(player.inventory_hand.item.name==this.slot.item.name){
+                if(player.inventory_hand.item.name==item.name){
 
-                    // alert(Entity_class.give_item(player.inventory_hand,[this.slot]))
+                    
                     player.inventory_hand.set_count(Entity_class.give_item(player.inventory_hand.item,[this.slot]))
     
                 }
                 else{
-                    let old_player_inventory_hand=copy(player.inventory_hand)
-                    let old_player_inventory_hand_count=player.inventory_hand.count
+                    let old_player_inventory_hand=copy(player.inventory_hand.item)
     
-                    player.inventory_hand.item=copy(item)
-                
-                    this.slot.item = old_player_inventory_hand.item
-    
-           
-                    player.inventory_hand.item.count=item.count
-                    item.count=old_player_inventory_hand_count                
+                    player.inventory_hand.item = item
+                    this.slot.item = old_player_inventory_hand
+               
                 }
     
     
             }
     
             if(this.type=="infinite_output"){
+                
                 if(player.inventory_hand.item.name!="blank"){
-                    player.inventory_hand.item=create_item("blank")
-                    player.inventory_hand.set_count(0)
-    
-                    
-    
-                    // this.inventory_parent[this.index].count+=player.inventory_hand.count
-                    // player.inventory_hand.count=1
+                    player.inventory_hand.item = create_item("blank")
+                 
     
                 }
                 else if(player.inventory_hand.item.name=="blank"){
-                    // let old_player_inventory_hand=copy(player.inventory_hand)
-                    // let old_player_inventory_hand_count=player.inventory_hand.count
+                    let item = this.inventory_parent[this.index].item
+
     
-                    player.inventory_hand.item=copy(this.inventory_parent[this.index].item)
+                    player.inventory_hand.item = copy(item)
                     // player.inventory_hand.count=64
           
-                    player.inventory_hand.set_count(get_property(player.inventory_hand.item,"stack_size"))
+                    player.inventory_hand.set_count(get_property(item,"stack_size"))
     
                     // this.inventory_parent[this.index].item=old_player_inventory_hand.item
     
@@ -1113,26 +1191,32 @@ class Item_display extends button{
             if(this.type=="slot"){
     
     
-                if(item.name!="blank"  && item.name!=player.inventory_hand.item.name && player.inventory_hand.item.name=="blank"){
-                    // console.log(1)
-                    player.inventory_hand.item=copy(item)
-                    player.inventory_hand.set_count(Math.ceil(item.count/2))
-                    slot.set_count(Math.floor(item.count/2))
+                if(player.inventory_hand.item.name=="blank"  && item.name!=player.inventory_hand.item.name){
+
+                    let count = item.count
+                    console.log(1)
+                    player.inventory_hand.item=create_item(slot.item)
+                    player.inventory_hand.set_count(Math.ceil(count/2))
+                    slot.set_count(Math.floor(count/2))
 
     
                 }
-                else if(player.inventory_hand.item.name!="blank" && (item.name==player.inventory_hand.item.name || item.name=="blank") ){
-                    // console.log(2)
+                else if((item.name==player.inventory_hand.item.name || item.name=="blank") ){
+                    
                     if(item.name=="blank" ){
-                        
-                        slot.item = copy(player.inventory_hand.item)
-                        slot.item.count = 0
+
+                        slot.item = create_item(player.inventory_hand.item)
+                        slot.set_count(0)
                         
                     }
+                    // else{
+ this.slot.give_count(1,player.inventory_hand)
+                    // }
+
                  
                     
-                    slot.give_count(1,player.inventory_hand)
-
+                   
+    
                 }
     
                 // alert("SPLIT")
@@ -1141,11 +1225,11 @@ class Item_display extends button{
             }
     
             if(this.type=="infinite_output"){
-    
+       
                 if(item.name!="blank" && player.inventory_hand.item.name=="blank"){
-    
-                    player.inventory_hand.item=copy(item)
-                    player.inventory_hand.set_count(Math.ceil(get_property(player.inventory_hand,"stack_size")/2))
+ 
+                    player.inventory_hand.item=create_item(item)
+                    player.inventory_hand.set_count(Math.ceil(get_property(item,"stack_size")/2))
                    
     
                 }
@@ -1196,6 +1280,7 @@ class Item_display extends button{
 
             this.image=get_property(item,"image")
 
+
             
             
             if(this.image==undefined){
@@ -1211,42 +1296,39 @@ class Item_display extends button{
 
             
 
-
-
-
-
-            
-
-
-
-
+            let image = this.image
 
             let y_raio=1
             let x_raio=1
 
 
-            if(typeof this.image.length!="undefined"){
-                y_raio=this.image[0].height/this.image[0].width
+
+            if(typeof this.image.cell_width!="undefined"){
+                image = this.image.image
             }
             else{
-                y_raio=this.image.height/this.image.width
-                if(y_raio>1){
-                    y_raio=1
-                    x_raio=this.image.width/this.image.height
-
+                if(typeof image.length!="undefined"){
+                    y_raio=image[0].height/image[0].width
                 }
-            }
+                else{
+                    y_raio=image.height/image.width
+                    if(y_raio>1){
+                        y_raio=1
+                        x_raio=image.width/image.height
 
+                    }
+                }            
+            }
             
             let size_x=(this.display_size_x*x_raio)
-            let size_y=(this.display_size_y*y_raio)
+            let size_y=(this.display_size_y*y_raio)   
 
             return [size_x , size_y]
         }
 
 
-        this.draw = function(){
-    
+        this.draw = function(draw_screen){
+            
             
     
             let [size_x,size_y] = this.calculate_size()
@@ -1285,7 +1367,8 @@ class Item_display extends button{
                         this.size_x,
                         this.size_y,
                         
-                        this.slot.item.count
+                        this.slot.item.count,
+                        draw_screen
                     )
                 }                
             }
@@ -1305,7 +1388,8 @@ class Item_display extends button{
                     this.size_x,
                     this.size_y,
                     
-                    this.slot.item.count
+                    this.slot.item.count,
+                    draw_screen
                 )
             }
 
@@ -1321,7 +1405,7 @@ class Item_display extends button{
 
 
     
-        this.update = super.update
+        // this.update = super.update
         
 
 
@@ -1330,32 +1414,36 @@ class Item_display extends button{
 
 
         this.find_pos()
-
+        if(this.slot){
+            this.calculate_size()
+        }
+        
 
 
 
     }
 
 
-    static draw_display_item(image,x,y,size_x,size_y,render_box,slote_x,slote_y,slote_size_x,slote_size_y,count){
-        draw_image(image,0,0,undefined,undefined,parseInt(x),parseInt(y),size_x,size_y,render_box);
+    static draw_display_item(image,x,y,size_x,size_y,render_box,slote_x,slote_y,slote_size_x,slote_size_y,count,draw_screen=screen){
+        draw_image(image,0,0,undefined,undefined,parseInt(x),parseInt(y),size_x,size_y,render_box,draw_screen);
+
 
 
                 
     
-        screen.fillStyle = "rgb(20, 150, 150)";
+        draw_screen.fillStyle = "rgb(20, 150, 150)";
 
-        screen.textAlign = "right";
-        screen.textBaseline="alphabetic"
+        draw_screen.textAlign = "right";
+        draw_screen.textBaseline="alphabetic"
         // screen.font = "bold "+this.display_size_y/1.7+"px serif";
         // console.log(this.display_size_y/1.7)
-        screen.font = "bold "+(50)+"px serif";
+        draw_screen.font = "bold "+(50)+"px serif";
 
 
     
             if(count>1){
                 
-                screen.fillText(count, slote_x+((slote_size_x*.9)),slote_y+((slote_size_y*.9)));
+                draw_screen.fillText(count, slote_x+((slote_size_x*.9)),slote_y+((slote_size_y*.9)));
 
             }
 
@@ -1379,7 +1467,7 @@ class inventory_slot_ui extends Item_display{
 
         this.Item_display_draw = this.draw
 
-        this.draw = function(){
+        this.draw = function(draw_screen = screen){
 
             
 
@@ -1388,14 +1476,14 @@ class inventory_slot_ui extends Item_display{
             // }
             if(this.type=="bar_slot" && this.slot_index.index==this.selected_index){
                 
-                draw_image(selected_slot_image,0,0,undefined,undefined,this.x,this.y,this.size_x,this.size_y,this.render_box)
+                draw_image(selected_slot_image,0,0,undefined,undefined,this.x,this.y,this.size_x,this.size_y,this.render_box,draw_screen)
             }
             else{
-                draw_image(this.default_image,0,0,undefined,undefined,this.x,this.y,this.size_x,this.size_y,this.render_box);
+                draw_image(this.default_image,0,0,undefined,undefined,this.x,this.y,this.size_x,this.size_y,this.render_box,draw_screen);
             }
 
      
-            this.Item_display_draw()
+            this.Item_display_draw(draw_screen)
 
            
         }
@@ -1652,7 +1740,7 @@ class text extends element_base{
 
         this.text_type=info.text_type!=undefined ? info.text_type : "all"
 
-
+   
 
         //Text
         this.text=info.text!=undefined ? info.text : ""
@@ -1743,7 +1831,11 @@ class text extends element_base{
 
                 "align":this.align ? this.align!=undefined : undefined,
                 "partner":{"text":this},
-                "on_clicked":info.on_clicked!=undefined ? info.on_clicked : function(){},
+                "on_clicked":function(){
+                    if(this.partner.text.on_clicked){
+                        this.partner.text.on_clicked()
+                    }
+                },
                 // "color":"255,10,10",
                 "update_func":function(){
 

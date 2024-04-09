@@ -58,7 +58,7 @@
     </div> -->
 
     <!-- Modules -->
-    
+    <script src="../common/canvas_functions.js"></script>
     <script src="../common/engin.js"></script>
     <script src="../common/noise.js"></script>
     <script src="../common/ui_elements.js"></script>
@@ -71,26 +71,37 @@
     <script src="Client/mod_stuff.js"></script>
 
 
+    <script src="Server/game_rules.js"></script>
+    <script src="Server/world_settings.js"></script>
+
 
 
 
     
 
 
-    <script src="Server/server/object_functions.js"></script>
+    <script src="Server/object_functions.js"></script>
 
 
     
     <!-- Setup -->
+    
+
     <script src="Client/canvas.js"></script>
     <script src="Client/setup.js"></script>  
     
     <script src="Client/inputs.js"></script>
 
 
+    <script src="Client/particle.js"></script>  
+
+
+
+
     <!-- Textures -->
     <script src="Client/textures/block_textures.js"></script>
     <script src="Client/textures/ui_textures.js"></script>
+    <script src="Client/textures/particals.js"></script>
     <script src="Client/textures/cursor_textures.js"></script>
     <script src="Client/textures/item_textures.js"></script>
     <script src="Client/textures/textures.js"></script>
@@ -105,6 +116,7 @@
     <script src="Client/layers/exit_layer.js"></script>
     <script src="Client/layers/settings_layer.js"></script>
     <script src="Client/layers/load_structure.js"></script>
+    <script src="Client/layers/stomach.js"></script>
 
     <!-- Crafting Table UI -->
     
@@ -116,18 +128,27 @@
     <script src="Client/layers/extrude_block/extrude_range_tab.js"></script>
 
     
-    <script src="Server/server/save_server.js"></script>
+    <script src="Server/save_server.js"></script>
     <script src="Client/save_client.js"></script>
     <script src="Client/save.js"></script>
     
     
     <script src="Client/layers/inventory/inventory.js"></script>
 
-    <!-- Crafting Table -->
-    <script src="Client/layers/crafting_table/crafting_table_elements.js"></script>
-    <script src="Client/layers/crafting_table/small_crafting_table.js"></script>   
-    <script src="Client/layers/crafting_table/crafting_table.js"></script>    
+    
+    <script src="Client/layers/elements/work_table.js"></script>
 
+    <!-- Small Crafting -->
+    <script src="Client/layers/small_crafting_table.js"></script>   
+
+
+    <!-- Crafting Table -->
+    <script src="Client/layers/crafting_table.js"></script>  
+    
+    <!-- Camp Fire -->
+    <script src="Client/layers/camp_fire.js"></script>  
+   
+    
     
 
      
@@ -139,22 +160,31 @@
 
 
     <script src="Client/multiplayer.js"></script>
-    <script src="Server/server/globle_emit_functions.js"></script>
+    <script src="Server/globle_emit_functions.js"></script>
 
+    <!-- Loot Table -->
+    <script src="Server/loot_tables/loot_table.js"></script>
+    <script src="Server/loot_tables/block_loot_tables.js"></script>
+    <script src="Server/loot_tables/item_loot_tables.js"></script>
 
     <!-- Setup World -->
     
-    <script src="Server/server/block.js"></script>
-    <script src="Server/server/items.js"></script>
+    <script src="Server/block.js"></script>
+    <script src="Server/items.js"></script>
 
-    <script src="Server/server/world/generation/world_parts.js"></script>  
-    <script src="Server/server/world/generation/structures.js"></script>  
+    
+
+    <script src="Server/world/generation/world_parts.js"></script>  
+    <script src="Server/world/generation/structures.js"></script>  
     
     <script src="Client/layers/inventory/accended_inventory.js"></script>
     <script src="Client/layers/inventory/survival_inventory.js"></script>
 
-    <script src="Server/server/world/generation/over_wold.js"></script>  
-    <script src="Server/server/setup_world.js"></script>
+    <script src="Server/world/generation/structure_rules.js"></script>  
+    <script src="Server/world/generation/over_wold.js"></script>  
+    <script src="Server/setup_world.js"></script>
+
+
 
 
     <!-- Setup Entities -->
@@ -170,10 +200,10 @@
 
     
 
-    <script src="Server/server/engin_server.js"></script>
+    <script src="Server/engin_server.js"></script>
     
     
-    <script src="Server/server/world_index.js"></script>
+    <script src="Server/world_index.js"></script>
 
 
 

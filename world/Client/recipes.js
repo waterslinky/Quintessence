@@ -235,6 +235,88 @@ recipes = [
             
     },
 
+    //dough
+    {
+
+            "ingredients" : [
+                {
+                    "x" : 0,
+                    "y" : 0,
+                    "item" : {
+                        "name" : "wheat"
+                    },
+                    "center" : true
+                }
+            ],
+    
+            "result" : [
+                {
+                    "item" : {
+                        "name" : "dough"
+                    },
+                    "x" : 0,
+                    "y" : 0
+                }
+            ]
+            
+    },
+
+    //bread
+    {
+        "requires" : ["camp_fire"],
+        "ingredients" : [
+            {
+                "x" : 0,
+                "y" : 0,
+                "item" : {
+                    "name" : "dough"
+                },
+                "center" : true
+            }
+        ],
+        "cook_time":7500,
+        "result" : [
+            {
+                "item" : {
+                    "name" : "bread"
+                },
+                "x" : 0,
+                "y" : 0
+            }
+        ]
+    },
+
+        //camp_fire
+        {
+            "ingredients" : [
+                {
+                    "x" : 0,
+                    "y" : 0,
+                    "item" : {
+                        "name" : "log"
+                    },
+                    "center" : true
+                },
+                {
+                    "x" : 0.5,
+                    "y" : 0,
+                    "item" : {
+                        "name" : "log"
+                    }
+                }
+            ],
+
+            "result" : [
+                {
+                    "item" : {
+                        "name" : "camp_fire"
+                    },
+                    "x" : 0.25,
+                    "y" : 0
+                }
+            ]
+        },
+
  
 
     //Bark Axe Head
@@ -356,6 +438,53 @@ recipes = [
         ]
         
     },
+
+        //Bark Hoe Head
+        {
+
+            "ingredients" : [
+                
+                {
+                    "x" : 0,
+                    "y" : 0,
+                    "depth":0,
+                    "center" : true,                
+                    "item" : {
+                        "name" : "bark"
+                    }
+                },
+                {
+                    "x" : .25,
+                    "y" : -.25,
+                    "depth":0,
+    
+                    "item" : {
+                        "name" : "bark"
+                    }
+                },
+                {
+                    "x" : .25,
+                    "y" : -.5,
+                    "depth":0,
+    
+                    "item" : {
+                        "name" : "bark"
+                    }
+                }
+    
+            ],
+    
+            "result" : [
+                {
+                    "item" : {
+                        "name" : "bark_hoe_head"
+                    },
+                    "x" : 0,
+                    "y" : 0
+                }
+            ]
+            
+        },
 
 
     //Bark Pickaxe Head

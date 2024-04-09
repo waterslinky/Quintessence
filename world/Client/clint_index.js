@@ -12,12 +12,12 @@ player=new player_class()
 
 //Load Save Data
 
-if(!multiplayer){
+// if(!multiplayer){
 
-    import_saved_client()
+//     import_saved_client()
 
     
-}
+// }
 
 
 players.push(player)

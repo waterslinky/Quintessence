@@ -223,7 +223,7 @@
 
 
 
-function random(number,seed_val) {
+function random(number,seed_val){
   var x = Math.sin(number*seed_val) * 10000;
   number++
   return x - Math.floor(x);
@@ -350,11 +350,15 @@ function noise_map(x_val,y_val,noise_settings){
   return fade_lerp(LerpTop,LerpBottom,y_percent)
 }
 
-function noise(x,y,effect_drop=.5,noise_settings){
+function noise(x,y,effect_drop,noise_settings){
 
   let value=0
   let frequency=0.008
   let effect=1
+
+  if(effect_drop==undefined){
+    effect_drop=0.5
+  }
 
   // let effect_drop=.5
 

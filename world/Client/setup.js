@@ -7,6 +7,8 @@ engin.cursor = new Cursor()
 
 
 function save_local(index,item){
+
+
     
     localStorage.setItem(index, JSON.stringify(
         item
@@ -86,7 +88,7 @@ show_blocks_drawn=false
 FPS=0
 FPS_times_draw=0
 FPS_ticks=0
-showFPS=false
+showFPS=true
 
 
 //Average Draw Time
@@ -189,9 +191,12 @@ show_tab_list=false
 camera_bounded=true
 world_cam=[0,0]
 block_size=32
+let chuck_size  = 20
+let render_distance = [0,0]
 
 //FOV SETTINGS
-FOV=localStorage.getItem("FOV") ? localStorage.getItem("FOV") : 1.25
+FOV = localStorage.getItem("FOV") ? localStorage.getItem("FOV") : 1.25
+
 
 function set_fov(fov){
     if(FOV!=fov){
@@ -199,11 +204,9 @@ function set_fov(fov){
         FOV=fov
     }
     
-
-    // console.log(FOV)
-    
-
     display_block_size=(block_size*FOV)
+
+    render_distance = [Math.ceil(((innerWidth/display_block_size)/chuck_size)/2),Math.ceil(((innerHeight/display_block_size)/chuck_size)/2)]
 }
 
 set_fov(FOV)
@@ -253,414 +256,6 @@ fly_par_tick=0
 
 
 
-
-
-class par{
-    constructor(x,y,time,color="0,0,255"){
-
-        this.color=color
-        this.change_color()
-
-
-
-        // if(engin.time_in_loop){
-        //     this.end_time_time=engin.time_in_loop+6000
-        // }
-        // else{
-        this.end_time_time=time
-        this.start_time=engin.time_in_loop
-        this.time_untill_fade=300
-
-
-        // }
-
-        // this.end_time_time=engin.time_in_loop+6000
-
-        
-
-        this.angle=(Math.PI*.5)+(Math.PI*Math.random())
-
-        this.angle=(Math.PI*.7)+((Math.PI-(Math.PI*.4))*Math.random())
-
-
-        this.grav=0.3
-        this.air_drag=0.08
-
-        this.x=x+((Math.random()*block_size)-(block_size/2))+(block_size/2)
-        // this.x=x+(block_size/2)
-        // this.y=y+(block_size/2)
-
-        this.y=y+((Math.random()*block_size)-(block_size/2))+(block_size/2)
-        // alert(((Math.random()*50)-25))
-        // if(this.angle>Math.PI*1.5 && this.angle>Math.PI/2 ){
-        // if(this.angle<Math.PI/2 ){
-        // low of Math.PI*.5
-        // hight of Math.PI*1.5
-
-        // Math.PI*.5+(Math.PI*Math.random())
-
-
-        // if(this.angle>Math.PI*1.5 || this.angle<Math.PI*.5 ){
-
-
-        //     // this.angle=Math.PI
-
-        //     this.y=10000
-        // }
-
-
-        this.speed=2
-
-        // let mult=Math.random()*7
-        let mult=(6-(Math.random()*3))/2
-
-
-        this.val_x=Math.sin(this.angle)*mult
-        // this.val_y=((Math.cos(this.angle))*mult)-3
-        this.val_y=((Math.cos(this.angle))*mult)-1
-
-
-        // this.whight=(Math.random()/4)+.5
-        this.whight=.7+(Math.random()/8)
-    }
-    change_color(color=this.color){
-        this.color=color
-    
-        this.image = colorscale(white_particle,this.color)
-
-        // console.log("CHNAGE")
-    }
-    draw(){
-
-        screen.save()
-
-        if(this.time_untill_fade){
-            
-            if(this.start_time+this.time_untill_fade<engin.time_in_loop){
-                
-                this.start_time=engin.time_in_loop-(engin.time_in_loop-(this.start_time+this.time_untill_fade))
-                this.time_untill_fade=false
-                // console.log("DO NOT")
-            }
-        }
-
-        else{
-            let alpha=1-((engin.time_in_loop-this.start_time)/(this.end_time_time-this.start_time))
-            screen.globalAlpha = alpha
-        }
-        // this.start_time=engin.time_in_loop
-
-        
-        
-        // this.percent_untill_fade
-
-        
-        console.log()
-
-        screen.drawImage(this.image, ((this.x*FOV)-player.cam[0])-(6*FOV),  ((this.y*FOV)-player.cam[1])-(6*FOV), 12*FOV,12*FOV);
-
-        screen.restore()
-
-    }
-    update(){
-        
-        this.val_y+=this.grav*this.whight
-
-        if(this.val_x<0){
-            this.val_x+=this.air_drag
-            if(this.val_x>0){
-                this.val_x=0
-    
-                }   
-        }
-        if(this.val_x>0){
-            this.val_x-=this.air_drag
-            if(this.val_x<0){
-            this.val_x=0
-
-            }   
-        }
-
-
-
-
-
-
-       this.val_y+=this.grav*this.whight
-
-        if(this.val_x<0){
-            this.val_x+=this.air_drag
-            if(this.val_x>0){
-                this.val_x=0
-    
-                }   
-        }
-        if(this.val_x>0){
-            this.val_x-=this.air_drag
-            if(this.val_x<0){
-            this.val_x=0
-
-            }   
-        }
-
-
-
-        this.x+=this.val_x*3
-        this.y+=this.val_y*3
-    }
-}
-
-class particle_link{
-    constructor(info){
-        this.link=info.link
-    }
-    draw(){
-        if(this.link.particle){
-            if(this.link.particle.draw){
-                this.link.particle.draw()
-            }
-        }
-        
-        
- 
-
-    }
-    update(){
-        if(this.link.particle ){
-            if(this.link.particle.update){
-                this.link.particle.update()
-            }
-            
-        }
-        else{
-            this.end_time_time=0
-        }
-
-        
-    }
-}
-class particle_emitter{
-    constructor(info){
-        this.particle=info.particle
-
-        this.emiter_timer=120 // || function(){ return 100+(Math.random()*10) }
-
-        this.spawn_next_particle_after=engin.time_in_loop+this.emiter_timer
-
-  
-
-        if(info.parent){
-            this.parent=info.parent
-            this.x=this.parent.x+(this.parent.size_x/2)
-            this.y=this.parent.y+(this.parent.size_y/2)
-            //Parent Must have a X and a Y
-        }
-        else{
-            this.x=info.x
-            this.y=info.y
-        }
-
-    }
-    update(){
-        // console.log("set to par")
-
-        if(this.parent){
-            this.x=this.parent.x+(this.parent.size_x/2)
-            this.y=this.parent.y+(this.parent.size_y/2)
-            //Parent Must have a X and a Y
-        }
-
-        while(this.spawn_next_particle_after<=engin.time_in_loop){
-            this.spawn_next_particle_after=engin.time_in_loop+this.emiter_timer
-            particles.push(new this.particle(
-                this.x,this.y,
-                engin.time_in_loop+700+(Math.random()*400),
-                "181, 255, 250",
-                Math.PI*(Math.random()*2)
-
-            ))
-            // console.log("EMIT PART")
-        }
-        // if(this.)
-
-
-    }
-
-}
-
-
-
-class base_link{
-    constructor(info){
-        this.particle=info.particle
-    }
-}
-
-
-
-
-class fly_par{
-    constructor(x,y,time,color="0,0,255",angle){
-
-        this.color=color ? color : undefined
-        this.change_color()
-
-        this.size=20
-
-        
-
-
-
-        // if(engin.time_in_loop){
-        //     this.end_time_time=engin.time_in_loop+6000
-        // }
-        // else{
-        this.end_time_time=time
-        this.start_time=engin.time_in_loop
-        this.time_untill_fade=500
-
-
-        // }
-
-        // this.end_time_time=engin.time_in_loop+6000
-
-        
-
-        // this.angle=(Math.PI*.5)+(Math.PI*Math.random())
-
-        let rang=.4
-
-        this.angle=(angle+(Math.PI*(rang/2)))-((Math.PI-(Math.PI*rang))*Math.random())
-
-        // this.angle=(angle)
-
-
-        this.grav=0.3
-        this.air_drag=0.08
-
-        this.x=x
-        // this.x=x+(block_size/2)
-        // this.y=y+(block_size/2)
-
-        this.y=y
-        // alert(((Math.random()*50)-25))
-        // if(this.angle>Math.PI*1.5 && this.angle>Math.PI/2 ){
-        // if(this.angle<Math.PI/2 ){
-        // low of Math.PI*.5
-        // hight of Math.PI*1.5
-
-        // Math.PI*.5+(Math.PI*Math.random())
-
-
-        // if(this.angle>Math.PI*1.5 || this.angle<Math.PI*.5 ){
-
-
-        //     // this.angle=Math.PI
-
-        //     this.y=10000
-        // }
-
-
-        this.speed=2
-
-        // let mult=Math.random()*7
-        let mult=(6-(Math.random()*3))/5
-
-
-        this.val_x=Math.sin(this.angle)*mult
-        // this.val_y=((Math.cos(this.angle))*mult)-3
-        this.val_y=((Math.cos(this.angle))*mult)
-
-
-        // this.whight=(Math.random()/4)+.5
-        this.whight=.7+(Math.random()/8)
-    }
-    change_color(color=this.color){
-        this.color=color
-    
-        this.image = colorscale(white_particle,this.color)
-
-        // console.log("CHNAGE")
-    }
-    draw(){
-
-        screen.save()
-
-        if(this.time_untill_fade){
-            
-            if(this.start_time+this.time_untill_fade<engin.time_in_loop){
-                
-                this.start_time=engin.time_in_loop-(engin.time_in_loop-(this.start_time+this.time_untill_fade))
-                this.time_untill_fade=false
-                // console.log("DO NOT")
-            }
-        }
-
-        else{
-            let alpha=1-((engin.time_in_loop-this.start_time)/(this.end_time_time-this.start_time))
-            screen.globalAlpha = alpha
-        }
-        // this.start_time=engin.time_in_loop
-
-        
-        
-        // this.percent_untill_fade
-
-        
-        console.log()
-
-        screen.drawImage(this.image, ((this.x*FOV)-player.cam[0])-((this.size/2)*FOV),  ((this.y*FOV)-player.cam[1])-((this.size/2)*FOV), this.size*FOV,this.size*FOV);
-
-        screen.restore()
-
-    }
-    update(){
-        
-        // this.val_y+=this.grav*this.whight
-
-        // if(this.val_x<0){
-        //     this.val_x+=this.air_drag
-        //     if(this.val_x>0){
-        //         this.val_x=0
-    
-        //         }   
-        // }
-        // if(this.val_x>0){
-        //     this.val_x-=this.air_drag
-        //     if(this.val_x<0){
-        //     this.val_x=0
-
-        //     }   
-        // }
-
-
-
-
-
-
-    //    this.val_y+=this.grav*this.whight
-
-    //     if(this.val_x<0){
-    //         this.val_x+=this.air_drag
-    //         if(this.val_x>0){
-    //             this.val_x=0
-    
-    //             }   
-    //     }
-    //     if(this.val_x>0){
-    //         this.val_x-=this.air_drag
-    //         if(this.val_x<0){
-    //         this.val_x=0
-
-    //         }   
-    //     }
-
-
-
-        this.x+=this.val_x*3
-        this.y+=this.val_y*3
-    }
-}
 
 
 //Draw loadingg screen

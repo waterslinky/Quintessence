@@ -23,9 +23,6 @@ accended_inventory_elements=new image({
         "elements":[]
 })
 
-
-// inventory_elements=new group()
-
 var accended_inventory_slidder=true
 
 accended_inventory_layer={
@@ -84,6 +81,7 @@ function redo_accended_blocks(search_text = "",category){
 
     for(const block_name in blocks_and_items){
         let new_block = create_item(blocks_and_items[block_name].name)
+        // console.log(new_block)
         if(!get_property(new_block,"hiden_in_accended")){ 
             let display_name
                 
@@ -95,7 +93,7 @@ function redo_accended_blocks(search_text = "",category){
                 display_name = get_property(new_block,"display_name")
             }    
                 
-            if(display_name.toLowerCase().startsWith(search_text.toLowerCase()) && (category==undefined || get_property(new_block,"category") == category)){
+            if((display_name.toLowerCase().startsWith(search_text.toLowerCase()) || display_name.toLowerCase().includes(search_text.toLowerCase())) && (category==undefined || get_property(new_block,"category") == category) && get_property(new_block,"in_accended_inventory")!=false){
 
                 accended_blocks_list.push(new inventory_slot(new_block))
 
@@ -152,6 +150,12 @@ class inventory_slot{
 
     give_count(count,from=undefined){
 
+        if(this.item.name=="blank"){
+            this.item = create_item(from.item)
+            this.item.count=0
+            
+        }
+
         let extra=this.set_count(this.item.count+count)
 
 
@@ -177,17 +181,8 @@ class inventory_slot{
 }
 
 
-    
-    // for (let block in blocks) {
-    //     let new_block=get_block(block)
-    //     if(!new_block.hiden_in_accended){
-    //         accended_blocks_list.push(new inventory_slot(new_block))
-    //     }
-        
-    // };
 
-
-    let accended_tabs_index={"index":2}
+let accended_tabs_index={"index":2}
 window.onload = function(){
     let accended_tabs=[new inventory_slot(create_item("grass")),new inventory_slot(create_item("stone")),new inventory_slot(create_item("magnifying_glass"))]
 

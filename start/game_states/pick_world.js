@@ -148,10 +148,11 @@ function on_mod_directory_opened(file_tree){
             let index = 0
             
             mod_selector_list_elements.forEach(element => {
+                
                 if(element == this.partner.text){
                     // alert("G"+index)
          
-                    
+                    // console.log(element.text,this.partner.text)
                     
                     if(this.partner.text.text_object.color=="200,60,60"){
                         this.partner.text.text_object.color = "60,200,60"
@@ -186,11 +187,21 @@ function on_mod_directory_opened(file_tree){
 
     selected_mods = JSON.parse(localStorage.getItem("selected_mod_list_slot"+selected_world_index))
 
+    if(selected_mods==null){
+        selected_mods = []
+    }
+
+    alert(selected_mods)
+
     for(const mod in file_tree){
         let info = copy(default_info)
 
+        info.partner = {text:mod}
         info.text = mod
+
         info.y = y
+
+        
         
 
 
@@ -199,9 +210,11 @@ function on_mod_directory_opened(file_tree){
             info.color = "60,200,60"
 
         }
-     
 
-        mod_selector_list_elements.push(new text(info))
+        let p = new text(info)
+        p.partner = {text:p}
+        
+        mod_selector_list_elements.push(p)
 
         y+=35
 
@@ -277,21 +290,7 @@ let open_mod_directory_icon_3 = new button({
     "align":"center"
 })
 
-let open_mod_list = new button({
-    "x":(innerWidth/2)+1085,
-    "y":(innerHeight/2)+560,
-    "size_x":400,
-    "size_y":150,
-    "on_clicked":function(){
-        console.log("open mod list"),
 
-        engin.change_selected_layer(["open_mod_list"],"set")
-        
-
-    },
-    "image":mod_list_image,
-    "align":"center"
-})
 
 let selected_world_index
 let mod_list
@@ -328,10 +327,7 @@ pick_world_elements=[
             //Open Mod Directory
             open_mod_directory_icon_1,
             open_mod_directory_icon_2,
-            open_mod_directory_icon_3,
-
-            //Mod list
-            open_mod_list
+            open_mod_directory_icon_3
 
 
            

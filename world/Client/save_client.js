@@ -22,10 +22,13 @@ function import_saved_client(){
             player[trait]=player_invenroy[trait]
             
         })
+
+        console.log(player_invenroy)
         
 
 
         
     }
+    console.error("g")
     player.reset_inventory()
 }

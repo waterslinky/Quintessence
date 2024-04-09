@@ -431,7 +431,7 @@ class engin_class{
 
 
 
-            this.time_in_loop=this.current_time-this.all_time
+            
 
             if(this.layers_stack){
 

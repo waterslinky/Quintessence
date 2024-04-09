@@ -22,7 +22,10 @@ function reload_block_texters(){
     load_as_image("inventory_image",'inventory_ui.png')
 
     
-    load_as_image("dirt_image",'blocks/dirt/dirt',[1,10,5,5])
+    load_as_image("dirt_image",'blocks/dirt/dirt',[10,1,5,5])
+    
+    load_as_image("soil_image",'blocks/soil/soil',[10,1,5,5])
+
 
     load_as_image("striped_log_image",'blocks/striped_log.png')
 
@@ -35,8 +38,26 @@ function reload_block_texters(){
     load_as_image("mostly_striped_log_image",'blocks/mostly_striped_log/mostly_striped_log',[1,1,1])
 
 
-
     
+
+    load_as_image("wheat_crop1_image",'blocks/wheat_crop/stages/wheat_crop1.png')
+    load_as_image("wheat_crop2_image",'blocks/wheat_crop/stages/wheat_crop2.png')
+    load_as_image("wheat_crop3_image",'blocks/wheat_crop/stages/wheat_crop3.png')
+    load_as_image("wheat_crop4_image",'blocks/wheat_crop/stages/wheat_crop4.png')
+
+    load_as_image("wheat_crop_bottom1_image",'blocks/wheat_crop/bottom/wheat_crop_bottom1.png')
+    load_as_image("wheat_crop_bottom2_image",'blocks/wheat_crop/bottom/wheat_crop_bottom2.png')
+    load_as_image("wheat_crop_bottom3_image",'blocks/wheat_crop/bottom/wheat_crop_bottom3.png')
+    load_as_image("wheat_crop_bottom4_image",'blocks/wheat_crop/bottom/wheat_crop_bottom4.png')
+
+    load_as_image("wheat_crop4_top_image",'blocks/wheat_crop/top/wheat_crop_top4.png')
+
+
+    load_as_animation("camp_fire_image",'blocks/camp_fire-Sheet',16,800,[1])
+
+
+
+
 
 
 
@@ -64,6 +85,8 @@ function reload_block_texters(){
 
 
     load_as_image("stone_image",'blocks/stone/stone',[1,1,1])
+
+    
 
     load_as_image("crafting_table_left_image",'blocks/crafting_table/crafting_table_left.png')
     load_as_image("crafting_table_top_image",'blocks/crafting_table/crafting_table_top.png')
@@ -93,7 +116,9 @@ function reload_block_texters(){
 
 
 
-    load_as_image("grass_image",'blocks/grass/grass',[1,10,5,5])
+    load_as_image("grass_image",'blocks/grass/grass',[10,1,5,5])
+    load_as_image("snowy_grass_image",'blocks/snowy_grass/snowy_grass',[10,1,5,5])
+
 
 
     load_as_image("plank_image",'blocks/plank.png')
