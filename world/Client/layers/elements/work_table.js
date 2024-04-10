@@ -949,7 +949,8 @@ class work_table_ui extends table_ui{
 
 
                 // console.log("REMOVE")
-                this.remove_item(i)    
+                // this.remove_item(i)    
+                this.items.splice(i,1)
 
 
 

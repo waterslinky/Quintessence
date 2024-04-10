@@ -2682,7 +2682,7 @@ class slidder{
 
         this.line_width = typeof exta.line_width!="undefined" ?  exta.line_width : 0
 
-
+        
 
         this.point_size = typeof exta.point_size!="undefined" ? exta.point_size : undefined
 
