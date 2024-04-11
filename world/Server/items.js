@@ -667,7 +667,7 @@ items={
 }
 
 
-function type_item(item){
+function item_type(item){
     if(typeof item=="object" ? items[item.name] : items[item]){
         return "item"
     }
