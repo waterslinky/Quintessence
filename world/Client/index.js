@@ -87,6 +87,8 @@ function world_keys(){
 
     if(KeysDown["w"] || KeysDown[" "] || KeysDown["W"]){
         // console.log("WW"+player.game_mode)
+        
+
 
 
         if((player.game_mode=="Ascended" || player.game_mode=="AscendedGost") && player.flying){
@@ -95,18 +97,12 @@ function world_keys(){
             ApplyVelocityWhenNotMax(player,[0,-13*player.AirWalkMultiplier])
 
         }
-        // if(player.game_mode=="Servival"){
-        //     if(player.grouded){
-        //         player.y_val-=13
-
-        //     }
-        // }
 
         if(!player.flying){
-                    if(player.grouded){
-            player.y_val-=18
-
-        }
+            if(player.grouded){
+                player.y_val-=18
+                player.take_hunger(hunger_values.jump)
+            }
         }
 
 
@@ -114,7 +110,11 @@ function world_keys(){
 
     }
     if(KeysDown["a"] || KeysDown["A"]){
+
+        player.take_hunger(hunger_values.walk)
+
         if(player.grouded){
+
             ApplyVelocityWhenNotMax(player,[-9,0])
 
         }
@@ -126,6 +126,9 @@ function world_keys(){
 
     }
     if(KeysDown["d"] || KeysDown["D"]){
+        
+        player.take_hunger(hunger_values.walk)
+
         if(player.grouded){
             ApplyVelocityWhenNotMax(player,[9*player.AirWalkMultiplier,0])
 

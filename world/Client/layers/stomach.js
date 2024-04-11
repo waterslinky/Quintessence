@@ -42,13 +42,13 @@ let stomach = new image({
                 
         
 
-                this.temp_clip_screen.fillStyle = "rgb(100,0,0)"
+                this.temp_clip_screen.fillStyle = "rgb(100,0,0)" 
 
                 
-                let y = (((player.hungry/player.max_hungry)*this.display_size_y)*-1)-((noise(i*10,(engin.time_in_loop/50),0.5,{"seed":1000,"oct":1})*50)-25)
+                let y = (((player.hunger/player.max_hunger)*this.display_size_y)*-1)-((noise(i*10,(engin.time_in_loop/50),0.5,{"seed":1000,"oct":1})*50)-25)
 
                 this.temp_clip_screen.fillRect(last_x, (this.display_size_y), Math.round(pixle_width), y); 
-                // console.log(last_x, (this.display_size_y), pixle_width, (((player.hungry/player.max_hungry)*this.display_size_y)*-1)-((noise(i*10,(engin.time_in_loop/50),0.5,{"seed":1000,"oct":1})*50)-50))
+                // console.log(last_x, (this.display_size_y), pixle_width, (((player.hunger/player.max_hunger)*this.display_size_y)*-1)-((noise(i*10,(engin.time_in_loop/50),0.5,{"seed":1000,"oct":1})*50)-50))
                 last_x += Math.round(pixle_width)
                 // this.clip_screen.drawImage(this.temp_clip_canvas,0,0)
 
@@ -67,7 +67,7 @@ let stomach = new image({
 
             this.clip_screen.restore()
 
-screen.drawImage(this.clip_canvas,this.x,this.y)
+            screen.drawImage(this.clip_canvas,this.x,this.y)
 
 
 
@@ -80,16 +80,19 @@ screen.drawImage(this.clip_canvas,this.x,this.y)
                 
 
 
-                let y = (((player.hungry/player.max_hungry)*this.display_size_y)*-1)-((noise(i*10,(engin.time_in_loop/50),0.5,{"seed":1000,"oct":1})*50)-25)+this.display_size_y
+                let y = (((player.hunger/player.max_hunger)*this.display_size_y)*-1)-((noise(i*10,(engin.time_in_loop/50),0.5,{"seed":1000,"oct":1})*50)-25)+this.display_size_y
 
-                this.temp_clip_screen.beginPath();
-                this.temp_clip_screen.lineWidth = 7.5
-                this.temp_clip_screen.strokeStyle = "red"
-                // console.log(this.x+last_x, this.y+y,this.x+last_x+Math.round(pixle_width), this.y+y)
-                this.temp_clip_screen.moveTo(Math.round(pixle_width*i), y);
-                this.temp_clip_screen.lineTo(Math.round(pixle_width*(i+1)), y);
-                this.temp_clip_screen.stroke();
-                
+                // this.temp_clip_screen.beginPath();
+                // this.temp_clip_screen.lineWidth = 7.5
+                // this.temp_clip_screen.strokeStyle = "red"
+                // // console.log(this.x+last_x, this.y+y,this.x+last_x+Math.round(pixle_width), this.y+y)
+                // this.temp_clip_screen.moveTo(Math.round(pixle_width*i), y);
+                // this.temp_clip_screen.lineTo(Math.round(pixle_width*(i+1)), y);
+                // this.temp_clip_screen.stroke();
+
+                this.temp_clip_screen.fillStyle = "red"
+
+                this.temp_clip_screen.fillRect(Math.round(pixle_width*i), y,Math.ceil(pixle_width),Math.ceil(pixle_width)/2)
             }
 
 

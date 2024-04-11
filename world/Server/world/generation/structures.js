@@ -31,6 +31,24 @@ let tree = [[
     }
 ]]
 
+const red_mushroom_structure = [[
+    {
+        "name":"red_mushroom"
+    }
+]]
+
+const green_mushroom_structure = [[
+    {
+        "name":"green_mushroom"
+    }
+]]
+
+const blue_mushroom_structure = [[
+    {
+        "name":"blue_mushroom"
+    }
+]]
+
 let short_grass = [[
     {
         "name":"grass_block"
@@ -53,12 +71,17 @@ let tall_grass = [[
 
 
 
+
+
 default_structures={
     "old_temple":old_temple,
     "tree":tree,
     "tree_top":tree_top,
     "short_grass":short_grass,
-    "tall_grass":tall_grass
+    "tall_grass":tall_grass,
+    "red_mushroom":red_mushroom_structure,
+    "green_mushroom":green_mushroom_structure,
+    "blue_mushroom":blue_mushroom_structure
 }
 
 

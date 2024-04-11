@@ -544,9 +544,9 @@ class player_class{
             
         }
 
-        this.hungry=19
-        this.max_hungry=20
-
+        this.hunger=19
+        this.max_hunger=20
+        
 
 
 
@@ -665,27 +665,27 @@ class player_class{
 
     }
 
-    take_hungar(hungry_pionts){
+    take_hunger(hunger_pionts){
 
-        this.hungry-=hungry_pionts
+        this.hunger-=hunger_pionts
 
-        if(this.hungry<0){
+        if(this.hunger<0){
 
-            this.hungry=0
+            this.hunger=0
 
             damage_heart(1)
 
         }
        
     }
+    
+    give_hunger(hunger_pionts){
 
-    give_hungar(hungry_pionts){
+        this.hunger+=hunger_pionts
 
-        this.hungry+=hungry_pionts
+        if(this.hunger>this.max_hunger){
 
-        if(this.hungry>this.max_hungry){
-
-            this.hungry=this.max_hungry
+            this.hunger=this.max_hunger
             
 
         }

@@ -307,6 +307,7 @@ class table_ui extends button{
 
             let correct_table = false
             
+           
             if(recipe.requires==undefined){
                 correct_table = true
             }
@@ -915,12 +916,14 @@ class work_table_ui extends table_ui{
         parent_reciple.recipe.result.forEach(result_item => {
             
 
+            // console.log(result_item)
             if(result_item.tool){
                 let parts = {}
 
 
                 parent_reciple.items_in_recipe.forEach(recipe_item2 => {
-                    parts[recipe_item2.item.item.tool_part.part] = recipe_item2
+                    // console.log(recipe_item2)
+                    parts[get_property(recipe_item2,"tool_part").part] = recipe_item2
                 });
 
 
@@ -931,7 +934,7 @@ class work_table_ui extends table_ui{
 
             }
             else{
-                // console.log(create_item(result_item.item.name),result_x+(result_item.x*crafting_table_item_size),result_y+(result_item.y*crafting_table_item_size))
+                // console.log(result_item.item.name)
                 this.add_item(
                     create_item(result_item.item.name),
                     result_x+(result_item.x*crafting_table_item_size),result_y+(result_item.y*crafting_table_item_size)
@@ -944,12 +947,12 @@ class work_table_ui extends table_ui{
         for(let i=this.items.length-1;i>=0;i--){
             let item_display = this.items[i]
 
-            // console.log(item_display.parent_reciple,parent_reciple)
             if(item_display.parent_reciple == parent_reciple){
 
 
                 // console.log("REMOVE")
-                this.remove_item(i)    
+                this.items.splice(i,1)
+                // this.remove_item(i)    
 
 
 
@@ -998,7 +1001,7 @@ class work_table_ui extends table_ui{
 class crafting_table_ui extends work_table_ui{
     constructor(info){
 
-        info.table_types = ["crafting_table"]
+        info.table_types = info.table_types
 
         super(info)
 

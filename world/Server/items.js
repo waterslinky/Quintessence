@@ -252,7 +252,7 @@ const bread = {
 
     on_used:function(){
 
-        player.give_hungar(10)
+        player.give_hunger(10)
 
         return true
 
@@ -443,6 +443,48 @@ const axe = {
     tool_type:"axe",
 
     main_part:"axe_head"
+}
+
+const knife = {
+    
+    //Tool temp
+    template_function:[tool_template],
+
+    "parts":{
+        "knife_head":"bark_knife_head",
+        "scales":"half_stick"
+    },
+
+    name:"knife",
+
+    stack_size:1,
+
+    part_order:["scales","knife_head"],
+
+    tool_type:"knife",
+
+    main_part:"knife_head"
+}
+
+const pickaxe = {
+    
+    //Tool temp
+    template_function:[tool_template],
+
+    "parts":{
+        "pickaxe_head":"bark_pickaxe_head",
+        "handle":"stick"
+    },
+
+    name:"pickaxe",
+
+    stack_size:1,
+
+    part_order:["handle","pickaxe_head"],
+
+    tool_type:"pickaxe",
+
+    main_part:"pickaxe_head"
 }
 
 
@@ -654,10 +696,13 @@ items={
     "half_stick":half_stick,
     "bark_knife_head":bark_knife_head,
     "bark_hoe_head":bark_hoe_head,
+    "bark_pickaxe_head":bark_pickaxe_head,
 
 
     "axe":axe,
+    "knife":knife,
     "hoe":hoe,
+    "pickaxe":pickaxe,
     "wheat":wheat,
     "wheat_seed":wheat_seed,
     "dough":dough,
@@ -667,7 +712,7 @@ items={
 }
 
 
-function type_item(item){
+function item_type(item){
     if(typeof item=="object" ? items[item.name] : items[item]){
         return "item"
     }

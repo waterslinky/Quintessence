@@ -456,7 +456,7 @@ recipes = [
                 {
                     "x" : .25,
                     "y" : -.25,
-                    "depth":0,
+                    "depth":1,
     
                     "item" : {
                         "name" : "bark"
@@ -465,7 +465,7 @@ recipes = [
                 {
                     "x" : .25,
                     "y" : -.5,
-                    "depth":0,
+                    "depth":2,
     
                     "item" : {
                         "name" : "bark"
@@ -477,7 +477,7 @@ recipes = [
             "result" : [
                 {
                     "item" : {
-                        "name" : "bark_hoe_head"
+                        "name" : "bark_axe_head"
                     },
                     "x" : 0,
                     "y" : 0
@@ -561,7 +561,7 @@ recipes = [
             "result" : [
                 {
                     "item" : {
-                        "name" : "bark_axe_head"
+                        "name" : "bark_hoe_head"
                     },
                     "x" : 0,
                     "y" : 0
@@ -669,6 +669,40 @@ recipes = [
             ]
                 
     },
+
+    //Hoe
+    {
+            "requires" : ["crafting_table"],
+            "ingredients" : [
+                    
+                    {
+                        "x" : 0,
+                        "y" : 0,
+                        "depth":0,
+                        "center" : true,
+                        "part_type" : "handle"
+                    },
+                    {
+                        "x" : .20,
+                        "y" : -.20,
+                        "depth":1,
+                        "part_type" : "hoe_head"
+                    }
+        
+            ],
+        
+            "result" : [
+                    {
+                        "tool" : "hoe",
+
+                        "x" : 0,
+                        "y" : 0
+                        
+                    }
+            ]
+                
+    },
+
 
     //Crafting Table
     {

@@ -1051,11 +1051,11 @@ function clint_update(){
     if(hunger_end_timer<=engin.time_in_loop){
         hunger_end_timer=engin.time_in_loop+hunger_time
 
-        if(player.hungry>=15){
+        if(player.hunger>=15){
             heal_heart(1)
         }
 
-        player.take_hungar(1)
+        // player.take_hunger(1)
     }
 
 
@@ -1204,6 +1204,7 @@ function clint_update(){
                 let same_block=false
 
                 if(player.block_brocking){
+                    player.take_hunger(hunger_values.breaking_block)
                     let break_block_hit_box_index=get_property(get_block_from_index(player.block_brocking[0],player.block_brocking[1]),"hit_box_index") 
                     let world_mouse_hit_box_index=get_property(get_block_from_index(world_mouse_x,world_mouse_y))
 

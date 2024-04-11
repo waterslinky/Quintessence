@@ -24,6 +24,8 @@ crafting_table_elements=new align({
             "size_x": (96/16)*slot_size,
             "size_y":(51/16)*slot_size,
 
+            "table_types":["crafting_table"],
+
             "hover_brightness":0,
             "groups":["ui"],
             "elements":[]

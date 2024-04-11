@@ -1090,7 +1090,7 @@ const blue_mushroom = {
     on_used:function(){
         blue_mushroom_function()
 
-        player.give_hungar(6)
+        player.give_hunger(6)
     },
             
     has_knowledge:true,
@@ -1136,7 +1136,7 @@ const red_mushroom = {
         on_used:function(){
                 red_mushroom_function()
 
-                player.give_hungar(6)
+                player.give_hunger(6)
         },
 
         name:"red_mushroom",
@@ -1165,7 +1165,7 @@ const green_mushroom = {
     on_used:function(){
         green_mushroom_function() 
         
-        player.give_hungar(6)
+        player.give_hunger(6)
 
         
     },

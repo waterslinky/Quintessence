@@ -99,7 +99,7 @@ function poison_mushroom(){
 function saturation_mushroom(){
     // player.add_effect("poison",5000)
 
-    player.give_hungar(3)
+    player.give_hunger(3)
 
     for(let mushroom_index=0;mushroom_index<all_mushrooms_effects.length;mushroom_index++){
         mushroom=all_mushrooms_effects[mushroom_index]
@@ -140,7 +140,7 @@ function new_world(){
 
 
     world_setting.world_size=[10,5]
-    world_setting.seed = 473
+    world_setting.seed = Math.floor(Math.random()*1000)
 
     //GOOD SEED 849
 

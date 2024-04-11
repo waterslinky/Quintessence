@@ -50,6 +50,78 @@ let generation_structures_rules = [
     {
 
         "type" : "surface",
+        "blocks" : structures["red_mushroom"],
+        "only_noise_x" : true,
+        "multiplier_x" : 5,
+
+        "noise_setting" : {
+            "seed_multiplier":1,
+            "oct":1
+        },
+        "max_chucks" : [1,2],
+        "offset_x" : 0,
+        "offset_y" : 1,
+
+        "noise_range" : [0.6,0.8],
+
+        "random_number_seed_multiplier" : 1,
+        "random_number_range" : [0.5,1]
+
+
+
+    },
+
+    
+    {
+
+        "type" : "surface",
+        "blocks" : structures["blue_mushroom"],
+        "only_noise_x" : true,
+        "multiplier_x" : 5,
+
+        "noise_setting" : {
+            "seed_multiplier":2,
+            "oct":1
+        },
+        "max_chucks" : [1,2],
+        "offset_x" : 0,
+        "offset_y" : 1,
+
+        "noise_range" : [0.6,0.8],
+
+        "random_number_seed_multiplier" : 1,
+        "random_number_range" : [0.5,1]
+
+
+
+    },
+
+    {
+
+        "type" : "surface",
+        "blocks" : structures["green_mushroom"],
+        "only_noise_x" : true,
+        "multiplier_x" : 5,
+
+        "noise_setting" : {
+            "seed_multiplier":3,
+            "oct":1
+        },
+        "max_chucks" : [1,2],
+        "offset_x" : 0,
+        "offset_y" : 1,
+
+        "noise_range" : [0.6,0.8],
+
+        "random_number_seed_multiplier" : 1,
+        "random_number_range" : [0.5,1]
+
+
+
+    },
+    {
+
+        "type" : "surface",
         "blocks" : structures["tree"],
         "only_noise_x" : true,
 
@@ -83,5 +155,6 @@ let generation_structures_rules = [
         "elevation_range":[3,70],
         "max_chucks" : [2,2]
 
-    },
+    }
 ]
+
