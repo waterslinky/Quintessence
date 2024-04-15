@@ -24,7 +24,7 @@ const item_components = {
                 "value":function(value){
 
                         if(typeof value=="boolean"){
-                            alert("WEFWEFEFW")
+                            // alert("WEFWEFEFW")
                             return value 
                         }
                         else{
@@ -122,7 +122,7 @@ const item_components = {
                 
                         }
                         else{
-                            console.log(property)
+                            // console.log(property)
                             return property
                         }
                 
