@@ -1,13 +1,13 @@
 let stomach = new image({
     "x":275,
     "y":40,
-    "image":stomach_image,
+    "image":images.stomach,
      "size_x":200,
      "size_y":200,
     "after_draw_func":function(){
 
         if(this.image && this.colored_image==undefined){
-            this.colored_image = colorscale(stomach.image,"100,0,0,0.5")
+            this.colored_image = colorscale(this.image,"100,0,0,0.5")
         }
 
 
@@ -58,7 +58,7 @@ let stomach = new image({
 
             this.clip_screen.save()
 
-            this.clip_screen.drawImage(colorscale(this.image,"100,0,0,0.5"),0,0,stomach_image.width,stomach_image.height,0,0,this.display_size_x,this.display_size_y);
+            this.clip_screen.drawImage(colorscale(this.image,"100,0,0,0.5"),0,0,this.image.width,this.image.height,0,0,this.display_size_x,this.display_size_y);
 
             clip(this.clip_screen)
 
@@ -100,7 +100,7 @@ let stomach = new image({
 
             this.clip_screen.save()
 
-            this.clip_screen.drawImage(colorscale(this.image,"255,0,0,0.5"),0,0,stomach_image.width,stomach_image.height,0,0,this.display_size_x,this.display_size_y);
+            this.clip_screen.drawImage(colorscale(this.image,"255,0,0,0.5"),0,0,this.image.width,this.image.height,0,0,this.display_size_x,this.display_size_y);
 
             clip(this.clip_screen)
 

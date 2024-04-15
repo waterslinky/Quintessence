@@ -25,7 +25,6 @@ function randomize_list(list){
 
 }
 
-
 function replace_list_object(list,new_list){
     list.splice(0,list.length)
     new_list.forEach(element => {

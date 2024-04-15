@@ -131,6 +131,8 @@ function file_type(path,correct_type){
     return type==correct_type
 }
 
+const images = {}
+
 async function load_as_image(var_name,path,chances){
     // window[var_name] = {}
     

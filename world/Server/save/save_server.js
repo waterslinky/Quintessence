@@ -16,6 +16,10 @@ function save_server(){
                     let new_block = copy(chuck_block)
                     delete new_block.image
 
+                    if(new_block.name=="red_mushroom"){
+                        console.log(new_block,chuck_block)
+                    }
+
                     line.push(new_block)
                 });
                 new_chuck.push(line)

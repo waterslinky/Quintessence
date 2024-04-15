@@ -8,7 +8,7 @@ camp_fire_elements = new align({
             "size_x": (81/28)*534,
             "size_y":534,
 
-            "image":campfire_ui_image,
+            "image":images.campfire,
             "hover_brightness":0,
             "elements":[]
 

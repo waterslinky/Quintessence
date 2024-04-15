@@ -254,13 +254,13 @@ loading_images=setInterval(function () {
 
 
 
-            knowledge_tablet_image.push(window["knowledge_tablet_red_"+all_mushrooms_effects[0].effect+"_image"])
+            images.knowledge_tablet.push(images["knowledge_tablet_red_"+all_mushrooms_effects[0].effect])
 
-            knowledge_tablet_image.push(window["knowledge_tablet_green_"+all_mushrooms_effects[1].effect+"_image"])
+            images.knowledge_tablet.push(images["knowledge_tablet_green_"+all_mushrooms_effects[1].effect])
 
-            knowledge_tablet_image.push(window["knowledge_tablet_blue_"+all_mushrooms_effects[2].effect+"_image"])
+            images.knowledge_tablet.push(images["knowledge_tablet_blue_"+all_mushrooms_effects[2].effect])
 
-            knowledge_tablet_image.push(knowledge_tablet_overlay_image)   
+            images.knowledge_tablet.push(images.knowledge_tablet_overlay)   
 
 
             selected_mods = JSON.parse(localStorage.getItem("selected_mod_list_slot"+selected_slot))

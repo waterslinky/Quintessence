@@ -9,7 +9,7 @@ crafting_table_elements=new align({
             "size_x": (172/16)*slot_size,
             "size_y":(57/16)*slot_size,
 
-            "image":crafting_table_ui_image,
+            "image":images.crafting_table_ui,
             "align":"center",
             "hover_brightness":0,
             "groups":["ui"],

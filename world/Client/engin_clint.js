@@ -444,7 +444,7 @@ function make_image_layer_from_blocks(start_x,start_y,width,hieght){
                         let block = get_block_from_index(x,y)
                         if(is_block(block)){
                             if(get_property(block,"transparent")){
-                                air_layer[x-start_x][y-start_y]={"image":filled_air_image}
+                                air_layer[x-start_x][y-start_y]={"image":images.filled_air}
                             }
                             // draw_block(block_list[x][y],(x*display_block_size)-player.cam[0],(y*display_block_size)-player.cam[1],display_block_size,display_block_size)
                             // console.log(x,y)
@@ -696,7 +696,7 @@ function make_image_layer_from_blocks(start_x,start_y,width,hieght){
                             }
                         }
 
-                        air_layer[x-start_x][y-start_y]={"image":filled_air_image}
+                        air_layer[x-start_x][y-start_y]={"image":images.filled_air}
 
                     }
                 }
@@ -2241,12 +2241,12 @@ function engin_draw(){
 
 
     //Draw Heart
-    screen.drawImage(empty_heart_image,10,10,250,250)
+    screen.drawImage(images.empty_heart,10,10,250,250)
 
 
     heart_parts.forEach(part => {
 
-        screen.drawImage(window["heart_part_"+part+"_image"],10,10,250,250) 
+        screen.drawImage(images["heart_part_"+part],10,10,250,250) 
             
     });
 

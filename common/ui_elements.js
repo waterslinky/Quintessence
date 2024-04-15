@@ -1476,7 +1476,7 @@ class inventory_slot_ui extends Item_display{
             // }
             if(this.type=="bar_slot" && this.slot_index.index==this.selected_index){
                 
-                draw_image(selected_slot_image,0,0,undefined,undefined,this.x,this.y,this.size_x,this.size_y,this.render_box,draw_screen)
+                draw_image(images.selected_slot,0,0,undefined,undefined,this.x,this.y,this.size_x,this.size_y,this.render_box,draw_screen)
             }
             else{
                 draw_image(this.default_image,0,0,undefined,undefined,this.x,this.y,this.size_x,this.size_y,this.render_box,draw_screen);
@@ -1497,7 +1497,7 @@ class inventory_slot_ui extends Item_display{
             this.type=info.type
             
             if(this.type!="hand"){
-                this.default_image=inventory_slot_image
+                this.default_image=images.inventory_slot
                 // this.align="center"
                 
                 if(this.type=="bar_slot"){
@@ -1513,7 +1513,7 @@ class inventory_slot_ui extends Item_display{
             }
             else{
                 // alert("g")
-                this.default_image=blank_image
+                this.default_image=images.blank
                 // this.item_size_mult=1.2
 
                 this.align="center_size"

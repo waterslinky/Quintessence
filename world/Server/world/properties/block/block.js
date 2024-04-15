@@ -105,8 +105,7 @@ function change_state(block,state_name,index){
     block.state_index[state_name] = index
 }
 
-
-function create_item(data={}){
+function create_item_old(data={}){
     let item = {}
 
     if(typeof data=="string"){
@@ -193,6 +192,34 @@ function create_item(data={}){
     
     return item 
 }
+function create_item(data={}){
+
+    let item
+
+    if(typeof data=="string"){
+        item = copy(blocks_structure[data] )
+    }
+    else{
+        item = copy(blocks_structure[data.name] )
+
+    }
+
+    if(item.on_created_functions){
+        item.on_created_functions.forEach(on_created_function => {
+            on_created_function(item)
+        });        
+    }
+
+
+    delete item.y
+    delete item.x
+    delete item.on_created_functions
+
+    return item
+    
+    
+    
+}
 
 
 blank_area=function(x,y,width,hieght){
@@ -276,7 +303,7 @@ const blank = {
 
     hiden_in_accended:true,
 
-    image:blank_image
+    image:images.blank
 
 }      
 
@@ -357,7 +384,7 @@ const extrude_block = {
             
     },
 
-    image:extrude_block_image    
+    image:images.extrude_block
 
 }
 
@@ -410,7 +437,7 @@ const laod_block = {
             
     },
         
-    image:load_block_image
+    image:images.load_block
 
 }
 
@@ -431,12 +458,12 @@ const leaf = {
 
     destroy_time:0.75,
         
-    side_image:leaf_side1_image,
+    side_image:images.leaf_side1,
 
     
     render_side_image_on:["log"],
 
-    image:leaf_image
+    image:images.leaf
             
 }
 
@@ -475,33 +502,32 @@ const wheat_crop = {
         },
         "loop":true,
         "time":function(){
-            // return 60000+(Math.random()*180000)
-            return 1000
+            return 60000+(Math.random()*180000)
         }
     },
 
     state_propertys:{
         "groth":[
             {
-                "image":wheat_crop1_image,
-                "bottom_side_image":wheat_crop_bottom1_image,
+                "image":images.wheat_crop1,
+                "bottom_side_image":images.wheat_crop_bottom1,
                 "loot_table":block_loot_tables.wheat_seed
             },
             {
-                "image":wheat_crop2_image,
-                "bottom_side_image":wheat_crop_bottom2_image,
+                "image":images.wheat_crop2,
+                "bottom_side_image":images.wheat_crop_bottom2,
                 "loot_table":block_loot_tables.wheat_seed
             },
             {
-                "image":wheat_crop3_image,
-                "bottom_side_image":wheat_crop_bottom3_image,
+                "image":images.wheat_crop3,
+                "bottom_side_image":images.wheat_crop_bottom3,
                 "loot_table":block_loot_tables.wheat_seed
 
             },
             {
-                "image":wheat_crop4_image,
-                "top_side_image":wheat_crop4_top_image,
-                "bottom_side_image":wheat_crop_bottom4_image,
+                "image":images.wheat_crop4,
+                "top_side_image":images.wheat_crop4_top,
+                "bottom_side_image":images.wheat_crop_bottom4,
                 "loot_table":block_loot_tables.wheat_crop
             }
         ]
@@ -532,7 +558,7 @@ const dirt = {
     },
     
   
-    image:dirt_image
+    image:images.dirt
    
 }
 
@@ -563,7 +589,7 @@ const log = {
 
     destroy_time : 2.5,
    
-    image : log_image
+    image : images.log
 
 }
 
@@ -592,7 +618,7 @@ const slightly_striped_log = {
 
     destroy_time:2.5,
   
-    image:slightly_striped_log_image
+    image:images.slightly_striped_log
 
 }
 
@@ -621,7 +647,7 @@ const moderately_striped_log = {
 
     destroy_time:2.5,
         
-    image:moderately_striped_log_image
+    image:images.moderately_striped_log
 
 }
 
@@ -650,7 +676,7 @@ const mostly_striped_log = {
 
     destroy_time : 2.5,
            
-    image:mostly_striped_log_image
+    image:images.mostly_striped_log
 
 }
 
@@ -671,7 +697,7 @@ const striped_log = {
 
     destroy_time:2.5,
     
-    image:striped_log_image
+    image:images.striped_log
 
 }
 
@@ -691,7 +717,7 @@ const plank = {
 
     destroy_time:1.5,
     
-    image:plank_image,
+    image:images.plank
        
 }
 
@@ -718,11 +744,11 @@ const crafting_table = {
 
     destroy_time:1.5,
 
-    left_side_image : crafting_table_left_image,
+    left_side_image : images.crafting_table_left,
 
-    top_side_image : crafting_table_top_image,
+    top_side_image : images.crafting_table_top,
 
-    image:crafting_table_image,
+    image:images.crafting_table,
         
 }
 
@@ -734,7 +760,7 @@ const missing_block = {
 
     destroy_time:0,
 
-    image:missing_block_image
+    image:images.missing_block
       
 }
 
@@ -810,7 +836,7 @@ const knowledge_tablet = {
 
     destroy_time:5,
 
-    image:knowledge_tablet_image
+    image:images.knowledge_tablet
 
 }
 
@@ -827,7 +853,7 @@ const air = {
 
     transparent:true,
 
-    image:air_image
+    image:images.air
 
 }
 
@@ -846,7 +872,7 @@ const grass = {
 
     destroy_time:2,
 
-    image:grass_image,
+    image:images.grass,
     on_right_clicked:function(block,x,y){
         if(player.inventory[player.selected_slot_index.index].item.name=="hoe" && get_block_from_index(x,y-1).name=="air"){
             change_block(x,y,"soil")
@@ -912,7 +938,7 @@ const stone_brick_pedestal = {
     ],
 
      
-    image:stone_brick_pedestal_image
+    image:images.stone_brick_pedestal
          
 }
 
@@ -931,7 +957,7 @@ const stone_brick = {
 
     destroy_time:10,
 
-    image:stone_brick_image
+    image:images.stone_brick
 }
 
 
@@ -943,7 +969,7 @@ const magnifying_glass = {
 
     hand_size:1,
 
-    image:magnifying_glass_image,
+    image:images.magnifying_glass,
     
     hiden_in_accended:true
 
@@ -965,7 +991,7 @@ const stone = {
 
     destroy_time:3,
 
-    image:stone_image
+    image:images.stone
            
 }
 
@@ -992,7 +1018,7 @@ const soil = {
 
     destroy_time:2,
 
-    image:soil_image
+    image:images.soil
            
 }
 
@@ -1035,7 +1061,7 @@ const camp_fire = {
 
     destroy_time:2,
 
-    image:camp_fire_image
+    image:images.camp_fire
            
 }
 
@@ -1056,7 +1082,7 @@ const marble = {
 
     destroy_time:3,
 
-    image:marble_image
+    image:images.marble
     
 }
 
@@ -1078,7 +1104,7 @@ const slate = {
 
     destroy_time:3,
 
-    image:slate_image
+    image:images.slate
        
 }
 
@@ -1094,6 +1120,38 @@ const blue_mushroom = {
     },
             
     has_knowledge:true,
+
+    bottom_side_image:images.mushroom_root,
+
+    render_bottom_side_image_on:["soil"],
+
+    random_tick:{
+        "event":function(x,y){
+
+            if(get_block_from_index(x,y+1).name=="soil"){
+
+                let random_number = Math.round(Math.random())
+
+                if(random_number==0){
+                    if(get_block_from_index(x-1,y+1).name=="soil" && get_block_from_index(x-1,y).name=="air"){
+                        set_block_from_index(x-1,y,create_item("blue_mushroom"))
+                    }
+
+                }
+                else if(random_number==1){
+                    if(get_block_from_index(x+1,y+1).name=="soil" && get_block_from_index(x+1,y).name=="air"){
+                        set_block_from_index(x+1,y,create_item("blue_mushroom"))
+                    }
+                }
+
+            }
+            
+        },
+        "loop":true,
+        "time":function(){
+            return 20000+(Math.random()*18000)
+        }
+    },
 
     decrease_after_use:1,
 
@@ -1112,7 +1170,7 @@ const blue_mushroom = {
     destroy_time:0,
 
 
-    image:blue_mushroom_image
+    image:images.blue_mushroom
 
 }
 
@@ -1133,6 +1191,39 @@ const red_mushroom = {
 
         use_after_duration:1200,
 
+        bottom_side_image:images.mushroom_root,
+
+        random_tick:{
+            "event":function(x,y){
+    
+                if(get_block_from_index(x,y+1).name=="soil"){
+    
+                    let random_number = Math.round(Math.random())
+    
+                    if(random_number==0){
+                        if(get_block_from_index(x-1,y+1).name=="soil" && get_block_from_index(x-1,y).name=="air"){
+                            set_block_from_index(x-1,y,create_item("red_mushroom"))
+                        }
+    
+                    }
+                    else if(random_number==1){
+                        if(get_block_from_index(x+1,y+1).name=="soil" && get_block_from_index(x+1,y).name=="air"){
+                            set_block_from_index(x+1,y,create_item("red_mushroom"))
+                        }
+                    }
+    
+                }
+                
+            },
+            "loop":true,
+            "time":function(){
+                return 200
+            }
+        },
+
+        render_bottom_side_image_on:["soil"],
+
+
         on_used:function(){
                 red_mushroom_function()
 
@@ -1145,7 +1236,7 @@ const red_mushroom = {
 
         destroy_time:0,
 
-        image:red_mushroom_image
+        image:images.red_mushroom
 
 }
 
@@ -1160,7 +1251,39 @@ const green_mushroom = {
 
     decrease_after_use:1,
 
+    bottom_side_image:images.mushroom_root,
+
+    render_bottom_side_image_on:["soil"],
+
     use_after_duration:1200,
+    random_tick:{
+        "event":function(x,y){
+
+            if(get_block_from_index(x,y+1).name=="soil"){
+
+                let random_number = Math.round(Math.random())
+
+                if(random_number==0){
+                    if(get_block_from_index(x-1,y+1).name=="soil" && get_block_from_index(x-1,y).name=="air"){
+                        set_block_from_index(x-1,y,create_item("green_mushroom"))
+                    }
+
+                }
+                else if(random_number==1){
+                    if(get_block_from_index(x+1,y+1).name=="soil" && get_block_from_index(x+1,y).name=="air"){
+                        set_block_from_index(x+1,y,create_item("green_mushroom"))
+                    }
+                }
+
+            }
+            
+        },
+        "loop":true,
+        "time":function(){
+            return 20000+(Math.random()*18000)
+        }
+    },
+
 
     on_used:function(){
         green_mushroom_function() 
@@ -1180,7 +1303,7 @@ const green_mushroom = {
 
     destroy_time:0,
            
-    image:green_mushroom_image
+    image:images.green_mushroom
     
 }
 
@@ -1206,7 +1329,7 @@ const stone_boulder = {
 
     destroy_time:1.25,
 
-    image:stone_boulder_image
+    image:images.stone_boulder
     
 }
 
@@ -1231,7 +1354,7 @@ const grass_block = {
 
     destroy_time:0,
 
-    image:grass_block_image
+    image:images.grass_block
           
 }
 
@@ -1258,7 +1381,7 @@ const tall_grass_block = {
 
     destroy_time:0,
 
-    image:tall_grass_block_image
+    image:images.tall_grass_block
 
 }
 
@@ -1271,66 +1394,128 @@ const bedrock = {
 
     display_name:"Bed Rock",
 
-    image:bedrock_image// let variated_images:[bedrock_image,bedrock_image2]variated_images[number_from(0,variated_images.length-1)()]
+    image:images.bedrock// let variated_images:[bedrock_image,bedrock_image2]variated_images[number_from(0,variated_images.length-1)()]
+
+}
+
+blocks = {
+
+}
+
+const blocks_structure = {
 
 }
 
 
-blocks={
+block_json.forEach(block_js => {
+    blocks[block_js.name] = {}
+    let block = blocks[block_js.name]
+
+    blocks_structure[block_js.name] = {}
+    let block_structure = blocks_structure[block_js.name]
+
+    for(let state in block_js){
+        let component = item_components[state]
+        if(component){
+
+            if(component["properties"]){
+                component["properties"].forEach(propertie => {
+                    alert(block_js[state])
+                    block[propertie.name] = propertie.value(block_js[state])
+                });
+                
+            }
+
+            if(component["structure_properties"]){
+                component["structure_properties"].forEach(propertie => {
+                    // alert(propertie.name)
+                    if(propertie.type=="on_created"){
+                        if(block_structure["on_created_functions"]==undefined){
+                            block_structure["on_created_functions"] = []
+                        }
+
+                        block_structure["on_created_functions"].push(propertie.value)
+
+                    }
+                    else{
+                        block_structure[propertie.name] = propertie.value(block_js[state])
+                    }
+                    
+                });
+                
+            }
+
+        }
+
+        // blocks[block.name][]
+    }
+
+    // blocks
+    // alert(block)
+});
+
+// blocks = blocks_structure
+
+
+// const blocks={
+//         "air":air,
+//         "blank":blank,
+//         "stone":stone,
+//         // "dirt":dirt,
         
-        "stone":stone,
-        "dirt":dirt,
-        "air":air,
-        "grass":grass,
-        "stone_brick":stone_brick,
-        // "cracked_block":cracked_block,
-        "missing_block":missing_block,
-        "blank":blank,
-        "magnifying_glass":magnifying_glass,
-        "blue_mushroom":blue_mushroom,
-        "green_mushroom":green_mushroom,
-        "red_mushroom":red_mushroom,
-        "knowledge_tablet":knowledge_tablet,
-        "stone_brick_pedestal":stone_brick_pedestal,
-        "marble":marble,
-        "stone_boulder":stone_boulder,
-        "grass_block":grass_block,
-        "tall_grass_block":tall_grass_block,
+//         // "grass":grass,
+//         // "stone_brick":stone_brick,
+//         // // "cracked_block":cracked_block,
+//         // "missing_block":missing_block,
+        
+//         // "magnifying_glass":magnifying_glass,
+//         // "blue_mushroom":blue_mushroom,
+//         // "green_mushroom":green_mushroom,
+//         // "red_mushroom":red_mushroom,
+//         // "knowledge_tablet":knowledge_tablet,
+//         // "stone_brick_pedestal":stone_brick_pedestal,
+//         // "marble":marble,
+//         // "stone_boulder":stone_boulder,
+//         // "grass_block":grass_block,
+//         // "tall_grass_block":tall_grass_block,
 
-        "log":log,
+//         // "log":log,
 
-        "leaf":leaf,
-        "slate":slate,
+//         // "leaf":leaf,
+//         // "slate":slate,
 
-        "extrude_block":extrude_block,
-        "laod_block":laod_block,
-        "bedrock":bedrock,
+//         // "extrude_block":extrude_block,
+//         // "laod_block":laod_block,
+//         // "bedrock":bedrock,
 
-        "plank":plank,
-        "slightly_striped_log":slightly_striped_log,
-        "moderately_striped_log":moderately_striped_log,
-        "mostly_striped_log":mostly_striped_log,
-        "striped_log":striped_log,
+//         // "plank":plank,
+//         // "slightly_striped_log":slightly_striped_log,
+//         // "moderately_striped_log":moderately_striped_log,
+//         // "mostly_striped_log":mostly_striped_log,
+//         // "striped_log":striped_log,
 
 
-        "crafting_table":crafting_table,
+//         // "crafting_table":crafting_table,
 
-        "soil":soil,
-        "wheat_crop":wheat_crop,
-        "camp_fire":camp_fire
+//         // "soil":soil,
+//         // "wheat_crop":wheat_crop,
+//         // "camp_fire":camp_fire
 
-        // "snowy_grass":snowy_grass,
-        // "snow_layer_1":snow_layer_1,
-        // "snow_layer_2":snow_layer_2,
-        // "snow_layer_3":snow_layer_3,
-        // "snow_block":snow_block
+//         // // "snowy_grass":snowy_grass,
+//         // // "snow_layer_1":snow_layer_1,
+//         // // "snow_layer_2":snow_layer_2,
+//         // // "snow_layer_3":snow_layer_3,
+//         // // "snow_block":snow_block
 
 
 
 
 
-}
+// }
 
 if(is_server){
     module.exports={get_item,get_just_block,change_block,block_is}
 }
+
+            
+     

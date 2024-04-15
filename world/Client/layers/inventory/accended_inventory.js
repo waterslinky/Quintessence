@@ -17,7 +17,7 @@ accended_inventory_elements=new image({
 
 
         "size_y":(79/16)*slot_size,
-        "image":accended_menu_image,
+        "image":images.accended_menu,
         "align":"center",
         "hover_brightness":0,
         "elements":[]
@@ -79,27 +79,27 @@ function redo_accended_blocks(search_text = "",category){
 
     accended_blocks_list.splice(0)
 
-    for(const block_name in blocks_and_items){
-        let new_block = create_item(blocks_and_items[block_name].name)
-        // console.log(new_block)
-        if(!get_property(new_block,"hiden_in_accended")){ 
-            let display_name
+    // for(const block_name in blocks_and_items){
+    //     let new_block = create_item(blocks_and_items[block_name].name)
+    //     // console.log(new_block)
+    //     if(!get_property(new_block,"hiden_in_accended")){ 
+    //         let display_name
                 
 
-            if(typeof get_property(new_block,"display_name")=="object"){
-                display_name = get_property(new_block,"display_name")[0].name
-            }
-            else{
-                display_name = get_property(new_block,"display_name")
-            }    
+    //         if(typeof get_property(new_block,"display_name")=="object"){
+    //             display_name = get_property(new_block,"display_name")[0].name
+    //         }
+    //         else{
+    //             display_name = get_property(new_block,"display_name")
+    //         }    
                 
-            if((display_name.toLowerCase().startsWith(search_text.toLowerCase()) || display_name.toLowerCase().includes(search_text.toLowerCase())) && (category==undefined || get_property(new_block,"category") == category) && get_property(new_block,"in_accended_inventory")!=false){
+    //         if((display_name.toLowerCase().startsWith(search_text.toLowerCase()) || display_name.toLowerCase().includes(search_text.toLowerCase())) && (category==undefined || get_property(new_block,"category") == category) && get_property(new_block,"in_accended_inventory")!=false){
 
-                accended_blocks_list.push(new inventory_slot(new_block))
+    //             accended_blocks_list.push(new inventory_slot(new_block))
 
-            }
-        }     
-    }
+    //         }
+    //     }     
+    // }
 
     reset_slidder()
 
@@ -270,7 +270,7 @@ window.onload = function(){
         "align": "left",
         
         "can_input_text":true,
-        "image_bar":accended_text_selected_image,"on_input_text_funtion":function(){
+        "image_bar":images.accended_text_selected,"on_input_text_funtion":function(){
 
             
 
@@ -313,7 +313,7 @@ window.onload = function(){
         [ (accended_inventory_elements.x-(accended_inventory_elements.display_size_x/2))+(55.5*accended_inventory_elements.px),(accended_inventory_elements.y-(accended_inventory_elements.display_size_y/2))+(26*accended_inventory_elements.px)],
         [(accended_inventory_elements.x-(accended_inventory_elements.display_size_x/2))+(55.5*accended_inventory_elements.px),(accended_inventory_elements.y-(accended_inventory_elements.display_size_y/2))+(78*accended_inventory_elements.px)],
         0,
-        slidder_bar_image
+        images.slidder_bar
 
     )
 

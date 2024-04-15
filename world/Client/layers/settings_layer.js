@@ -16,14 +16,14 @@ settings_elements = [
         "elements":[
             //FOV
             new image({
-                "stretch_image_rectangle": gray_display_box_stretch_image,
+                "stretch_image_rectangle": images.gray_display_box_stretch_image,
                 "x": innerWidth*.09,
                 "y": innerHeight*.06,
                 "size_x": (innerWidth*.82),
                 "size_y": (innerHeight*.88),
                 "elements" : [
                     new image({
-                        "stretch_image_rectangle": gray_display_box_stretch_image,
+                        "stretch_image_rectangle": images.gray_display_box_stretch_image,
                         "x": 60,
                         "y": (100)-(95/2),
                         "size_x": 730,
@@ -51,7 +51,7 @@ settings_elements = [
                         "color": "rgb(255,255,255)",
                         "border_align": "center",
                         "align": "center",
-                        "border_image":  display_bar_stretch_image,
+                        "border_image":  images.display_bar_stretch_image,
 
                         "border_size_height":130,
                         "width":(((innerWidth*.82)-(120))/2),
@@ -76,7 +76,7 @@ settings_elements = [
                         "size": 60  ,"color": "rgb(255,255,255)",
                         "border_align": "center",
                         "align": "center",
-                        "border_image" : display_bar_stretch_image,
+                        "border_image" : images.display_bar_stretch_image,
                         "border_size_height":130,
                         "width":(((innerWidth*.82)-(120))/2),
                         "make_text_button":true,
@@ -99,7 +99,7 @@ settings_elements = [
                         "color": "rgb(255,255,255)",
                         "border_align": "center",
                         "align": "center",
-                        "border_image": display_bar_stretch_image,
+                        "border_image": images.display_bar_stretch_image,
                         "border_size_height":130,
                         "width":(((innerWidth*.82)-(120))/2),
                         "make_text_button":true,
@@ -133,7 +133,7 @@ settings_elements = [
                         "size":  60 ,"color":  "rgb(255,255,255)",
                         "border_align": "center",
                         "align": "center",
-                        "border_image": display_bar_stretch_image,
+                        "border_image": images.display_bar_stretch_image,
                         "border_size_height":130,
                         "width":(((innerWidth*.82)-(120))/2),
                         "make_text_button":true,

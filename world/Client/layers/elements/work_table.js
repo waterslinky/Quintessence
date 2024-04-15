@@ -513,7 +513,7 @@ class table_ui extends button{
 
             
             
-            if(engin.cursor.image==hammer_cursor_image && this.closest_item!=undefined){
+            if(engin.cursor.image==images.hammer_cursor && this.closest_item!=undefined){
 
                 let closest_display_item = this.items[this.closest_item.index]
 
@@ -950,8 +950,7 @@ class work_table_ui extends table_ui{
             if(item_display.parent_reciple == parent_reciple){
 
 
-                // console.log("REMOVE")
-                // this.remove_item(i)    
+
                 this.items.splice(i,1)
 
 
@@ -1015,7 +1014,7 @@ class crafting_table_ui extends work_table_ui{
 
         this.parent_on_clicked()
 
-        if(engin.cursor.image==hammer_cursor_image && this.closest_item!=undefined){
+        if(engin.cursor.image==images.hammer_cursor && this.closest_item!=undefined){
 
 
             let parent_reciple = this.items[this.closest_item.index].parent_reciple
@@ -1121,9 +1120,9 @@ class crafting_table_ui extends work_table_ui{
 
 
         if(this.hover && KeysDown["Shift"] && player.inventory_hand.item.name=="blank"){
-            engin.cursor.set_cursor(hammer_cursor_image)
+            engin.cursor.set_cursor(images.hammer_cursor)
         }
-        else if(hammer_cursor_image==engin.cursor.image){
+        else if(images.hammer_cursor==engin.cursor.image){
             
             engin.cursor.set_cursor("default")
 

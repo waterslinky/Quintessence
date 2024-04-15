@@ -7,7 +7,7 @@ var selected_extrude_block={}
 
 
 var extrude_direction_image_ui=new image({
-    "image": extrude_direction_image,
+    "image": images.extrude_direction,
     "x": (innerWidth*.09)+35,
     "y": (innerHeight*.06)+90,
     "px":((30/16)*slot_size)/30,
@@ -24,7 +24,7 @@ var extrude_direction_image_ui=new image({
 
 
 var extrude_relaod_image_ui=new button({
-    "image": extrude_reload_image,
+    "image": images.extrude_reload,
     "x": (innerWidth*.09)+375,
     "y": (innerHeight*.06)+190,
 
@@ -86,7 +86,7 @@ function select_extrude_direction_images(){
 }
 
 var extrude_direction_left_image_ui=new button({
-    "image": extrude_direction_left_image,
+    "image": images.extrude_direction_left,
     "x": extrude_direction_image_ui.x+(extrude_direction_image_ui.px*1),
     "y": extrude_direction_image_ui.y+(extrude_direction_image_ui.px*11),
 
@@ -104,7 +104,7 @@ var extrude_direction_left_image_ui=new button({
 })
 
 var extrude_direction_right_image_ui=new button({
-    "image": extrude_direction_right_image,
+    "image": images.extrude_direction_right,
     "x": extrude_direction_image_ui.x+(extrude_direction_image_ui.px*21),
     "y": extrude_direction_image_ui.y+(extrude_direction_image_ui.px*11),
 
@@ -120,7 +120,7 @@ var extrude_direction_right_image_ui=new button({
 })
 
 var extrude_direction_up_image_ui=new button({
-    "image": extrude_direction_up_image,
+    "image": images.extrude_direction_up,
     "x": extrude_direction_image_ui.x+(extrude_direction_image_ui.px*11),
     "y": extrude_direction_image_ui.y+(extrude_direction_image_ui.px*1),
 
@@ -136,7 +136,7 @@ var extrude_direction_up_image_ui=new button({
 })
 
 var extrude_direction_down_image_ui=new button({
-    "image": extrude_direction_down_image,
+    "image": images.extrude_direction_down,
     "x": extrude_direction_image_ui.x+(extrude_direction_image_ui.px*11),
     "y": extrude_direction_image_ui.y+(extrude_direction_image_ui.px*21),
 
@@ -440,7 +440,7 @@ var extrude_min_text=new text( {
 })
 
 var extrude_to_wall_min_button=new button({
-    "image": unselected_extrude_to_wall_button_image,
+    "image": images.unselected_extrude_to_wall_button,
     "x": (innerWidth*.09)+25,
     "y": (innerHeight*.06)+490,
     "px":((30/16)*slot_size)/30,
@@ -448,12 +448,12 @@ var extrude_to_wall_min_button=new button({
     "size_x": (225),
     "size_y": (225)*(9/16),
     "on_clicked":function(){
-        if(extrude_to_wall_min_button.image==unselected_extrude_to_wall_button_image){
-            extrude_to_wall_min_button.image=selected_extrude_to_wall_button_image
+        if(extrude_to_wall_min_button.image==images.unselected_extrude_to_wall_button){
+            extrude_to_wall_min_button.image=images.selected_extrude_to_wall_button
             extrude_to_wall_min_text.text="To Next Wall"
         }
         else{
-            extrude_to_wall_min_button.image=unselected_extrude_to_wall_button_image
+            extrude_to_wall_min_button.image=images.unselected_extrude_to_wall_button
             extrude_to_wall_min_text.text="0"
 
         }
@@ -488,8 +488,8 @@ var extrude_to_wall_min_text=new text_controller({
         "size": 80,    
         "align":"left",
         "base_line":"middle",
-        "border_image":left_display_bar_stretch_image,
-        "image_bar":accended_text_selected_image,
+        "border_image":images.left_display_bar_stretch_image,
+        "image_bar":images.accended_text_selected_image,
                 
         "border_size_multiplier":1.25,
         "border_x_offset":30,
@@ -550,7 +550,7 @@ var extrude_max_text=new text( {
 })
 
 var extrude_to_wall_max_button=new button({
-    "image": unselected_extrude_to_wall_button_image,
+    "image": images.unselected_extrude_to_wall_button,
     "x": (innerWidth*.09)+25,
     "y": (innerHeight*.06)+800,
     "px":((30/16)*slot_size)/30,
@@ -558,12 +558,12 @@ var extrude_to_wall_max_button=new button({
     "size_x": (225),
     "size_y": (225)*(9/16),
     "on_clicked":function(){
-        if(extrude_to_wall_max_button.image==unselected_extrude_to_wall_button_image){
-            extrude_to_wall_max_button.image=selected_extrude_to_wall_button_image
+        if(extrude_to_wall_max_button.image==images.unselected_extrude_to_wall_button){
+            extrude_to_wall_max_button.image=images.selected_extrude_to_wall_button
             extrude_to_wall_max_text.text="To Next Wall"
         }
         else{
-            extrude_to_wall_max_button.image=unselected_extrude_to_wall_button_image
+            extrude_to_wall_max_button.image=images.unselected_extrude_to_wall_button
             extrude_to_wall_max_text.text="0"
 
         }
@@ -596,8 +596,8 @@ var extrude_to_wall_max_text=new text_controller({
         "size": 80,    
         "align":"left",
         "base_line":"middle",
-        "border_image":left_display_bar_stretch_image,
-        "image_bar":accended_text_selected_image,
+        "border_image":images.left_display_bar_stretch_image,
+        "image_bar":images.accended_text_selected_image,
                 
         "border_size_multiplier":1.25,
         "border_x_offset":30,
@@ -635,7 +635,7 @@ extrude_range_tab_name = new text({
     "x": (innerWidth*.09)+25,
     "y": (innerHeight*.06)+60,  
 
-    "border_image":underline_bar,
+    "border_image":images.underline_bar,
 
     "size": 35,    
     "align":"LEFT",
@@ -712,7 +712,7 @@ end_structure_tab_name = new text({
 
 //Void Option
 var void_option_image_ui=new image({
-    "image": void_option_image,
+    "image": images.void_option,
     "x": (innerWidth*.09)+35,
     "y": (innerHeight*.06)+970,
     "px":240/24,
@@ -724,7 +724,7 @@ var void_option_image_ui=new image({
 })
 
 var void_option_void_ui=new button({
-    "image": selected_void_option_void_image,
+    "image": images.selected_void_option_void,
     "x": (innerWidth*.09)+35+(void_option_image_ui.px),
     "y": (innerHeight*.06)+970+(void_option_image_ui.px),
 
@@ -741,7 +741,7 @@ var void_option_void_ui=new button({
 })
 
 var void_option_solid_ui=new button({
-    "image": unselected_void_option_solid_image,
+    "image": images.unselected_void_option_solid,
     "x": (innerWidth*.09)+35+(void_option_image_ui.px*13),
     "y": (innerHeight*.06)+970+(void_option_image_ui.px),
 
@@ -750,8 +750,8 @@ var void_option_solid_ui=new button({
     "size_y": void_option_image_ui.px*10,
 
     "on_clicked":function(){
-        void_option_void_ui.image=unselected_void_option_void_image
-        void_option_solid_ui.image=selected_void_option_solid_image
+        void_option_void_ui.image=images.unselected_void_option_void
+        void_option_solid_ui.image=images.selected_void_option_solid
     }
 
     
@@ -764,7 +764,7 @@ extrude_ui_base=[
     new align({
         "elements":[
             new image({
-                "stretch_image_rectangle": gray_display_box_stretch_image,
+                "stretch_image_rectangle": images.gray_display_box_stretch_image,
                 "x": innerWidth*.09,
                 "y": innerHeight*.06,
                 "size_x": (innerWidth*.82),
@@ -776,7 +776,7 @@ extrude_ui_base=[
 
             new image({
 
-                "stretch_image_rectangle": dark_gray_display_box_stretch_image,
+                "stretch_image_rectangle": images.dark_gray_display_box_stretch_image,
                 "x": (innerWidth*.09)+((innerWidth*.31)),
                 "y": (innerHeight*.06),
                 "size_x": (innerWidth*.51),

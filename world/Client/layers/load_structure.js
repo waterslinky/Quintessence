@@ -64,8 +64,8 @@ var load_structure_name = new text_controller({
                     "size": 80,    
                     "align":"left",
                     "base_line":"middle",
-                    "border_image":left_display_bar_stretch_image,
-                    "image_bar":accended_text_selected_image,
+                    "border_image":images.left_display_bar_stretch_image,
+                    "image_bar":images.accended_text_selected,
                     
                     "border_size_multiplier":1.25,
                     "border_x_offset":30,
@@ -141,8 +141,8 @@ load_structure_x=new text_controller({
                     "size": 80,    
                     "align":"left",
                     "base_line":"middle",
-                    "border_image":left_display_bar_stretch_image,
-                    "image_bar":accended_text_selected_image,
+                    "border_image":images.left_display_bar_stretch_image,
+                    "image_bar":images.accended_text_selected_image,
                     
                     "border_size_multiplier":1.25,
                     "border_x_offset":30,
@@ -206,8 +206,8 @@ load_structure_y=new text_controller({
                                 "size": 80,    
                                 "align":"left",
                                 "base_line":"middle",
-                                "border_image":left_display_bar_stretch_image,
-                                "image_bar":accended_text_selected_image,
+                                "border_image":images.left_display_bar_stretch_image,
+                                "image_bar":images.accended_text_selected_image,
                                 
                                 "border_size_multiplier":1.25,
                                 "border_x_offset":30,
@@ -266,8 +266,8 @@ load_structure_size_x=new text_controller({
         "size": 80,    
         "align":"left",
         "base_line":"middle",
-        "border_image":left_display_bar_stretch_image,
-        "image_bar":accended_text_selected_image,
+        "border_image":images.left_display_bar_stretch_image,
+        "image_bar":images.accended_text_selected_image,
         
         "border_size_multiplier":1.25,
         "border_x_offset":30,
@@ -323,8 +323,8 @@ load_structure_size_y=new text_controller({
                     "size": 80,    
                     "align":"left",
                     "base_line":"middle",
-                    "border_image":left_display_bar_stretch_image,
-                    "image_bar":accended_text_selected_image,
+                    "border_image":images.left_display_bar_stretch_image,
+                    "image_bar":images.accended_text_selected_image,
                     
                     "border_size_multiplier":1.25,
                     "border_x_offset":30,
@@ -594,7 +594,7 @@ load_structure_elements_type_load = new align({
 let load_structure_ui = new align({
     "elements":[
         new image({
-            "stretch_image_rectangle": gray_display_box_stretch_image,
+            "stretch_image_rectangle": images.gray_display_box_stretch_image,
             "x": innerWidth*.09,
             "y": innerHeight*.06,
             "size_x": (innerWidth*.82),
@@ -603,7 +603,7 @@ let load_structure_ui = new align({
             
         new image({
 
-                "stretch_image_rectangle": dark_gray_display_box_stretch_image,
+                "stretch_image_rectangle": images.dark_gray_display_box_stretch_image,
                 "x": (innerWidth*.09)+((innerWidth*.41)),
                 "y": (innerHeight*.06),
                 "size_x": (innerWidth*.41),

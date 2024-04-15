@@ -196,7 +196,7 @@ class fly_par extends base_particle{
     change_color(color=this.color){
         this.color=color
     
-        this.image = colorscale(white_particle,this.color)
+        this.image = colorscale(images.white_particle,this.color)
 
         // console.log("CHNAGE")
     }
@@ -286,7 +286,7 @@ class Smoke_par extends base_particle{
 
 
         this.size=block_size*1.5
-        this.image = smoke_image.random_image()
+        this.image = images.smoke.random_image()
 
      
         

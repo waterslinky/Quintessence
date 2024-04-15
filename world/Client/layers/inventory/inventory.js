@@ -8,7 +8,7 @@ item_name_display=new text({
     "color": "rgb(7, 145, 106)",
     "border_x_offset":20,
     "align":"center",
-    "border_image":display_bar_stretch_image,
+    "border_image":images.display_bar_stretch_image,
     "after_update_func":function(){
         // this.x=mouse_x
         // // this.after_draw_func = function(){
@@ -43,7 +43,7 @@ inventory_main_elements=new image({
 
 
     "size_y":(73/16)*slot_size,
-    "image":inventory_image,
+    "image":images.inventory,
         // ,
     "hover_brightness":0,
     "elements":[
@@ -61,7 +61,7 @@ hot_bar_main_elements=new image({
     "size_x": (156/16)*slot_size,
     "size_y":(20/16)*slot_size,
 
-    "image":hot_bar_image,
+    "image":images.hot_bar,
     "align":"center",
     "hover_brightness":0,
     "groups":["ui"],

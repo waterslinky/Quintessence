@@ -11,7 +11,7 @@ small_crafting_table_main_elements=new crafting_table_ui({
 
 
 
-    "image":small_table_image,
+    "image":images.small_table,
     "align":"center",
     "hover_brightness":0,
     "groups":["ui"],

@@ -50,7 +50,7 @@ const grass_seed = {
 
     },
 
-    image:grass_seed_image
+    image:images.grass_seed
     
 }
 
@@ -61,7 +61,7 @@ const bark = {
 
     display_name:"Bark",
 
-    image:bark_image
+    image:images.bark
 
 }
 
@@ -83,7 +83,7 @@ const stick = {
             material:"wooden",
             part:"handle",
             minning_speed:1,
-            transform_image:axe_stick_image,
+            transform_image:images.axe_stick,
             attributs:{
                 "minning_speed":1
             }
@@ -91,7 +91,7 @@ const stick = {
 
     hand_size:1,
         
-    image:stick_image
+    image:images.stick
       
 }
 
@@ -116,7 +116,7 @@ const half_stick = {
 
     hand_size:1,
 
-    image : half_stick_image
+    image : images.half_stick
        
 }
 
@@ -139,7 +139,7 @@ const bark_axe_head = {
 
     hand_size:1,
         
-    image:bark_axe_head_image
+    image:images.bark_axe_head
 
 }
 
@@ -162,7 +162,7 @@ const bark_knife_head = {
 
     hand_size:1,
         
-    image:bark_knife_head_image
+    image:images.bark_knife_head
 
 }
 
@@ -185,7 +185,7 @@ const bark_pickaxe_head = {
 
     hand_size:1,
         
-    image:bark_pickaxe_head_image
+    image:images.bark_pickaxe_head
 
 }
 
@@ -208,7 +208,7 @@ const bark_hoe_head = {
 
     hand_size:1,
         
-    image:bark_hoe_head_image
+    image:images.bark_hoe_head
 
 }
 
@@ -221,7 +221,7 @@ const wheat = {
 
     hand_size:0.6,
         
-    image:wheat_image
+    image:images.wheat
 
 }
 
@@ -233,7 +233,7 @@ const dough = {
 
     hand_size:0.6,
         
-    image:dough_image
+    image:images.dough
 
 }
 
@@ -246,7 +246,7 @@ const bread = {
 
     hand_size:0.6,
         
-    image:bread_image,
+    image:images.bread,
 
     use_after_duration:1000,
 
@@ -282,7 +282,7 @@ const wheat_seed = {
         return false
     },
         
-    image:wheat_seed_image
+    image:images.wheat_seed
 
 }
 
@@ -540,7 +540,7 @@ const void_adder = {
 
     },
 
-    image:void_block_image
+    image:images.void_block
  
 }
 
@@ -557,7 +557,7 @@ let defalt_item = {
 
     "type":"item",
 
-    "image":missing_block_image
+    "image":images.missing_block
 
 }
 
@@ -567,7 +567,7 @@ let defalt_block = {
     "stack_size":stack_size,
     "hand_size":0.6,
     "type":"block",
-    "image":missing_block_image
+    "image":images.missing_block
 
 }
 
@@ -575,7 +575,10 @@ let defalt_block = {
 //Make get just item and get just block property
 function get_property(item,property){
 
-    if(typeof item=="string"){
+    
+    if(item.name!=undefined && item!=undefined){
+        
+if(typeof item=="string"){
         item = create_item(item)
     }
     
@@ -634,6 +637,7 @@ function get_property(item,property){
     catch(err){
         console.log(blocks_and_items[item.name])
     }
+    
     let item_property = blocks_and_items[item.name][property]
 
 
@@ -655,6 +659,8 @@ function get_property(item,property){
     return defalt_block[property]
     
 }
+    }
+    
 
 
 
@@ -689,24 +695,24 @@ function remove_void(block){
 
 
 items={
-    "void_adder":void_adder,
-    "bark":bark,
-    "stick":stick,
-    "bark_axe_head":bark_axe_head,
-    "half_stick":half_stick,
-    "bark_knife_head":bark_knife_head,
-    "bark_hoe_head":bark_hoe_head,
-    "bark_pickaxe_head":bark_pickaxe_head,
+    // "void_adder":void_adder,
+    // "bark":bark,
+    // "stick":stick,
+    // "bark_axe_head":bark_axe_head,
+    // "half_stick":half_stick,
+    // "bark_knife_head":bark_knife_head,
+    // "bark_hoe_head":bark_hoe_head,
+    // "bark_pickaxe_head":bark_pickaxe_head,
 
 
-    "axe":axe,
-    "knife":knife,
-    "hoe":hoe,
-    "pickaxe":pickaxe,
-    "wheat":wheat,
-    "wheat_seed":wheat_seed,
-    "dough":dough,
-    "bread":bread
+    // "axe":axe,
+    // "knife":knife,
+    // "hoe":hoe,
+    // "pickaxe":pickaxe,
+    // "wheat":wheat,
+    // "wheat_seed":wheat_seed,
+    // "dough":dough,
+    // "bread":bread
 
 
 }

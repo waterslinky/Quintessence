@@ -22,8 +22,8 @@ extrude_block_name=new text_controller({
             "size": 60,    
             "align":"left",
             "base_line":"middle",
-            "border_image":left_display_bar_stretch_image,
-            "image_bar":accended_text_selected_image,
+            "border_image":images.left_display_bar_stretch_image,
+            "image_bar":images.accended_text_selected_image,
                     
             "border_size_multiplier":1.25,
             "border_x_offset":30,
