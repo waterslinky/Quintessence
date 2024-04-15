@@ -107,8 +107,12 @@ const item_components = {
                         
                         
                         if(typeof property.length=="undefined" && typeof property.src=="undefined"){
+
+                            if(item.x!=undefined){
+                                alert(item.x)
+                            }
                 
-                            let x=0
+                            let x=item.x
                             let y=0
                             // console.log(property)
                             let image = property.image(undefined,x,y)
