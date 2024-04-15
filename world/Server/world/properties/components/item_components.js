@@ -102,24 +102,27 @@ const item_components = {
                     // return images[value]
 
                     if(is_server==false){
-                        let property = images[item.image]
+                        let property = images[get_property(item,"image")]
+
+                        
                         
                         if(typeof property.length=="undefined" && typeof property.src=="undefined"){
                 
                             let x=0
                             let y=0
-                            console.log(property)
+                            // console.log(property)
                             let image = property.image(undefined,x,y)
                 
                             if(property.cell_width){
                                 image = {"image":image,"cell_width": property.cell_width,"animation_time": property.animation_time}
                             }
-                            
+                            // console.log(image)
                             return image
                             
                 
                         }
                         else{
+                            console.log(property)
                             return property
                         }
                 
@@ -128,6 +131,17 @@ const item_components = {
                     
                 },
                 "type":"on_created"
+            }
+        ],
+        "properties":[
+            {
+                "name":"image",
+                "value":function(value){
+                    
+                    
+                    return value
+                    
+                }
             }
         ]
     }

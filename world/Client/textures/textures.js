@@ -100,6 +100,8 @@ class texture{
             // console.log(chance_table(new_chances))
             // console.log(new_chances[1].name)
 
+            // console.log(new_chances)
+
             return chance_table(new_chances,c)
         // }
         
@@ -155,6 +157,8 @@ class texture{
 
             // console.log(chance_table(new_chances))
             // console.log(new_chances[1].name)
+
+           
 
             return chance_table(new_chances,c)
         // }

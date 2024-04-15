@@ -4,7 +4,7 @@ block_json = [
 
         "display_name":"Bed Rock",
     
-        "image":"air",
+        "image":"red_mushroom",
         "hiden_in_accended":false
     },
     {
@@ -20,7 +20,7 @@ block_json = [
 
         "display_name":"Bed Rock",
     
-        "image":"blank",
+        "image":"red_mushroom",
         "hiden_in_accended":false
     }
 ]

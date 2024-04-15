@@ -205,9 +205,14 @@ function create_item(data={}){
     }
 
     if(item.on_created_functions){
-        item.on_created_functions.forEach(on_created_function => {
-            on_created_function(item)
-        });        
+        for(on_created_function_name in item.on_created_functions){
+            let on_created_function = item.on_created_functions[on_created_function_name]
+            // console.log()
+            item["image"] = on_created_function(item)
+        }
+        // item.on_created_functions.forEach(on_created_function => {
+            
+        // });        
     }
 
 
@@ -1431,10 +1436,10 @@ block_json.forEach(block_js => {
                     // alert(propertie.name)
                     if(propertie.type=="on_created"){
                         if(block_structure["on_created_functions"]==undefined){
-                            block_structure["on_created_functions"] = []
+                            block_structure["on_created_functions"] = {}
                         }
 
-                        block_structure["on_created_functions"].push(propertie.value)
+                        block_structure["on_created_functions"][propertie.name]=propertie.value
 
                     }
                     else{
