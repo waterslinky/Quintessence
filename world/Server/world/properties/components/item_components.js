@@ -148,6 +148,38 @@ const item_components = {
                 }
             }
         ]
+    },
+    "category":{
+        "properties":[
+            {
+                "name":"category",
+                "value":function(value){
+
+                    if(typeof value=="string"){
+                        return value 
+                    }
+                    else{
+                        console.error("Component 'category' is type string not type: "+typeof value)
+                    } 
+                }
+            }
+        ]
+    },
+    "kills_grass":{
+        "properties":[
+            {
+                "name":"kills_grass",
+                "value":function(value){
+
+                    if(typeof value=="boolean"){
+                        return value 
+                    }
+                    else{
+                        console.error("Component 'kills_grass' is type boolean not type: "+typeof value)
+                    } 
+                }
+            }
+        ]
     }
 }
 

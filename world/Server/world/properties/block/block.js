@@ -846,21 +846,21 @@ const knowledge_tablet = {
 }
 
 
-const air = {
+// const air = {
     
-    name:"air",
+//     name:"air",
 
-    hiden_in_accended:true,
+//     hiden_in_accended:true,
 
-    kills_grass:false,
+//     kills_grass:false,
 
-    collision_box:false,
+//     collision_box:false,
 
-    transparent:true,
+//     transparent:true,
 
-    image:images.air
+//     image:images.air
 
-}
+// }
 
 
 const grass = {
@@ -1391,18 +1391,6 @@ const tall_grass_block = {
 }
 
 
-const bedrock = {
-    
-    category:"earth",
-
-    name:"bedrock",
-
-    display_name:"Bed Rock",
-
-    image:images.bedrock// let variated_images:[bedrock_image,bedrock_image2]variated_images[number_from(0,variated_images.length-1)()]
-
-}
-
 blocks = {
 
 }
@@ -1463,7 +1451,7 @@ block_json.forEach(block_js => {
 
 
 // const blocks={
-//         "air":air,
+
 //         "blank":blank,
 //         "stone":stone,
 //         // "dirt":dirt,
@@ -1491,7 +1479,7 @@ block_json.forEach(block_js => {
 
 //         // "extrude_block":extrude_block,
 //         // "laod_block":laod_block,
-//         // "bedrock":bedrock,
+
 
 //         // "plank":plank,
 //         // "slightly_striped_log":slightly_striped_log,
