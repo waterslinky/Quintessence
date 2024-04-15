@@ -1,19 +1,8 @@
 block_json = [
     {
-
-        
-    
-<<<<<<< HEAD
-        "image":"filled_air",
-        "hiden_in_accended":false
-=======
-        "hiden_in_accended":false,
-
-            
         "name":"air",
-        
-        "display_name":"Bed Rock",
 
+        "hiden_in_accended":true,
 
         "kills_grass":false,
 
@@ -22,34 +11,42 @@ block_json = [
         "transparent":true,
 
         "image":"air"
->>>>>>> b75d677f2e6c748f0ed886875f639eada954a65e
     },
     {
+        "category":"earth",
+
         "name":"stone",
-
-        "display_name":"Bed Rock",
     
-        "image":"stone",
-        "hiden_in_accended":false
+        "display_name":"Stone",
+    
+        "broken_with":[
+            {
+                "tool_type" : "pickaxe" 
+            }
+        ],
+    
+        "destroy_time":3,
+    
+        "image":"stone"
     },
+    //make to item
     {
+        
         "name":"blank",
-
-        "display_name":"Bed Rock",
-    
-        "image":"blank",
-        "hiden_in_accended":false
+        
+        "hiden_in_accended":true,
+        
+        "image":"blank"
+               
     },
     {
+        "name":"bedrock",
     
-        category:"earth",
+        "category":"earth",        
     
-        name:"bedrock",
+        "display_name":"Bed Rock",
     
-        display_name:"Bed Rock",
-    
-        image:images.bedrock// let variated_images:[bedrock_image,bedrock_image2]variated_images[number_from(0,variated_images.length-1)()]
-    
+        "image":"bedrock"
 
         
     }
