@@ -40,6 +40,7 @@ crafting_table_layer={
     "name":"crafting_table",
     "groups":["ui"],
     "draw":function(){
+        
         // inventory_elements.elements[0].image=grass_image
         // for(let i=0;i<inventory_elements.elements.length;i++){
         //     element=inventory_elements.elements[i]

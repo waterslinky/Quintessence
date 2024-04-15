@@ -24,7 +24,11 @@ const item_components = {
                 "value":function(value){
 
                         if(typeof value=="boolean"){
+<<<<<<< HEAD
                             // alert("WEFWEFEFW")
+=======
+                            
+>>>>>>> b75d677f2e6c748f0ed886875f639eada954a65e
                             return value 
                         }
                         else{
@@ -107,8 +111,12 @@ const item_components = {
                         
                         
                         if(typeof property.length=="undefined" && typeof property.src=="undefined"){
+
+                            if(item.x!=undefined){
+                                alert(item.x)
+                            }
                 
-                            let x=0
+                            let x=item.x
                             let y=0
                             // console.log(property)
                             let image = property.image(undefined,x,y)
@@ -141,6 +149,38 @@ const item_components = {
                     
                     return value
                     
+                }
+            }
+        ]
+    },
+    "category":{
+        "properties":[
+            {
+                "name":"category",
+                "value":function(value){
+
+                    if(typeof value=="string"){
+                        return value 
+                    }
+                    else{
+                        console.error("Component 'category' is type string not type: "+typeof value)
+                    } 
+                }
+            }
+        ]
+    },
+    "kills_grass":{
+        "properties":[
+            {
+                "name":"kills_grass",
+                "value":function(value){
+
+                    if(typeof value=="boolean"){
+                        return value 
+                    }
+                    else{
+                        console.error("Component 'kills_grass' is type boolean not type: "+typeof value)
+                    } 
                 }
             }
         ]

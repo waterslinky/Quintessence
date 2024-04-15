@@ -193,6 +193,7 @@ class engin_class{
             this.time_paused+=Date.now()-this.start_time_paused
             this.dont_add_time=false            
         }
+        
 
 
     }

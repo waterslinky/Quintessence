@@ -301,16 +301,7 @@ function set_block_from_index(x,y,block){
 
 }
 
-//Make to item
-const blank = {
 
-    name:"blank",
-
-    hiden_in_accended:true,
-
-    image:images.blank
-
-}      
 
 
 const extrude_block = {
@@ -846,21 +837,7 @@ const knowledge_tablet = {
 }
 
 
-const air = {
-    
-    name:"air",
 
-    hiden_in_accended:true,
-
-    kills_grass:false,
-
-    collision_box:false,
-
-    transparent:true,
-
-    image:images.air
-
-}
 
 
 const grass = {
@@ -981,24 +958,6 @@ const magnifying_glass = {
 }
 
 
-const stone = {
-    category:"earth",
-
-    name:"stone",
-
-    display_name:"Stone",
-
-    broken_with:[
-        {
-            "tool_type" : "pickaxe" 
-        }
-    ],
-
-    destroy_time:3,
-
-    image:images.stone
-           
-}
 
 
 const soil = {
@@ -1391,18 +1350,6 @@ const tall_grass_block = {
 }
 
 
-const bedrock = {
-    
-    category:"earth",
-
-    name:"bedrock",
-
-    display_name:"Bed Rock",
-
-    image:images.bedrock// let variated_images:[bedrock_image,bedrock_image2]variated_images[number_from(0,variated_images.length-1)()]
-
-}
-
 blocks = {
 
 }
@@ -1425,7 +1372,7 @@ block_json.forEach(block_js => {
 
             if(component["properties"]){
                 component["properties"].forEach(propertie => {
-                    alert(block_js[state])
+                    // alert(block_js[state])
                     block[propertie.name] = propertie.value(block_js[state])
                 });
                 
@@ -1463,7 +1410,7 @@ block_json.forEach(block_js => {
 
 
 // const blocks={
-//         "air":air,
+
 //         "blank":blank,
 //         "stone":stone,
 //         // "dirt":dirt,
@@ -1491,7 +1438,7 @@ block_json.forEach(block_js => {
 
 //         // "extrude_block":extrude_block,
 //         // "laod_block":laod_block,
-//         // "bedrock":bedrock,
+
 
 //         // "plank":plank,
 //         // "slightly_striped_log":slightly_striped_log,
