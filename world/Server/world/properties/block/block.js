@@ -1425,7 +1425,7 @@ block_json.forEach(block_js => {
 
             if(component["properties"]){
                 component["properties"].forEach(propertie => {
-                    alert(block_js[state])
+                    // alert(block_js[state])
                     block[propertie.name] = propertie.value(block_js[state])
                 });
                 

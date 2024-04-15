@@ -24,7 +24,7 @@ const item_components = {
                 "value":function(value){
 
                         if(typeof value=="boolean"){
-                            alert("WEFWEFEFW")
+                            
                             return value 
                         }
                         else{
