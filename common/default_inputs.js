@@ -2,6 +2,8 @@ let KeysDown={}
 has_interacted=false
 
 
+
+
 document.body.addEventListener("keydown",function(event){
     has_interacted=true
 
@@ -25,6 +27,24 @@ document.body.addEventListener("keydown",function(event){
     // console.log(KeysDown)
 })
 
+
+function keybind_down(key_binds,keys = KeysDown){
+    let value
+
+    for(key_bind in key_binds){
+        let key = keys[key_bind]
+
+        if(key=="Held_Down"){
+            return key
+        }
+
+        if(key=="Down"){
+            value = key
+        }
+    }
+
+    return value
+}
 
 // document.body.addEventListener("mosue",function(event){})
 

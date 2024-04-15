@@ -80,7 +80,8 @@ function update_entities(){
 // }
 
 // console.log(readJsonFiles())
-
+// let y = {"a",""}
+// alert(keybinds.keyboard.inc)
 function world_keys(){
 
 
