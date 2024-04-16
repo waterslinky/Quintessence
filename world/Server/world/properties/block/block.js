@@ -196,23 +196,34 @@ function create_item(data={}){
 
     let item
 
+    let x = 0
+    let y = 0
+
+    if(data.x && data.y){
+
+        x = data.x
+        y = data.y
+
+    }
+
     if(typeof data=="string"){
         item = copy(blocks_structure[data] )
     }
     else{
         item = copy(blocks_structure[data.name] )
-
     }
+
+    item.x = x
+    item.y = y
+
 
     if(item.on_created_functions){
         for(on_created_function_name in item.on_created_functions){
+
             let on_created_function = item.on_created_functions[on_created_function_name]
-            // console.log()
             item["image"] = on_created_function(item)
-        }
-        // item.on_created_functions.forEach(on_created_function => {
             
-        // });        
+        }  
     }
 
 
@@ -304,165 +315,6 @@ function set_block_from_index(x,y,block){
 
 
 
-const extrude_block = {
-
-    name:"extrude_block",
-
-    display_name:"Extrude Block",
-
-    transparent:true,
-
-    kills_grass:false,
-
-    collision_box:false,
-
-    dir:0,
-
-    extrude_min : 0,
-
-    extrude_max : 0,
-
-
-
-    extrude_block:"",
-
-    offset_x : 0,
-
-    offset_y : 0,
-
-    on_right_clicked:function(){
-
-
-            if(KeysDown["Control"]){
-            dir++
-                if(this.dir>3){
-                dir=0
-                }                
-                
-
-            }
-            else{
-                selected_extrude_block=this
-                
-                select_extrude_direction_images()
-
-                extrude_to_wall_min_text.text=""+(this.extrude_min)+""
-                extrude_to_wall_max_text.text = ""+(this.extrude_max)+""
-
-                extrude_block_name.text = this.extrude_block
-
-                if(this.end_structure!=undefined){
-                    end_structure_text.text = this.end_structure
-                    end_structure_offset_x_text.text = ""+(this.offset_x)+""
-                    end_structure_offset_y_text.text = ""+(this.offset_y) +""             
-                }
-                else{
-                    end_structure_text.text = ""
-                    end_structure_offset_x_text.text = ""
-                    end_structure_offset_y_text.text = ""   
-                }
-
-
-
-
-
-
-                // this.extrude_min+="f"
-                
-                engin.change_selected_layer("extrude_block","push")
-                
-            }
-
-
-
-
-
-            
-    },
-
-    image:images.extrude_block
-
-}
-
-
-const laod_block = {
-
-    name:"laod_block",
-
-    display_name:"Laod Block",
-
-    transparent:true,
-
-    kills_grass:false,
-
-    collision_box:false,
-
-    structure_name:"",
-
-    structure_x:0,
-
-    structure_y:0,
-
-    structure_size_x:10,
-    
-    structure_size_y:10,
-
-    on_right_clicked:function(){
-
-            if(this.structure_name==undefined){
-                structure_name=""
-            }
-            load_structure_block = this
-
-
-            load_structure_name.text=this.structure_name
-            
-            load_structure_size_x.text = ""+load_structure_block.structure_size_x+""
-            load_structure_size_y.text = ""+load_structure_block.structure_size_y+""
-
-
-            load_structure_x.text = ""+load_structure_block.structure_x+""
-            load_structure_y.text = ""+load_structure_block.structure_y+""
-
-            // load_structure_block.structure_y : JSON.parse(load_structure_y.text)
-
-
-
-
-            engin.change_selected_layer("load_structure","push")
-            
-    },
-        
-    image:images.load_block
-
-}
-
-
-const leaf = {
-
-    category:"nature",
-
-    transparent:true,
-
-    collision_box:false,
-
-    loot_table:block_loot_tables.leaf,
-
-    name:"leaf",
-
-    display_name:"Leaf",
-
-    destroy_time:0.75,
-        
-    side_image:images.leaf_side1,
-
-    
-    render_side_image_on:["log"],
-
-    image:images.leaf
-            
-}
-
 
 const wheat_crop = {
     name:"wheat_crop",
@@ -531,63 +383,10 @@ const wheat_crop = {
 }
 
 
-const dirt = {
-
-    broken_with : [
-        {
-            "tool_type" : "shovel"         }
-    ],
-   
-    category:"nature",
-
-    name:"dirt",
-
-    display_name:"Dirt",
-
-    destroy_time:2,
-
-    on_right_clicked:function(block,x,y){
-        if(player.inventory[player.selected_slot_index.index].item.name=="hoe" && get_block_from_index(x,y-1).name=="air"){
-            change_block(x,y,"soil")
-        }
-        
-    },
-    
-  
-    image:images.dirt
-   
-}
 
 
-const log = {
-   
-    category : "nature",
 
-    name : "log",
 
-    display_name : "Log",
-
-    collision_box : false,
-
-    broken_with : [
-            {
-                "tool_type" : "axe" 
-            },
-            {
-                "tool_type" : "knife",
-
-                "loot_table" : item_loot_tables.bark_knife,
-                "replace_with" : {
-                    "name" : "slightly_striped_log"
-                }
-            }
-    ],
-
-    destroy_time : 2.5,
-   
-    image : images.log
-
-}
 
 
 const slightly_striped_log = {
@@ -761,593 +560,21 @@ const missing_block = {
 }
 
 
-const knowledge_tablet = {
-    
-    transparent:true,
 
-    hit_box:[2,2],
 
-    broken_with : [
-        {
-            "tool_type" : "pickaxe" 
-        }
-    ],
 
-    use_after_duration:1000,
 
-    on_used:function(){
 
-                // for(let mushroom in mushrooms){
-                    // if(mushrooms[mushroom].effect=="poison"){
-                    player.add_knowledge({"name":all_mushrooms_colors[0],"text":all_mushrooms_effects[0].knowledge})
-                    player.add_knowledge({"name":all_mushrooms_colors[1],"text":all_mushrooms_effects[1].knowledge})
-                    player.add_knowledge({"name":all_mushrooms_colors[2],"text":all_mushrooms_effects[2].knowledge})
 
 
-                    // window[all_mushrooms_effects[0].effect+"_mushroom"]
 
-                    for(let mushroom_index=0;mushroom_index<all_mushrooms_effects.length;mushroom_index++){
-                        let mushroom=all_mushrooms_effects[mushroom_index]
-                    
-                        if(mushroom.effect=="poison"){
-                            chat.push({
-                                "text":"Knowledge: "+get_property({"name":all_mushrooms_colors[mushroom_index]},"display_name")+"s are poisonous.",
-                                "end_time":engin.time_in_loop+5000,"color":"219, 209, 7"
-                            })                              
-                        }
-                        if(mushroom.effect=="regeneration"){
-                            chat.push({
-                                "text":"Knowledge: "+get_property({"name":all_mushrooms_colors[mushroom_index]},"display_name")+"s heal you when eaten.",
-                                "end_time":engin.time_in_loop+5000,"color":"219, 209, 7"
-                            })                                
-                        }
 
-                        if(mushroom.effect=="saturation"){
-                            chat.push({
-                                "text":"Knowledge: "+get_property({"name":all_mushrooms_colors[mushroom_index]},"display_name")+"s are safe to eat.",
-                                "end_time":engin.time_in_loop+5000,"color":"219, 209, 7"
-                            })                               
-                        }                    
-                    
-                        
-                    }
 
 
 
 
-                
 
-                  
 
-                    
-                // }
-
-    },
-
-    stack_size : 1,
-
-    name:"knowledge_tablet",
-
-    display_name:"Knowledge Tablet",
-
-    destroy_time:5,
-
-    image:images.knowledge_tablet
-
-}
-
-
-
-
-
-const grass = {
-
-    category:"nature",
-    name:"grass",
-    display_name:"Grass",
-
-    broken_with : [
-        {
-            "tool_type" : "shovel" 
-        }
-    ],
-
-    destroy_time:2,
-
-    image:images.grass,
-    on_right_clicked:function(block,x,y){
-        if(player.inventory[player.selected_slot_index.index].item.name=="hoe" && get_block_from_index(x,y-1).name=="air"){
-            change_block(x,y,"soil")
-        }
-        
-    },
-               
-
-    random_tick:{
-                "event":function(x,y){
-
-              
-                    
-                    // if(get_property(get_block_from_index(x,y-1),"kills_grass")!=false){
-                        
-                    //     change_block(x,y,"dirt")
-                    //     // console.log("EVENT DO THOIING")
-                    // }
-                    // else{
-                    //     if(get_block_from_index(x,y-1).name=="dirt" && get_block_from_index(x+1,y).name=="air"){
-                            
-                    //         change_block(x-1,y,"grass")
-                    //     // console.log("EVENT DO THOIING")
-
-                    
-
-                    //     }
-                    //     if(get_block_from_index(x+1,y).name=="dirt" && get_block_from_index(x+1,y-1).name=="air"){
-                    //         change_block(x+1,y,"grass")
-                    //     // console.log("EVENT DO THOIING")
-
-                    //     }
-                    // }
-
-
-
-                    
-                },
-                "loop":true,
-                "time":function(){
-                    return (10000*Math.random())+14000
-                }
-    }
-}
-
-
-const stone_brick_pedestal = {
-    category:"earth",
-    name:"stone_brick_pedestal",
-    display_name:"Stone Brick Pedestal",
-
-    hit_box:[2,1],
-    transparent:true,
-
-    kills_grass:false,
-
-    destroy_time:3,
-
-    broken_with : [
-        {
-            "tool_type" : "pickaxe" 
-        }
-    ],
-
-     
-    image:images.stone_brick_pedestal
-         
-}
-
-
-const stone_brick = {
-    
-    display_name:"Stone Brick",
-
-    name:"stone_brick",
-
-    broken_with : [
-                {
-                    "tool_type" : "pickaxe" 
-                }
-    ],
-
-    destroy_time:10,
-
-    image:images.stone_brick
-}
-
-
-const magnifying_glass = {
-
-    name:"magnifying_glass",
-
-    destroy_time:0,
-
-    hand_size:1,
-
-    image:images.magnifying_glass,
-    
-    hiden_in_accended:true
-
-}
-
-
-
-
-const soil = {
-    category:"nature",
-
-    
-    name:"soil",
-
-    transparent:true,
-
-    display_name:"Soil",
-
-    collision_box:[
-        {
-            "x":0,
-            "y":4,
-            "size_y":28,
-            "size_x":32,
-
-        }
-    ],
-
-    destroy_time:2,
-
-    image:images.soil
-           
-}
-
-const camp_fire = {
-    category:"nature",
-
-    
-    name:"camp_fire",
-
-    transparent:true,
-
-    display_name:"Camp Fire",
-
-    kills_grass:false,
-
-
-    collision_box:false,
-
-    on_placed:function(block,x,y){
-
-        block.particle_emmiter = new particle_emitter({
-
-                "parent_location":{"string":function(){return get_block_from_index(x,y).particle_emmiter}},
-
-                "particle":Smoke_par,
-                "x":(x+0.5)*block_size,
-                "y":(y+0.5)*block_size,
-                "emiter_timer":1400
-            })
-        
-
-        particles.push(block.particle_emmiter)   
-    },
-
-    on_right_clicked:function(){
-        engin.change_selected_layer(["camp_fire"],"set")
-        
-    },
-
-
-    destroy_time:2,
-
-    image:images.camp_fire
-           
-}
-
-
-const marble = {
-
-    category:"earth",
-
-    name:"marble",
-
-    display_name:"Marble",
-
-    broken_with : [
-        {
-            "tool_type" : "pickaxe" 
-        }
-    ],
-
-    destroy_time:3,
-
-    image:images.marble
-    
-}
-
-
-const slate = {
-
-    category:"earth",
-
-       
-        name:"slate",
-
-    display_name:"Slate",
-
-    broken_with : [
-                {
-                    "tool_type" : "pickaxe" 
-                }
-    ],
-
-    destroy_time:3,
-
-    image:images.slate
-       
-}
-
-
-const blue_mushroom = {
- 
-    category:"nature",
-
-    on_used:function(){
-        blue_mushroom_function()
-
-        player.give_hunger(6)
-    },
-            
-    has_knowledge:true,
-
-    bottom_side_image:images.mushroom_root,
-
-    render_bottom_side_image_on:["soil"],
-
-    random_tick:{
-        "event":function(x,y){
-
-            if(get_block_from_index(x,y+1).name=="soil"){
-
-                let random_number = Math.round(Math.random())
-
-                if(random_number==0){
-                    if(get_block_from_index(x-1,y+1).name=="soil" && get_block_from_index(x-1,y).name=="air"){
-                        set_block_from_index(x-1,y,create_item("blue_mushroom"))
-                    }
-
-                }
-                else if(random_number==1){
-                    if(get_block_from_index(x+1,y+1).name=="soil" && get_block_from_index(x+1,y).name=="air"){
-                        set_block_from_index(x+1,y,create_item("blue_mushroom"))
-                    }
-                }
-
-            }
-            
-        },
-        "loop":true,
-        "time":function(){
-            return 20000+(Math.random()*18000)
-        }
-    },
-
-    decrease_after_use:1,
-
-    use_after_duration:1200,
-
-    transparent:true,
-
-    kills_grass:false,
-
-    collision_box:false,
-
-    name:"blue_mushroom",
-
-    display_name:"Blue Mushroom",
-
-    destroy_time:0,
-
-
-    image:images.blue_mushroom
-
-}
-
-
-const red_mushroom = {
-
-        category:"nature",
-
-        has_knowledge:true,
-
-        collision_box:false,
-            
-        transparent:true,
-
-        kills_grass:false,
-            
-        decrease_after_use:1,
-
-        use_after_duration:1200,
-
-        bottom_side_image:images.mushroom_root,
-
-        random_tick:{
-            "event":function(x,y){
-    
-                if(get_block_from_index(x,y+1).name=="soil"){
-    
-                    let random_number = Math.round(Math.random())
-    
-                    if(random_number==0){
-                        if(get_block_from_index(x-1,y+1).name=="soil" && get_block_from_index(x-1,y).name=="air"){
-                            set_block_from_index(x-1,y,create_item("red_mushroom"))
-                        }
-    
-                    }
-                    else if(random_number==1){
-                        if(get_block_from_index(x+1,y+1).name=="soil" && get_block_from_index(x+1,y).name=="air"){
-                            set_block_from_index(x+1,y,create_item("red_mushroom"))
-                        }
-                    }
-    
-                }
-                
-            },
-            "loop":true,
-            "time":function(){
-                return 200
-            }
-        },
-
-        render_bottom_side_image_on:["soil"],
-
-
-        on_used:function(){
-                red_mushroom_function()
-
-                player.give_hunger(6)
-        },
-
-        name:"red_mushroom",
-
-        display_name:"Red Mushroom",
-
-        destroy_time:0,
-
-        image:images.red_mushroom
-
-}
-
-    
-const green_mushroom = {
- 
-    category:"nature",
-
-    collision_box:false,
-
-    has_knowledge:true,
-
-    decrease_after_use:1,
-
-    bottom_side_image:images.mushroom_root,
-
-    render_bottom_side_image_on:["soil"],
-
-    use_after_duration:1200,
-    random_tick:{
-        "event":function(x,y){
-
-            if(get_block_from_index(x,y+1).name=="soil"){
-
-                let random_number = Math.round(Math.random())
-
-                if(random_number==0){
-                    if(get_block_from_index(x-1,y+1).name=="soil" && get_block_from_index(x-1,y).name=="air"){
-                        set_block_from_index(x-1,y,create_item("green_mushroom"))
-                    }
-
-                }
-                else if(random_number==1){
-                    if(get_block_from_index(x+1,y+1).name=="soil" && get_block_from_index(x+1,y).name=="air"){
-                        set_block_from_index(x+1,y,create_item("green_mushroom"))
-                    }
-                }
-
-            }
-            
-        },
-        "loop":true,
-        "time":function(){
-            return 20000+(Math.random()*18000)
-        }
-    },
-
-
-    on_used:function(){
-        green_mushroom_function() 
-        
-        player.give_hunger(6)
-
-        
-    },
-  
-    transparent:true,
-
-    kills_grass:false,
-
-    name:"green_mushroom",
-
-    display_name:"Green Mushroom",
-
-    destroy_time:0,
-           
-    image:images.green_mushroom
-    
-}
-
-
-const stone_boulder = {
-        
-    category:"earth",
-
-    collision_box:false,
-
-    broken_with : [
-                {
-                    "tool_type" : "pickaxe" 
-                }
-    ],
-
-    transparent:false,
-
-            
-    name:"stone_boulder",
-
-    display_name:"Stone Boulder",
-
-    destroy_time:1.25,
-
-    image:images.stone_boulder
-    
-}
-
-
-const grass_block = {
-
-    category:"nature",
-
-    collision_box:false,
-       
-    collision_box:false,
-            
-    transparent:true,
-
-    kills_grass:false,
-
-    loot_table:block_loot_tables.grass_block,
-
-    name:"grass_block",
-
-    display_name:"Grass Block",
-
-    destroy_time:0,
-
-    image:images.grass_block
-          
-}
-
-
-const tall_grass_block = {
-
-    category:"nature",
-
-    collision_box:false,
-
-    loot_table:block_loot_tables.grass_block,
-
-    collision_box:false,
-            
-    transparent:true,
-
-    kills_grass:false,
-
-    hit_box:[1,2],
-
-    name:"tall_grass_block",
-
-    display_name:"Tall Grass Block",
-
-    destroy_time:0,
-
-    image:images.tall_grass_block
-
-}
 
 
 blocks = {
@@ -1369,6 +596,8 @@ block_json.forEach(block_js => {
     for(let state in block_js){
         let component = item_components[state]
         if(component){
+
+            
 
             if(component["properties"]){
                 component["properties"].forEach(propertie => {
@@ -1398,6 +627,9 @@ block_json.forEach(block_js => {
             }
 
         }
+        // else{
+        //     block[state] = block_js[state]
+        // }
 
         // blocks[block.name][]
     }
@@ -1409,61 +641,6 @@ block_json.forEach(block_js => {
 // blocks = blocks_structure
 
 
-// const blocks={
-
-//         "blank":blank,
-//         "stone":stone,
-//         // "dirt":dirt,
-        
-//         // "grass":grass,
-//         // "stone_brick":stone_brick,
-//         // // "cracked_block":cracked_block,
-//         // "missing_block":missing_block,
-        
-//         // "magnifying_glass":magnifying_glass,
-//         // "blue_mushroom":blue_mushroom,
-//         // "green_mushroom":green_mushroom,
-//         // "red_mushroom":red_mushroom,
-//         // "knowledge_tablet":knowledge_tablet,
-//         // "stone_brick_pedestal":stone_brick_pedestal,
-//         // "marble":marble,
-//         // "stone_boulder":stone_boulder,
-//         // "grass_block":grass_block,
-//         // "tall_grass_block":tall_grass_block,
-
-//         // "log":log,
-
-//         // "leaf":leaf,
-//         // "slate":slate,
-
-//         // "extrude_block":extrude_block,
-//         // "laod_block":laod_block,
-
-
-//         // "plank":plank,
-//         // "slightly_striped_log":slightly_striped_log,
-//         // "moderately_striped_log":moderately_striped_log,
-//         // "mostly_striped_log":mostly_striped_log,
-//         // "striped_log":striped_log,
-
-
-//         // "crafting_table":crafting_table,
-
-//         // "soil":soil,
-//         // "wheat_crop":wheat_crop,
-//         // "camp_fire":camp_fire
-
-//         // // "snowy_grass":snowy_grass,
-//         // // "snow_layer_1":snow_layer_1,
-//         // // "snow_layer_2":snow_layer_2,
-//         // // "snow_layer_3":snow_layer_3,
-//         // // "snow_block":snow_block
-
-
-
-
-
-// }
 
 if(is_server){
     module.exports={get_item,get_just_block,change_block,block_is}

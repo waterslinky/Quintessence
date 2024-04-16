@@ -24,11 +24,7 @@ const item_components = {
                 "value":function(value){
 
                         if(typeof value=="boolean"){
-<<<<<<< HEAD
-                            // alert("WEFWEFEFW")
-=======
                             
->>>>>>> b75d677f2e6c748f0ed886875f639eada954a65e
                             return value 
                         }
                         else{
@@ -40,8 +36,10 @@ const item_components = {
     },
 
     "display_name":{
+        "value_types":["string"],
         "properties":[
             {
+                
                 "name":"display_name",
                 "value":function(value){
 
@@ -55,47 +53,60 @@ const item_components = {
             }
         ]
     },
-    "random_tick":{
-        "properties":[
-            {
-                "name":"time",
-                "value":function(value){
+    // "random_tick":{
+    //     "value_types":["object"],
+    //     "requires":{
+    //         "loop":{
+    //             "type":"boolean",
+    //             "note":"Loops until event function returns false."
+    //         },
+    //         "time":{
+    //             "type":"function",
+    //             "note":"Runs a function to determine the time untell the next random tick event is called. (return a integer greater than 0. a return value of 1000 = one second)"
+    //         }
+    //     },
+    //     "properties":[
+    //         {
+    //             "name":"time",
+    //             "value":function(value){
 
-                    if(typeof value.time=="function"){
-                        return value
-                    }
-                    else{
-                        console.error("Component random_tick.time is type function not type: "+typeof value)
-                    }
+    //                 if(typeof value.time=="function"){
+    //                     return value.time
+    //                 }
+    //                 else{
+    //                     console.error("Component random_tick.time is type function not type: "+typeof value)
+    //                 }
                     
-                }
-            }
-        ],
-        "structure_properties":[
-            {
-                "name":"loop",
-                "value":function(value){
+    //             }
+    //         }
+    //     ],
+    //     "structure_properties":[
+    //         {
+    //             "name":"loop",
+    //             "value":function(value){
 
-                    if(typeof value.loop=="boolean"){
-                        return value 
-                    }
-                    else{
-                        console.error("Component loop is type boolean not type: "+typeof value)
-                    }
+    //                 if(typeof value.loop=="boolean"){
+    //                     return value.loop
+    //                 }
+    //                 else{
+    //                     console.error("Component loop is type boolean not type: "+typeof value)
+    //                 }
                     
-                }
-            },
-            {
-                "name":"next_random_tick",
-                "value":function(item){
+    //             }
+    //         },
+    //         {
+    //             "name":"next_random_tick",
+    //             "value":function(item){
 
-                    item.next_event_time = engin.time_in_loop + get_property(item,"time")()
+    //                 // console.log(get_property(item,"time")())
+
+    //                 item.next_event_time = engin.time_in_loop + get_property(item,"time")()
                     
-                },
-                "type":"on_created"
-            },
-        ]
-    },
+    //             },
+    //             "type":"on_created"
+    //         },
+    //     ]
+    // },
 
     "image":{
         
@@ -103,7 +114,6 @@ const item_components = {
             {
                 "name":"image",
                 "value":function(item){
-                    // return images[value]
 
                     if(is_server==false){
                         let property = images[get_property(item,"image")]
@@ -111,27 +121,22 @@ const item_components = {
                         
                         
                         if(typeof property.length=="undefined" && typeof property.src=="undefined"){
-
-                            if(item.x!=undefined){
-                                alert(item.x)
-                            }
                 
-                            let x=item.x
-                            let y=0
-                            // console.log(property)
+                            let x=item.x || 0
+                            let y=item.y || 0
+
                             let image = property.image(undefined,x,y)
                 
                             if(property.cell_width){
                                 image = {"image":image,"cell_width": property.cell_width,"animation_time": property.animation_time}
                             }
-                            // console.log(image)
-                            return image
-                            
+                            return image            
                 
                         }
                         else{
-                            // console.log(property)
+
                             return property
+
                         }
                 
                 

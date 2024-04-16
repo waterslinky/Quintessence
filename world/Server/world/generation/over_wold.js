@@ -217,30 +217,30 @@ function generate_structcher_to_chuck(structure,chuck,chuck_x,chuck_y,orgin_stru
 
     
 
-    for(let structure_x=0;structure_x<structure.length;structure_x++){
-        for(let structure_y=0;structure_y<structure[structure_x].length;structure_y++){
+    // for(let structure_x=0;structure_x<structure.length;structure_x++){
+    //     for(let structure_y=0;structure_y<structure[structure_x].length;structure_y++){
 
-            let x = orgin_structure_x + structure_x 
-            let y = orgin_structure_y - structure_y 
+    //         let x = orgin_structure_x + structure_x 
+    //         let y = orgin_structure_y - structure_y 
 
-            let block = create_item(structure[structure_x][(structure[structure_x].length-1)-structure_y])
+    //         let block = create_item(structure[structure_x][(structure[structure_x].length-1)-structure_y])
 
 
 
-            if(block.name=="extrude_block"){
+    //         if(block.name=="extrude_block"){
 
-                generate_load_extrude_block_to_chuck(block,x,y,chuck_x,chuck_y,orgin_chuck_x,orgin_chuck_y,chuck)
+    //             generate_load_extrude_block_to_chuck(block,x,y,chuck_x,chuck_y,orgin_chuck_x,orgin_chuck_y,chuck)
 
-            }
-            else{
+    //         }
+    //         else{
                 
-                generate_block_to_chuck(block,x,y,orgin_chuck_x,orgin_chuck_y,chuck)
+    //             generate_block_to_chuck(block,x,y,orgin_chuck_x,orgin_chuck_y,chuck)
 
-            }
+    //         }
 
             
-        }
-    }
+    //     }
+    // }
     
 
 }
@@ -443,7 +443,7 @@ function generate_chuck(chuck_x,chuck_y,noise_settings){
         let line = []
 
         for(let y_index=0;y_index<chuck_size;y_index++){
-            line.push(create_item("stone"))
+            line.push(create_item({"name":"air","x":(chuck_x*chuck_size) + x_index,"y":(chuck_y*chuck_size) + y_index}))
         }
 
         chuck.push(line)
@@ -451,30 +451,6 @@ function generate_chuck(chuck_x,chuck_y,noise_settings){
     }
 
     
-    // // for(let x_index=0;x_index<chuck_size;x_index++){
-
-
-    // //     let x = (chuck_x*chuck_size) + x_index
-
-    // //     for(let y_index=0;y_index<chuck_size;y_index++){
-    // //         let y = (chuck_y*chuck_size) + y_index
-
-    // //         let a = noise((x-8)*10,y*10,0.5,{
-    // //             "seed":seed,
-    // //             "oct":3
-    // //         })
-
-    // //         if(a>0.9){
-    // //             chuck[x_index][y_index] = create_item("grass")
-    // //             console.log("grass")
-    // //         }
-    // //         else{
-    // //             chuck[x_index][y_index] = create_item("stone")
-    // //         }
-            
-    // //     }
-    // // }
-
     // for(let x_index=0;x_index<chuck_size;x_index++){
 
 
@@ -483,42 +459,66 @@ function generate_chuck(chuck_x,chuck_y,noise_settings){
     //     for(let y_index=0;y_index<chuck_size;y_index++){
     //         let y = (chuck_y*chuck_size) + y_index
 
-    //         let block_name = "air"
-
-    //         let elevation = parseInt((noise(1000,x*3,1,{
-    //             "seed":world_setting.seed,
+    //         let a = noise((x-8)*10,y*10,0.5,{
+    //             "seed":seed,
     //             "oct":3
-    //         })*10)+20)
+    //         })
 
-    //         if(y>=elevation){
-
-    //             if(noise(x*8,y*8,.5,noise_settings)>0.6){
-                    
-    //                 block_name = "stone_boulder"
-    //             }
-    //             else{
-                
-    //                 block_name = "stone"
-                
-    //             }
-
-
-
-
-
-
-
-    //             if(y==elevation){
-    //                 block_name = "grass"
-    //             }
-
-    //             if(y-1==elevation){
-    //                 block_name = "dirt"
-    //             }
-    //             if(y-2==elevation){
-    //                 block_name = "dirt"
-    //             }                
+    //         if(a>0.9){
+    //             chuck[x_index][y_index] = create_item("grass")
+    //             console.log("grass")
     //         }
+    //         else{
+    //             chuck[x_index][y_index] = create_item("stone")
+    //         }
+            
+    //     }
+    // }
+
+    for(let x_index=0;x_index<chuck_size;x_index++){
+
+
+        let x = (chuck_x*chuck_size) + x_index
+
+        for(let y_index=0;y_index<chuck_size;y_index++){
+            let y = (chuck_y*chuck_size) + y_index
+
+            let block_name = "air"
+
+            let elevation = parseInt((noise(1000,x*3,1,{
+                "seed":world_setting.seed,
+                "oct":3
+            })*10)+20)
+
+            if(y>=elevation){
+
+                if(noise(x*8,y*8,.5,noise_settings)>0.6){
+                    
+                    block_name = "stone_boulder"
+                }
+                else{
+                
+                    block_name = "stone"
+                
+                }
+
+
+
+
+
+
+
+                if(y==elevation){
+                    block_name = "grass"
+                }
+
+                if(y-1==elevation){
+                    block_name = "dirt"
+                }
+                if(y-2==elevation){
+                    block_name = "dirt"
+                }                
+            }
 
 
 
@@ -526,45 +526,45 @@ function generate_chuck(chuck_x,chuck_y,noise_settings){
 
   
 
-    //         let generated_block = generate_block(block_name,x,y,chuck)
-    //         if(generated_block!=undefined){
-    //                 if(generated_block.name!="air"){
+            let generated_block = generate_block(block_name,x,y,chuck)
+            if(generated_block!=undefined){
+                    if(generated_block.name!="air"){
                      
-    //                     chuck[x_index][y_index] = generated_block
-    //             }
-    //         }
+                        chuck[x_index][y_index] = generated_block
+                }
+            }
 
                 
             
             
-    //         }
+            }
 
+    }
+
+
+    // for(let x_index=0;x_index<chuck_size;x_index++){
+
+
+    //     let x = (chuck_x*chuck_size) + x_index
+
+    //     let elevation = parseInt((noise(200,x*3,1,{
+    //         "seed":world_setting.seed,
+    //         "oct":3
+    //     })*10)+20)
+
+    //     for(let y_index=0;y_index<chuck_size;y_index++){
+    //         let y = (chuck_y*chuck_size) + y_index
+
+
+
+    //     }
     // }
 
+    generation_structures_rules.forEach(structure => {
 
-    // // for(let x_index=0;x_index<chuck_size;x_index++){
-
-
-    // //     let x = (chuck_x*chuck_size) + x_index
-
-    // //     let elevation = parseInt((noise(200,x*3,1,{
-    // //         "seed":world_setting.seed,
-    // //         "oct":3
-    // //     })*10)+20)
-
-    // //     for(let y_index=0;y_index<chuck_size;y_index++){
-    // //         let y = (chuck_y*chuck_size) + y_index
-
-
-
-    // //     }
-    // // }
-
-    // generation_structures_rules.forEach(structure => {
-
-    //     generate_structcher_layer(structure,chuck,chuck_x,chuck_y)
+        generate_structcher_layer(structure,chuck,chuck_x,chuck_y)
  
-    // });
+    });
 
 
 
@@ -573,19 +573,19 @@ function generate_chuck(chuck_x,chuck_y,noise_settings){
         
 
         
-    // for(let x=0;x<chuck.length;x++){
-    //             for(let y=0;y<chuck[x].length;y++){
+    for(let x=0;x<chuck.length;x++){
+                for(let y=0;y<chuck[x].length;y++){
                 
                     
             
                         
-    //                 set_block_from_index(x+(chuck_x*chuck_size),y+(chuck_y*chuck_size),create_item({x,y,"name":"stone"}))
+                    set_block_from_index(x+(chuck_x*chuck_size),y+(chuck_y*chuck_size),create_item({x,y,"name":"stone"}))
 
 
 
 
-    //             }
-    // }
+                }
+    }
 
 
     return chuck
