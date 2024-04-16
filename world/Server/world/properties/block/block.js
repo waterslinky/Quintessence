@@ -602,24 +602,48 @@ block_json.forEach(block_js => {
             if(component["properties"]){
                 component["properties"].forEach(propertie => {
                     // alert(block_js[state])
-                    block[propertie.name] = propertie.value(block_js[state])
+
+                    let value = propertie.value
+
+                    if(value){
+                        block[propertie.name] = value(block_js[state])
+                    }
+                    else{
+                        if(component.value_types.includes(block_js[state])){
+                            block[propertie.name] = block_js[state]
+                        }
+                    }
+                    
                 });
                 
             }
 
             if(component["structure_properties"]){
                 component["structure_properties"].forEach(propertie => {
+
+                    let value = propertie.value
                     // alert(propertie.name)
                     if(propertie.type=="on_created"){
                         if(block_structure["on_created_functions"]==undefined){
                             block_structure["on_created_functions"] = {}
                         }
 
-                        block_structure["on_created_functions"][propertie.name]=propertie.value
+                        block_structure["on_created_functions"][propertie.name]=value
 
                     }
                     else{
-                        block_structure[propertie.name] = propertie.value(block_js[state])
+
+                        if(value){
+
+                            block_structure[propertie.name] = value(block_js[state])
+
+                        }
+                        else{
+                            if(component.value_types.includes(block_js[state])){
+                                block_structure[propertie.name] = block_js[state]
+                            }
+                        }
+                        
                     }
                     
                 });

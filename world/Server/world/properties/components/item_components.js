@@ -18,19 +18,22 @@ const item_components = {
     },
 
     "hiden_in_accended":{
+
+        "value_types":["boolean"],
+
         "properties":[
             {
                 "name":"hiden_in_accended",
-                "value":function(value){
+                // "value":function(value){
 
-                        if(typeof value=="boolean"){
+                //         if(typeof value=="boolean"){
                             
-                            return value 
-                        }
-                        else{
-                            console.error("Component 'hiden_in_accended' is type boolean not type: "+typeof value)
-                        } 
-                }
+                //             return value 
+                //         }
+                //         else{
+                //             console.error("Component 'hiden_in_accended' is type boolean not type: "+typeof value)
+                //         } 
+                // }
             }
         ]
     },
