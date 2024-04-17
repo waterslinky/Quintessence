@@ -221,7 +221,7 @@ function create_item(data={}){
         for(on_created_function_name in item.on_created_functions){
 
             let on_created_function = item.on_created_functions[on_created_function_name]
-            item["image"] = on_created_function(item)
+            item[on_created_function_name] = on_created_function(item)
             
         }  
     }
@@ -316,71 +316,7 @@ function set_block_from_index(x,y,block){
 
 
 
-const wheat_crop = {
-    name:"wheat_crop",
 
-    display_name:"Wheat Crop",
-
-    in_accended_inventory:false,
-
-    category:"nature",
-
-    transparent:true,
-
-    collision_box:false,
-
-    destroy_time:0,
-
-    render_bottom_side_image_on:["soil"],
-
-    random_tick:{
-        "event":function(x,y){
-
-            let block = get_block_from_index(x,y)
-
-            if(block.states.groth<3){
-                block.states.groth++
-            }
-            else{
-                return false
-            }
-
-            
-
-        },
-        "loop":true,
-        "time":function(){
-            return 60000+(Math.random()*180000)
-        }
-    },
-
-    state_propertys:{
-        "groth":[
-            {
-                "image":images.wheat_crop1,
-                "bottom_side_image":images.wheat_crop_bottom1,
-                "loot_table":block_loot_tables.wheat_seed
-            },
-            {
-                "image":images.wheat_crop2,
-                "bottom_side_image":images.wheat_crop_bottom2,
-                "loot_table":block_loot_tables.wheat_seed
-            },
-            {
-                "image":images.wheat_crop3,
-                "bottom_side_image":images.wheat_crop_bottom3,
-                "loot_table":block_loot_tables.wheat_seed
-
-            },
-            {
-                "image":images.wheat_crop4,
-                "top_side_image":images.wheat_crop4_top,
-                "bottom_side_image":images.wheat_crop_bottom4,
-                "loot_table":block_loot_tables.wheat_crop
-            }
-        ]
-    }
-}
 
 
 
@@ -597,59 +533,98 @@ block_json.forEach(block_js => {
         let component = item_components[state]
         if(component){
 
-            
+            if(component.value_types == undefined || component.value_types.includes(typeof block_js[state])){
 
-            if(component["properties"]){
-                component["properties"].forEach(propertie => {
-                    // alert(block_js[state])
-
-                    let value = propertie.value
-
-                    if(value){
-                        block[propertie.name] = value(block_js[state])
-                    }
-                    else{
-                        if(component.value_types.includes(block_js[state])){
-                            block[propertie.name] = block_js[state]
-                        }
-                    }
+                if(component["properties"]){
+                    component["properties"].forEach(propertie => {
                     
-                });
-                
-            }
-
-            if(component["structure_properties"]){
-                component["structure_properties"].forEach(propertie => {
-
-                    let value = propertie.value
-                    // alert(propertie.name)
-                    if(propertie.type=="on_created"){
-                        if(block_structure["on_created_functions"]==undefined){
-                            block_structure["on_created_functions"] = {}
-                        }
-
-                        block_structure["on_created_functions"][propertie.name]=value
-
-                        
-                    }
-                    else{
-
+                        let value = propertie.value
+    
                         if(value){
-
-                            block_structure[propertie.name] = value(block_js[state])
-
+                                    block[propertie.name] = value(block_js[state])
                         }
                         else{
-                            if(component.value_types.includes(block_js[state])){
-                                block_structure[propertie.name] = block_js[state]
-                            }
+                                    // console.log(component.value_types,block_js[state])
+            
+                                    block[propertie.name] = block_js[state]
+                                
                         }
+                      
                         
-                    }
+                        
+                    });
                     
-                });
+                }
                 
+                if(component["structure_properties"]){
+                    component["structure_properties"].forEach(propertie => {
+    
+                        
+    
+                        let value = propertie.value
+    
+                        if(propertie.type=="on_created"){
+                                if(block_structure["on_created_functions"]==undefined){
+                                    block_structure["on_created_functions"] = {}
+                                }
+        
+                                block_structure["on_created_functions"][propertie.name]=value
+        
+                                
+                        }
+                        else{
+                                // console.log(value)
+        
+        
+        
+        
+                                if(value){
+        
+                                    block_structure[propertie.name] = value(block_js[state])
+        
+                                }
+                                else{
+                                    
+                                    block_structure[propertie.name] = block_js[state]
+                                    
+                                }
+                                
+                        }
+    
+    
+                        
+                        
+                    });
+                    
+                }
+
+                if(component["update_function"]){
+                    if(block_structure["update_functions"]==undefined){
+                        block_structure["update_functions"] = []
+                    }
+                    block_structure["update_functions"].push(component["update_function"])
+                }
+
+
             }
+            else{
+
+                let types_string = ""
+
+                for(let i=0;i<component.value_types.length;i++){
+                    types_string+=component.value_types[i]
+
+                    if(i<component.value_types.length-1){
+                        types_string+=" or " 
+                    }
+                }
+
+                console.error("Json error: Item '"+block_js.name+"' has propertie"+" '"+state+"'"+" that allows types "+types_string+" but is given type "+typeof block_js[state]+".")
+            }
+
+
+
+
 
         }
         // else{

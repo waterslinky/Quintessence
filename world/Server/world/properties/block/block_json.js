@@ -74,7 +74,7 @@ block_json = [
     
         kills_grass:false,
     
-        collision_box:false,
+        collision_box:{},
     
         on_right_clicked:function(){
     
@@ -360,8 +360,8 @@ block_json = [
             
         },
                    
-        random_tick:{
-            "event":function(x,y){
+
+        "random_tick_event":function(x,y){
     
                   
                         
@@ -389,12 +389,12 @@ block_json = [
     
     
                         
-            },
-            "loop":true,
-            "time":function(){
+        },
+        "loop_random_tick":true,
+        "random_tick_time":function(){
                 return (10000*Math.random())+14000
-            }
-        }
+        },
+        
     }, 
     {
 
@@ -451,8 +451,8 @@ block_json = [
 
         render_bottom_side_image_on:["soil"],
 
-        random_tick:{
-            "event":function(x,y){
+        
+            "random_tick_event":function(x,y){
 
                 if(get_block_from_index(x,y+1).name=="soil"){
 
@@ -473,11 +473,11 @@ block_json = [
                 }
                 
             },
-            "loop":true,
-            "time":function(){
+            "loop_random_tick":true,
+            "random_tick_time":function(){
                 return 20000+(Math.random()*18000)
-            }
-        },
+            },
+        // },
 
         decrease_after_use:1,
 
@@ -517,8 +517,8 @@ block_json = [
 
             bottom_side_image:"mushroom_root",
 
-            random_tick:{
-                "event":function(x,y){
+         
+                "random_tick_event":function(x,y){
         
                     if(get_block_from_index(x,y+1).name=="soil"){
         
@@ -539,11 +539,11 @@ block_json = [
                     }
                     
                 },
-                "loop":true,
-                "time":function(){
+                "loop_random_tick":true,
+                "random_tick_time":function(){
                     return 200
-                }
-            },
+                },
+        
 
             render_bottom_side_image_on:["soil"],
 
@@ -578,8 +578,8 @@ block_json = [
         render_bottom_side_image_on:["soil"],
 
         use_after_duration:1200,
-        random_tick:{
-            "event":function(x,y){
+     
+        "random_tick_event":function(x,y){
 
                 if(get_block_from_index(x,y+1).name=="soil"){
 
@@ -599,12 +599,12 @@ block_json = [
 
                 }
                 
-            },
-            "loop":true,
-            "time":function(){
-                return 20000+(Math.random()*18000)
-            }
         },
+        "loop_random_tick":true,
+        "random_tick_time":function(){
+            return 20000+(Math.random()*18000)
+        },
+
 
 
         on_used:function(){
@@ -736,5 +736,70 @@ block_json = [
          
         image:"stone_brick_pedestal"
              
+    },
+    {
+        name:"wheat_crop",
+    
+        display_name:"Wheat Crop",
+    
+        in_accended_inventory:false,
+    
+        category:"nature",
+    
+        transparent:true,
+    
+        collision_box:false,
+    
+        destroy_time:0,
+    
+        render_bottom_side_image_on:["soil"],
+    
+        random_tick:{
+            "event":function(x,y){
+    
+                let block = get_block_from_index(x,y)
+    
+                if(block.states.groth<3){
+                    block.states.groth++
+                }
+                else{
+                    return false
+                }
+    
+                
+    
+            },
+            "loop":true,
+            "time":function(){
+                return 60000+(Math.random()*180000)
+            }
+        },
+    
+        state_propertys:{
+            "groth":[
+                {
+                    "image":images.wheat_crop1,
+                    "bottom_side_image":images.wheat_crop_bottom1,
+                    "loot_table":block_loot_tables.wheat_seed
+                },
+                {
+                    "image":images.wheat_crop2,
+                    "bottom_side_image":images.wheat_crop_bottom2,
+                    "loot_table":block_loot_tables.wheat_seed
+                },
+                {
+                    "image":images.wheat_crop3,
+                    "bottom_side_image":images.wheat_crop_bottom3,
+                    "loot_table":block_loot_tables.wheat_seed
+    
+                },
+                {
+                    "image":images.wheat_crop4,
+                    "top_side_image":images.wheat_crop4_top,
+                    "bottom_side_image":images.wheat_crop_bottom4,
+                    "loot_table":block_loot_tables.wheat_crop
+                }
+            ]
+        }
     }
 ]

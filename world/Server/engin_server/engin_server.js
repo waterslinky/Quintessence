@@ -117,31 +117,14 @@ function server_engin_update(){
 
                         if(get_block_from_index(x,y)!=undefined){
                                     
-                            if(get_block_from_index(x,y).random_tick!=undefined){
-                                        // console.log(get_block_from_index(x,y).random_tick)
-                                        // console.log(get_block_from_index(x,y).random_tick)
-                                        // if(get_property(get_block_from_index(x,y),"random_tick").ticks==undefined){
-                                            
-                                        //     get_property(get_block_from_index(x,y),"random_tick").ticks=engin.time_in_loop+get_property(get_block_from_index(x,y),"random_tick").time()
-                                            
-                                        // }
 
-                                        
-
-                                if(get_block_from_index(x,y).random_tick.ticks!=false && get_block_from_index(x,y).random_tick.ticks<=engin.time_in_loop){
-                                            
-                                    let res = get_block_from_index(x,y).random_tick.event(x,y)
-
-                                    if(get_block_from_index(x,y).random_tick!=undefined){
-                                        if(get_block_from_index(x,y).random_tick.loop && res!=false){
-                                            get_block_from_index(x,y).random_tick.ticks=engin.time_in_loop+get_block_from_index(x,y).random_tick.time()
-                                        }
-                                        else{
-                                            get_block_from_index(x,y).random_tick.ticks=false
-                                        }                                                
-                                    }                                            
-                                }
-                            }                                    
+                            let block = get_block_from_index(x,y)
+                            
+                            if(get_property(block,"update_functions")!=undefined){
+                                get_property(block,"update_functions").forEach(update_function => {
+                                    update_function(block)
+                                });
+                            }
                         }
                     }
                 }

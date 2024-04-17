@@ -56,63 +56,68 @@ const item_components = {
             }
         ]
     },
-    // "random_tick":{
-    //     "value_types":["object"],
-    //     "requires":{
-    //         "loop":{
-    //             "type":"boolean",
-    //             "note":"Loops until event function returns false."
-    //         },
-    //         "time":{
-    //             "type":"function",
-    //             "note":"Runs a function to determine the time untell the next random tick event is called. (return a integer greater than 0. a return value of 1000 = one second)"
-    //         }
-    //     },
-    //     "properties":[
-    //         {
-    //             "name":"time",
-    //             "value":function(value){
 
-    //                 if(typeof value.time=="function"){
-    //                     return value.time
-    //                 }
-    //                 else{
-    //                     console.error("Component random_tick.time is type function not type: "+typeof value)
-    //                 }
-                    
-    //             }
-    //         }
-    //     ],
-    //     "structure_properties":[
-    //         {
-    //             "name":"loop",
-    //             "value":function(value){
+    "collision_box":{
+        "value_types":["boolean","object"],
+        "properties":[
+            {
+                
+                "name":"collision_box"
+            }
+        ]
+    },
 
-    //                 if(typeof value.loop=="boolean"){
-    //                     return value.loop
-    //                 }
-    //                 else{
-    //                     console.error("Component loop is type boolean not type: "+typeof value)
-    //                 }
-                    
-    //             }
-    //         },
-    //         {
-    //             "name":"next_random_tick",
-    //             "value":function(item){
 
-    //                 // console.log(get_property(item,"time")())
+    "random_tick_event":{
+        "note":"This function runs after the 'random_tick_time' time is over.",
+        "value_types":["function"],
+        "properties":[
+            {
+                "name":"random_tick_event"
+            }
 
-    //                 item.next_event_time = engin.time_in_loop + get_property(item,"time")()
-                    
-    //             },
-    //             "type":"on_created"
-    //         },
-    //     ]
-    // },
+            
+        ],
+        "update_function":function(block){
+            if(block.next_random_tick_time<=engin.time_in_loop){
+                block.next_random_tick_time = engin.time_in_loop + get_property(block,"random_tick_time")()
+            }
+        }
+    },
+    "loop_random_tick":{
+        "note":"This function runs after the 'random_tick_time' time is over.",
+        "value_types":["boolean"],
+        "structure_properties":[
+            {
+                "name":"loop_random_tick"
+            }
+        ]
+    },
+    "random_tick_time":{
+        "note":"",
+        "value_types":["function"],
+        "properties":[
+            {
+                "name":"random_tick_time"
+            }
+        ],
+        "structure_properties":[
+            {
+                "name":"random_tick_event",
+                "value":function(item){
+
+                    item.next_random_tick_time = engin.time_in_loop + get_property(item,"random_tick_time")()
+
+                },
+                "type":"on_created"
+            }
+        ]
+    },
+
+    
 
     "image":{
-        
+        "value_types":["string"],
         "structure_properties":[
             {
                 "name":"image",
@@ -154,12 +159,13 @@ const item_components = {
                 "name":"image",
                 "value":function(value){
                     
-                    
                     return value
                     
                 }
             }
         ]
+        
+
     },
     "category":{
         "properties":[
@@ -226,6 +232,47 @@ const item_components = {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        
 
 
 
