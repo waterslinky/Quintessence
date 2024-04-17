@@ -630,6 +630,7 @@ block_json.forEach(block_js => {
 
                         block_structure["on_created_functions"][propertie.name]=value
 
+                        
                     }
                     else{
 
