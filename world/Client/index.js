@@ -608,31 +608,350 @@ world.layers.push(camp_fire_layer)
 
 
 const compile_blocks_and_items = function(){
-    
 
-    // for(const item_name in items){
-    //     let item = items[item_name]
+    blocks_and_items_structure = {
+    }
 
-    //     for(let attribute in item){
-    //         if(parse_item_attributes.includes(attribute)){
-
-    //             item[attribute] = (typeof window != 'undefined' ? window : global)[item[attribute]]
-                
-    //         }
-    //     }
         
-    //     items[item_name] = item        
-    // }
-
-
-
-
-    blocks_and_items = copy(blocks)
-    for(item in items){
-        // console.log(items[item])
-        blocks_and_items[item]=items[item]
+        
+    items={
 
     }
+
+    items_structure = {
+
+    }
+
+    item_json.forEach(item_js => {
+        items[item_js.name] = {}
+        let item = items[item_js.name]
+
+        items_structure[item_js.name] = {}
+        let item_structure = items_structure[item_js.name]
+
+        for(let state in item_js){
+            let component = item_components[state]
+            if(component){
+
+
+                // console.log(component)
+
+                if(component.value_types == undefined || component.value_types.includes(typeof item_js[state])){
+                    // console.log(block_js.name,component.value_types)
+                    if(typeof item_js[state]=="object" && component.element_structure){
+
+                        console.log("T")
+                        let return_value = grnef(item_js[state],component.element_structure)
+
+                        if(return_value.type=="json_error"){
+
+                            let types_string = ""
+
+                            for(let i=0;i<return_value.element_structure[return_value.element_name].types.length;i++){
+                                types_string+=return_value.element_structure[return_value.element_name].types[i]
+            
+                                if(i<return_value.element_structure[return_value.element_name].types.length-1){
+                                    types_string+=" or " 
+                                }
+                            }
+
+                            
+
+                            // console.log(return_value)
+                            console.error("Json error: Item '"+item_js.name+"' has propertie"+" '"+state+"'"+" this is type object and it has the propertry '"+return_value.element_name+"' with type "+return_value.object_type+", when only types "+types_string+" are allowed.")
+                        }
+                        if(return_value.type=="element_structure_component_error"){
+
+
+                            console.error(`Component error: Component ${state} has a ${return_value.needed_element_structure_location} propertie that allows type object but has no element_structure propertie.`)
+                        }
+                    }
+
+                    if(component["properties"]){
+                        component["properties"].forEach(propertie => {
+                        
+                            let value = propertie.value
+        
+                            if(value){
+                                item[propertie.name] = value(item_js[state])
+                            }
+                            else{
+                                        // console.log(component.value_types,block_js[state])
+                
+                                        item[propertie.name] = item_js[state]
+                                    
+                            }
+                        
+                            
+                            
+                        });
+                        
+                    }
+                    
+                    if(component["structure_properties"]){
+                        component["structure_properties"].forEach(propertie => {
+        
+                            
+        
+                            let value = propertie.value
+        
+                            if(propertie.type=="on_created"){
+                                    if(item_structure["on_created_functions"]==undefined){
+                                        item_structure["on_created_functions"] = {}
+                                    }
+            
+                                    item_structure["on_created_functions"][propertie.name]=value
+            
+                                    
+                            }
+                            else{
+                                    // console.log(value)
+            
+            
+            
+            
+                                    if(value){
+            
+                                        item_structure[propertie.name] = value(item_js[state])
+            
+                                    }
+                                    else{
+                                        
+                                        item_structure[propertie.name] = item_js[state]
+                                        
+                                    }
+                                    
+                            }
+        
+        
+                            
+                            
+                        });
+                        
+                    }
+
+                    if(component["update_item_function"]){
+                        if(item_structure["update_item_functions"]==undefined){
+                            item_structure["update_item_functions"] = []
+                        }
+                        item_structure["update_item_functions"].push(component["update_item_function"])
+                    }
+
+
+                }
+                else{
+
+                    let types_string = ""
+
+                    for(let i=0;i<component.value_types.length;i++){
+                        types_string+=component.value_types[i]
+
+                        if(i<component.value_types.length-1){
+                            types_string+=" or " 
+                        }
+                    }
+                    
+
+                    console.error("Json error: Item '"+item_js.name+"' has propertie"+" '"+state+"'"+" that allows types "+types_string+" but is given type "+typeof item_js[state]+".")
+                }
+
+
+
+
+
+            }
+            // else{
+            //     block[state] = block_js[state]
+            // }
+
+            // blocks[block.name][]
+        }
+
+        // blocks
+        // alert(block)
+    });
+
+
+    const blocks = {
+    }
+    
+    const blocks_structure = {
+    }
+    
+    block_json.forEach(block_js => {
+        blocks[block_js.name] = {}
+        let block = blocks[block_js.name]
+    
+        blocks_structure[block_js.name] = {}
+        let block_structure = blocks_structure[block_js.name]
+    
+        for(let state in block_js){
+            let component = item_components[state]
+            if(component){
+    
+    
+                // console.log(component)
+    
+                if(component.value_types == undefined || component.value_types.includes(typeof block_js[state])){
+                    // console.log(block_js.name,component.value_types)
+                    if(typeof block_js[state]=="object" && component.element_structure){
+    
+                        console.log("T")
+                        let return_value = grnef(block_js[state],component.element_structure)
+    
+                        if(return_value.type=="json_error"){
+    
+                            let types_string = ""
+    
+                            for(let i=0;i<return_value.element_structure[return_value.element_name].types.length;i++){
+                                types_string+=return_value.element_structure[return_value.element_name].types[i]
+            
+                                if(i<return_value.element_structure[return_value.element_name].types.length-1){
+                                    types_string+=" or " 
+                                }
+                            }
+    
+                            
+    
+                            // console.log(return_value)
+                            console.error("Json error: Item '"+block_js.name+"' has propertie"+" '"+state+"'"+" this is type object and it has the propertry '"+return_value.element_name+"' with type "+return_value.object_type+", when only types "+types_string+" are allowed.")
+                        }
+                        if(return_value.type=="element_structure_component_error"){
+    
+    
+                            console.error(`Component error: Component ${state} has a ${return_value.needed_element_structure_location} propertie that allows type object but has no element_structure propertie.`)
+                        }
+                    }
+    
+                    if(component["properties"]){
+                        component["properties"].forEach(propertie => {
+                        
+                            let value = propertie.value
+        
+                            if(value){
+                                        block[propertie.name] = value(block_js[state])
+                            }
+                            else{
+                                        // console.log(component.value_types,block_js[state])
+                
+                                        block[propertie.name] = block_js[state]
+                                    
+                            }
+                          
+                            
+                            
+                        });
+                        
+                    }
+                    
+                    if(component["structure_properties"]){
+                        component["structure_properties"].forEach(propertie => {
+        
+                            
+        
+                            let value = propertie.value
+        
+                            if(propertie.type=="on_created"){
+                                    if(block_structure["on_created_functions"]==undefined){
+                                        block_structure["on_created_functions"] = {}
+                                    }
+            
+                                    block_structure["on_created_functions"][propertie.name]=value
+            
+                                    
+                            }
+                            else{
+                                    // console.log(value)
+            
+            
+            
+            
+                                    if(value){
+            
+                                        block_structure[propertie.name] = value(block_js[state])
+            
+                                    }
+                                    else{
+                                        
+                                        block_structure[propertie.name] = block_js[state]
+                                        
+                                    }
+                                    
+                            }
+        
+        
+                            
+                            
+                        });
+                        
+                    }
+    
+                    if(component["update_block_function"]){
+                        if(block_structure["update_block_functions"]==undefined){
+                            block_structure["update_block_functions"] = []
+                        }
+                        block_structure["update_block_functions"].push(component["update_block_function"])
+                    }
+    
+    
+                }
+                else{
+    
+                    let types_string = ""
+    
+                    for(let i=0;i<component.value_types.length;i++){
+                        types_string+=component.value_types[i]
+    
+                        if(i<component.value_types.length-1){
+                            types_string+=" or " 
+                        }
+                    }
+                    
+    
+                    console.error("Json error: Item '"+block_js.name+"' has propertie"+" '"+state+"'"+" that allows types "+types_string+" but is given type "+typeof block_js[state]+".")
+                }
+    
+    
+    
+    
+    
+            }
+            // else{
+            //     block[state] = block_js[state]
+            // }
+    
+            // blocks[block.name][]
+        }
+    
+        // blocks
+        // alert(block)
+    });
+
+
+
+
+
+
+
+    
+
+
+    for(let item_name in items_structure){
+        blocks_and_items_structure[item_name] = items_structure[item_name]
+    }
+
+    for(let block_name in blocks_structure){
+        blocks_and_items_structure[block_name] = blocks_structure[block_name]
+    }
+
+
+
+
+    blocks_and_items=copy(blocks)
+for(item in items){
+    
+    blocks_and_items[item]=items[item]
+}
 
     // console.log(accended_inventory_search)
     redo_accended_blocks()
@@ -734,6 +1053,8 @@ world_load={
                 engin.change_selected_layer(["importing_mods"],"set")
                 
                 let mods = await pick_directory("read",selected_mods)
+
+                
                 
                 
 
@@ -751,7 +1072,7 @@ world_load={
                                     let texture = await convert_file(mod.textures.items[texture_name])
                                     
                                     if(texture!=undefined){
-                                        window[texture_name] = texture
+                                        images[texture_name] = texture
                                     }
                                     
 
@@ -765,11 +1086,23 @@ world_load={
                                     let texture = await convert_file(mod.textures.blocks[texture_name])
                                     
                                     if(texture!=undefined){
-                                        window[texture_name] = texture
+                                        images[texture_name] = texture
                                     }
 
                                 }                                
                             }
+
+
+                            for(const texture_name in mod.textures){
+                                // if(mod.textures.blocks[texture_name])
+                                    console.log(mod.textures[texture_name])
+                                let texture = await convert_file(mod.textures[texture_name])
+                                
+                                if(texture!=undefined){
+                                    images[texture_name] = texture
+                                }
+
+                            }  
                         
 
                             
@@ -782,13 +1115,21 @@ world_load={
                 
                         let mod = mods[mod_name]
 
+                        
+
                         if(mod.items){
+                            // console.log(mod.items)
                         
                             for(const item_name in mod.items){
                                 item = await convert_file(mod.items[item_name])
+                                
+                                // console.log(mod.items[item_name])
+
+                                
 
                                 if(item!=undefined){
-                                    items[item_name] = item
+                                    item_json.push(item)
+                                    // console.log(item_json)
 
                                 }
 
@@ -804,7 +1145,8 @@ world_load={
                                 block = await convert_file(mod.blocks[block_name])
 
                                 if(block!=undefined){
-                                    blocks[block_name] = block
+                                    // blocks[block_name] = block
+                                    item_json.push(block)
                                 }
                                 
 

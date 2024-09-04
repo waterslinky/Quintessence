@@ -216,31 +216,33 @@ function generate_block_to_chuck(block,x,y,orgin_chuck_x,orgin_chuck_y,chuck){
 function generate_structcher_to_chuck(structure,chuck,chuck_x,chuck_y,orgin_structure_x,orgin_structure_y,orgin_chuck_x,orgin_chuck_y){
 
     
+    // if(structure && structure.length){
+    //     for(let structure_x=0;structure_x<structure.length;structure_x++){
+    //         for(let structure_y=0;structure_y<structure[structure_x].length;structure_y++){
 
-    // for(let structure_x=0;structure_x<structure.length;structure_x++){
-    //     for(let structure_y=0;structure_y<structure[structure_x].length;structure_y++){
+    //             let x = orgin_structure_x + structure_x 
+    //             let y = orgin_structure_y - structure_y 
 
-    //         let x = orgin_structure_x + structure_x 
-    //         let y = orgin_structure_y - structure_y 
-
-    //         let block = create_item(structure[structure_x][(structure[structure_x].length-1)-structure_y])
+    //             let block = create_item(structure[structure_x][(structure[structure_x].length-1)-structure_y])
 
 
 
-    //         if(block.name=="extrude_block"){
+    //             if(block.name=="extrude_block"){
 
-    //             generate_load_extrude_block_to_chuck(block,x,y,chuck_x,chuck_y,orgin_chuck_x,orgin_chuck_y,chuck)
+    //                 generate_load_extrude_block_to_chuck(block,x,y,chuck_x,chuck_y,orgin_chuck_x,orgin_chuck_y,chuck)
 
-    //         }
-    //         else{
+    //             }
+    //             else{
+                    
+    //                 generate_block_to_chuck(block,x,y,orgin_chuck_x,orgin_chuck_y,chuck)
+
+    //             }
+
                 
-    //             generate_block_to_chuck(block,x,y,orgin_chuck_x,orgin_chuck_y,chuck)
-
     //         }
-
-            
-    //     }
+    //     }        
     // }
+
     
 
 }

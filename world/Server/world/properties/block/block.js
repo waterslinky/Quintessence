@@ -207,10 +207,10 @@ function create_item(data={}){
     }
 
     if(typeof data=="string"){
-        item = copy(blocks_structure[data] )
+        item = copy(blocks_and_items_structure[data] )
     }
     else{
-        item = copy(blocks_structure[data.name] )
+        item = copy(blocks_and_items_structure[data.name] )
     }
 
     item.x = x
@@ -325,202 +325,70 @@ function set_block_from_index(x,y,block){
 
 
 
-const slightly_striped_log = {
 
-    name:"slightly_striped_log",
 
-    display_name:"Slightly Striped Log",
 
-    collision_box:false,
 
-    broken_with : [
-            {
-                "tool_type" : "axe" 
-            },
-            {
-                "tool_type" : "knife",
-                "minning_speed" : 0.75,
-                "loot_table" : item_loot_tables.bark_knife,
-                "replace_with" : {
-                    "name" : "moderately_striped_log"
+
+
+
+
+function grnef(object,element_structure){
+
+    let return_value = true
+
+    // if(typeof block_js[state]=="object" && element_structure){
+
+
+    if(element_structure.allow_all_properties!=true){
+        for(element_name in element_structure){
+
+            // let element = element_structure[element_name]
+            
+            // console.log(element)
+            if(element_structure[element_name].types==undefined || element_structure[element_name].types.includes(typeof object[element_name])){
+
+                // console.log(element_structure[element_name].element_structure)
+                if(typeof object[element_name]=="object" && element_structure[element_name].element_structure==undefined){
+
+                    return_value = {
+                        "type":"element_structure_component_error",
+                        "needed_element_structure_location":element_name
+                    }
+
                 }
-            }
-    ],
-
-    destroy_time:2.5,
-  
-    image:images.slightly_striped_log
-
-}
-
-
-const moderately_striped_log = {
-
-    name:"moderately_striped_log",
-
-    display_name:"Moderately Striped Log",
-
-    collision_box:false,
-
-    broken_with : [
-            {
-                "tool_type" : "axe" 
-            },
-            {
-                "tool_type" : "knife",
-                "minning_speed" : 0.75,
-                "loot_table" : item_loot_tables.bark_knife,
-                "replace_with" : {
-                    "name" : "mostly_striped_log"
+                else if(typeof object[element_name]=="object" && element_structure[element_name].element_structure){
+                    console.log(object[element_name])
+                    return_value = grnef(object[element_name],element_structure[element_name].element_structure)
                 }
+
+
             }
-    ],
-
-    destroy_time:2.5,
-        
-    image:images.moderately_striped_log
-
-}
+            else{
 
 
-const mostly_striped_log = {
 
-    name:"mostly_striped_log",
-
-    display_name:"Mostly Striped Log",
-
-    collision_box:false,
-
-    broken_with : [
-            {
-                "tool_type" : "axe" 
-            },
-            {
-                "tool_type" : "knife",
-                "minning_speed" : 5,
-                "loot_table" : item_loot_tables.bark_knife,
-                "replace_with" : {
-                    "name" : "striped_log"
+                // console.error("Json error: Item '"+block_js.name+"' has propertie"+" '"+state+"'"+" this is type object and it has the propertry '"+element_name+"' with type "+typeof element_name+", when only types "+types_string+" are allowed.")
+                return_value = {
+                    "type":"json_error",
+                    "element_structure":element_structure,
+                    "element_name":element_name,
+                    "object_type":typeof object[element_name]
                 }
-            }
-    ],
-
-    destroy_time : 2.5,
-           
-    image:images.mostly_striped_log
-
-}
-
-
-const striped_log = {
-  
-    name : "striped_log",
-
-    display_name:"Striped Log",
-
-    collision_box:false,
-
-    broken_with : [
-        {
-            "tool_type" : "axe" 
-        }
-    ],
-
-    destroy_time:2.5,
+            }   
+        }        
+    }
     
-    image:images.striped_log
+    return return_value
 
 }
-
-
-const plank = {
-    
-    name:"plank",
-
-    display_name:"Plank",
-        
-    broken_with : [
-            {
-                "tool_type" : "axe" 
-            }
-    ],
-
-
-    destroy_time:1.5,
-    
-    image:images.plank
-       
-}
-
-
-const crafting_table = {
-
-    name:"crafting_table",
-
-    display_name:"Crafting Table",
-
-    collision_box : false,
-
-    transparent : true,
-        
-    on_right_clicked : function(){
-            engin.change_selected_layer("crafting_table","push")
-    },
-
-    broken_with : [
-            {
-                "tool_type" : "axe" 
-            }
-    ],
-
-    destroy_time:1.5,
-
-    left_side_image : images.crafting_table_left,
-
-    top_side_image : images.crafting_table_top,
-
-    image:images.crafting_table,
-        
-}
-
-const missing_block = {
-  
-    name:"missing_block",
-
-    display_name:"Missing Block",
-
-    destroy_time:0,
-
-    image:images.missing_block
-      
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 blocks = {
-
 }
 
-const blocks_structure = {
-
+blocks_structure = {
 }
-
 
 block_json.forEach(block_js => {
     blocks[block_js.name] = {}
@@ -533,7 +401,39 @@ block_json.forEach(block_js => {
         let component = item_components[state]
         if(component){
 
+
+            // console.log(component)
+
             if(component.value_types == undefined || component.value_types.includes(typeof block_js[state])){
+                // console.log(block_js.name,component.value_types)
+                if(typeof block_js[state]=="object" && component.element_structure){
+
+                    console.log("T")
+                    let return_value = grnef(block_js[state],component.element_structure)
+
+                    if(return_value.type=="json_error"){
+
+                        let types_string = ""
+
+                        for(let i=0;i<return_value.element_structure[return_value.element_name].types.length;i++){
+                            types_string+=return_value.element_structure[return_value.element_name].types[i]
+        
+                            if(i<return_value.element_structure[return_value.element_name].types.length-1){
+                                types_string+=" or " 
+                            }
+                        }
+
+                        
+
+                        // console.log(return_value)
+                        console.error("Json error: Item '"+block_js.name+"' has propertie"+" '"+state+"'"+" this is type object and it has the propertry '"+return_value.element_name+"' with type "+return_value.object_type+", when only types "+types_string+" are allowed.")
+                    }
+                    if(return_value.type=="element_structure_component_error"){
+
+
+                        console.error(`Component error: Component ${state} has a ${return_value.needed_element_structure_location} propertie that allows type object but has no element_structure propertie.`)
+                    }
+                }
 
                 if(component["properties"]){
                     component["properties"].forEach(propertie => {
@@ -598,11 +498,11 @@ block_json.forEach(block_js => {
                     
                 }
 
-                if(component["update_function"]){
-                    if(block_structure["update_functions"]==undefined){
-                        block_structure["update_functions"] = []
+                if(component["update_block_function"]){
+                    if(block_structure["update_block_functions"]==undefined){
+                        block_structure["update_block_functions"] = []
                     }
-                    block_structure["update_functions"].push(component["update_function"])
+                    block_structure["update_block_functions"].push(component["update_block_function"])
                 }
 
 
@@ -618,6 +518,7 @@ block_json.forEach(block_js => {
                         types_string+=" or " 
                     }
                 }
+                
 
                 console.error("Json error: Item '"+block_js.name+"' has propertie"+" '"+state+"'"+" that allows types "+types_string+" but is given type "+typeof block_js[state]+".")
             }
@@ -639,6 +540,15 @@ block_json.forEach(block_js => {
 });
 
 // blocks = blocks_structure
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,6 +1,8 @@
 
 const item_components = {
     "name":{
+        "value_types":["string"],
+
         "structure_properties":[
             {
                 "name":"name",
@@ -78,7 +80,7 @@ const item_components = {
 
             
         ],
-        "update_function":function(block){
+        "update_block_function":function(block){
             if(block.next_random_tick_time<=engin.time_in_loop){
                 block.next_random_tick_time = engin.time_in_loop + get_property(block,"random_tick_time")()
             }
@@ -167,7 +169,44 @@ const item_components = {
         
 
     },
+
+    "random_tick":{
+        "value_types":["object"],
+        // "properties":[
+        //     {
+        //         "name":"random_tick_event",
+        //         "value":function(value){
+                    
+        //             return value.event
+                    
+        //         }
+        //     }
+        // ]
+
+        "element_structure":{
+
+            "loop":{
+                "types":["boolean"],
+                "note":"If true then the random_tick will loop untell the random tick event returns false."
+            },
+            "time":{
+                "types":["function"],
+    
+            },
+            "event":{
+                "types":["function"]
+                
+            },
+                
+        }
+        
+
+    },
+
+
     "category":{
+        "value_types":["string"],
+        
         "properties":[
             {
                 "name":"category",
@@ -184,6 +223,8 @@ const item_components = {
         ]
     },
     "kills_grass":{
+        "value_types":["boolean"],
+
         "properties":[
             {
                 "name":"kills_grass",
@@ -198,7 +239,121 @@ const item_components = {
                 }
             }
         ]
-    }
+    },
+    "hand_size":{
+        "value_types":["number"],
+
+        "properties":[
+            {
+                "name":"hand_size",
+                "value":function(value){
+
+                    
+                    return value 
+                   
+                }
+            }
+        ]
+    },
+    "destroy_time":{
+        "value_types":["number"],
+
+        "properties":[
+            {
+                "name":"destroy_time",
+                "value":function(value){
+
+                    
+                    return value 
+                   
+                }
+            }
+        ]
+    },
+    "in_accended_inventory":{
+        "value_types":["boolean"],
+
+        "properties":[
+            {
+                "name":"in_accended_inventory",
+                "value":function(value){
+
+                    
+                    return value 
+                   
+                }
+            }
+        ]
+    },
+    "transparent":{
+        "value_types":["boolean"],
+
+        "properties":[
+            {
+                "name":"transparent",
+                "value":function(value){
+
+                    
+                    return value 
+                   
+                }
+            }
+        ]
+    },
+
+    "on_used":{
+        "value_types":["function"],
+
+        "properties":[
+            {
+                "name":"on_used",
+                "value":function(value){
+
+                    
+                    return value 
+                   
+                }
+            }
+        ]
+    },
+
+    "hit_box":{
+        "value_types":["object"],
+
+        "properties":[
+            {
+                "name":"hit_box",
+                "value":function(value){
+
+                    
+                    return value 
+                   
+                }
+            }
+        ]
+    },
+
+    
+
+    "use_after_duration":{
+        "value_types":["number"],
+
+        "properties":[
+            {
+                "name":"use_after_duration",
+                "value":function(value){
+
+                    
+                    return value 
+                   
+                }
+            }
+        ]
+    },
+
+
+    
+    
 }
 
 
@@ -214,8 +369,77 @@ const item_components = {
 
 
 
+// let states = {
+//     "types":["list"],
+//     "prop":{
+//         // "name":"states",
+//         "index_structher":{
+//             "types":["diconary"],
+//             "reqiurs":["name"],
+//             "allow_all_elements":true
+//         }
+//     }
+// }
 
 
+// let a = {
+//     "event":function(x,y){
+    
+                  
+                        
+//         // if(get_property(get_block_from_index(x,y-1),"kills_grass")!=false){
+            
+//         //     change_block(x,y,"dirt")
+//         //     // console.log("EVENT DO THOIING")
+//         // }
+//         // else{
+//         //     if(get_block_from_index(x,y-1).name=="dirt" && get_block_from_index(x+1,y).name=="air"){
+                
+//         //         change_block(x-1,y,"grass")
+//         //     // console.log("EVENT DO THOIING")
+
+        
+
+//         //     }
+//         //     if(get_block_from_index(x+1,y).name=="dirt" && get_block_from_index(x+1,y-1).name=="air"){
+//         //         change_block(x+1,y,"grass")
+//         //     // console.log("EVENT DO THOIING")
+
+//         //     }
+//         // }
+
+
+
+        
+//     },
+//     "loop":true,
+//     "time":function(){
+//     return (10000*Math.random())+14000
+//     }
+// }
+
+
+
+// let tick2 = {
+//     "name":"random_tick",
+//     "types":["diconary"],
+//     "elemnt_structher":{
+
+//         "loop":{
+//             "types":["bool"],
+//         },
+//         "time":{
+//             "types":["func"],
+
+//         },
+//         "event":{
+//             "types":["func"],
+            
+//         },
+            
+        
+//     }
+// }
 
 
 

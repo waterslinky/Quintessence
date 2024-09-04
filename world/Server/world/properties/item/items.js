@@ -25,524 +25,12 @@ function capitalize_string(string){
 }
 
 
-const grass_seed = {
-
-    name:"grass_seed",
-
-    display_name:"Grass Seed",
-
-    category:"nature",
-
-    use_after_duration:0,
-
-    "hand_size":0.6,
-
-    decrease_after_use:1,
-
-    on_used:function(){
-
-            if(get_block_from_index(world_mouse_x,world_mouse_y).name=="dirt"){
-                change_block(world_mouse_x,world_mouse_y,"grass")
-                return true
-            }
-            
-            return false
-
-    },
-
-    image:images.grass_seed
-    
-}
-
-
-const bark = {
-
-    name:"bark",
-
-    display_name:"Bark",
-
-    image:images.bark
-
-}
-
-
-const stick = {
-
-    name:"stick",
-
-    display_name : "Stick",
-
-    tool_type : [
-        {
-            "tool_type":"knife",
-            "minning_speed" : 1
-        }
-    ],
-        
-    tool_part : {
-            material:"wooden",
-            part:"handle",
-            minning_speed:1,
-            transform_image:images.axe_stick,
-            attributs:{
-                "minning_speed":1
-            }
-    },
-
-    hand_size:1,
-        
-    image:images.stick
-      
-}
-
-
-const half_stick = {
-
-    name:"half_stick",
-        
-    display_name:"Half Stick",
-
-    tool_type : ["knife"],
-
-    tool_part : {
-            material:"wooden",
-            part:"scales",
-            offset_x:-3,
-            offset_y:3,
-            attributs:{
-                "minning_speed":1
-            }
-    },
-
-    hand_size:1,
-
-    image : images.half_stick
-       
-}
-
-
-const bark_axe_head = {
-
-    name:"bark_axe_head",
-
-    display_name:"Bark Axe Head",
-        
-    tool_part : {
-            material:"bark",
-            part:"axe_head",
-            offset_x:4,
-            offset_y:-2,
-            attributs:{
-                "minning_speed" : 1
-            }
-    },
-
-    hand_size:1,
-        
-    image:images.bark_axe_head
-
-}
-
-
-const bark_knife_head = {
- 
-    name:"bark_knife_head",
-
-    tool_part : {
-        material:"bark",
-        part:"knife_head",
-        offset_x:2,
-        offset_y:-3,
-        attributs:{
-            "minning_speed":1.25
-        }
-    },
-        
-    display_name:"Bark Knife Head",
-
-    hand_size:1,
-        
-    image:images.bark_knife_head
-
-}
-
-
-const bark_pickaxe_head = {
-
-    name:"bark_pickaxe_head",
-
-    tool_part : {
-            material:"bark",
-            part:"pickaxe_head",
-            offset_x:4,
-            offset_y:-3,
-            attributs:{
-                "minning_speed":1.25
-            }
-    },
-        
-    display_name:"Bark Pickaxe Head",
-
-    hand_size:1,
-        
-    image:images.bark_pickaxe_head
-
-}
-
-
-const bark_hoe_head = {
-
-    name:"bark_hoe_head",
-
-    tool_part : {
-            material:"bark",
-            part:"hoe_head",
-            offset_x:4,
-            offset_y:0,
-            attributs:{
-                "minning_speed":1.25
-            }
-    },
-        
-    display_name:"Bark Hoe Head",
-
-    hand_size:1,
-        
-    image:images.bark_hoe_head
-
-}
-
-
-const wheat = {
-
-    name:"wheat",
-
-    display_name:"Wheat",
-
-    hand_size:0.6,
-        
-    image:images.wheat
-
-}
-
-const dough = {
-
-    name:"dough",
-
-    display_name:"Dough",
-
-    hand_size:0.6,
-        
-    image:images.dough
-
-}
-
-
-const bread = {
-
-    name:"bread",
-
-    display_name:"Bread",
-
-    hand_size:0.6,
-        
-    image:images.bread,
-
-    use_after_duration:1000,
-
-    on_used:function(){
-
-        player.give_hunger(10)
-
-        return true
-
-    },
-
-}
-
-
-const wheat_seed = {
-
-    name:"wheat_seed",
-
-    display_name:"Wheat Seed",
-
-    hand_size:1,
-
-    on_used:function(){
-        let block_clicked = get_block_from_index(world_mouse_x,world_mouse_y)
-
-        if(block_clicked.name=="air" && get_block_from_index(world_mouse_x,world_mouse_y+1).name=="soil"){
-            change_block(world_mouse_x,world_mouse_y,"wheat_crop")
-
-            return true
-
-        }
-
-        return false
-    },
-        
-    image:images.wheat_seed
-
-}
-
 const attribut_names = {
     "minning_speed":"Minning Speed"
 }
 
 
-function tool_template(item,data = {}){
 
-        item.display_name = "fg"
-        
-
-
-        // console.log(data)
-        let material_items = data.material_items
-
-        let tool_parts = {}
-
-        for(let part_type in get_property(item,"parts")){
-
-            let tool_part
-            
-            
-            if(material_items){
-                
-                for(let i=0;i<material_items.length;i++){
-
-                    let material_item = material_items[i]
-                    // console.log(material_items.length)
-                    if(get_property(material_item,"tool_part").part==part_type){
-
-                        material_items.splice(i,1)
-
-                        tool_part = material_item
-                        i = material_items.length
-
-                    }
-                }                
-            }
-
-
-            if(tool_part==undefined){
-                tool_part = get_property(item,"parts")[part_type]
-            }
-
-            tool_parts[part_type] = create_item(tool_part)
-            
-        }
-
-        let attributs={}
-
-        for(let tool_part_name in tool_parts){
-
-            let tool_part = tool_parts[tool_part_name]
-
-            for(let attribut in get_property(tool_part,"tool_part").attributs){
-
-                if(attributs[attribut]==undefined){
-
-                    attributs[attribut] = get_property(tool_part,"tool_part").attributs[attribut]
-
-                }
-                else{
-
-                    attributs[attribut] += get_property(tool_part,"tool_part").attributs[attribut]
-
-                }
-
-            }
-
-
-        }   
-
-        item.display_name = [{"name":capitalize_string(get_property(tool_parts[get_property(item,"main_part")],"tool_part").material) + " "+capitalize_string(get_property(item,"tool_type"))}]
-        
-           
-        item.tool_type = [
-                {
-                    "tool_type":get_property(item,"tool_type")
-                }
-        ]
-
-        for(let attribut in attributs){
-            item.tool_type[0][attribut] = attributs[attribut]
-
-            item.display_name.push({
-                "name":(attribut_names[attribut] || attribut)+": "+attributs[attribut],
-                "color":"210, 210, 225"
-            })
-        }
-
-
-
-        let image = []
-        let image_offsets={}
-        get_property(item,"part_order").forEach(part_name => {
-            
-        
-   
-
-            let part = tool_parts[part_name]
-     
-            if(get_property(part,"tool_part").transform_image){
-                
-                image.push(get_property(part,"tool_part").transform_image)
-                
-            }
-                
-            else{
-
-                image.push(get_property(part,"image"))
-            
-            }
-
-
-                
-
-            let offset_x = 0
-            let offset_y = 0
-
-                
-            if(get_property(part,"tool_part").offset_x){
-                offset_x = get_property(part,"tool_part").offset_x 
-            }
-
-            if(get_property(part,"tool_part").offset_y){
-                offset_y = get_property(part,"tool_part").offset_y
-            }
-
-            if(offset_x || offset_y){
-                image_offsets[image.length-1] = ([offset_x,offset_y])
-            }
-        });
-
-        item.image = image
-        item.image_offsets = image_offsets
-
-}
-
-
-const axe = {
-    
-    //Tool temp
-    template_function:[tool_template],
-
-    "parts":{
-        "axe_head":"bark_axe_head",
-        "handle":"stick"
-    },
-
-    name:"axe",
-
-    stack_size:1,
-
-    part_order:["handle","axe_head"],
-
-    tool_type:"axe",
-
-    main_part:"axe_head"
-}
-
-const knife = {
-    
-    //Tool temp
-    template_function:[tool_template],
-
-    "parts":{
-        "knife_head":"bark_knife_head",
-        "scales":"half_stick"
-    },
-
-    name:"knife",
-
-    stack_size:1,
-
-    part_order:["scales","knife_head"],
-
-    tool_type:"knife",
-
-    main_part:"knife_head"
-}
-
-const pickaxe = {
-    
-    //Tool temp
-    template_function:[tool_template],
-
-    "parts":{
-        "pickaxe_head":"bark_pickaxe_head",
-        "handle":"stick"
-    },
-
-    name:"pickaxe",
-
-    stack_size:1,
-
-    part_order:["handle","pickaxe_head"],
-
-    tool_type:"pickaxe",
-
-    main_part:"pickaxe_head"
-}
-
-
-const hoe = {
-    
-    //Tool temp
-    template_function:[tool_template],
-
-    "parts":{
-        "hoe_head":"bark_hoe_head",
-        "handle":"stick"
-    },
-
-    name:"hoe",
-
-    stack_size:1,
-
-    part_order:["handle","hoe_head"],
-
-    tool_type:"hoe",
-
-    main_part:"hoe_head"
-}
-
-
-const void_adder = {
-    
-    name:"void_adder",
-
-    display_name:"Void Adder",
-
-    hand_size:.6,
-
-    use_after_duration:0,
-        
-    on_used:function(){
-            let block_clicked=get_block_from_index(world_mouse_x,world_mouse_y)
-            if(block_clicked.void==undefined || !block_clicked.void){
-                add_void(block_clicked)
-                is_placing=false
-
-            }
-            else{
-                remove_void(block_clicked)
-                is_placing=false
-
-            }
-            
-            return true
-            // }
-            
-            
-
-    },
-
-    image:images.void_block
- 
-}
 
 
 let defalt_item = {
@@ -597,15 +85,7 @@ if(typeof item=="string"){
 
     // console.log(item.name)
 
-    // try{
-    
-    //         item_property = blocks_and_items[item.name][property]
- 
-    //     }
-    //     catch(err){
-    //         console.error(item)
-    //     }
-    
+   
 
     // console.log(item.name)
     if(blocks_and_items[item.name]!=undefined){
@@ -659,10 +139,8 @@ if(typeof item=="string"){
     return defalt_block[property]
     
 }
-    }
+}
     
-
-
 
 function add_void(block){
     if(!block.void){
@@ -695,26 +173,178 @@ function remove_void(block){
 
 
 items={
-    // "void_adder":void_adder,
-    // "bark":bark,
-    // "stick":stick,
-    // "bark_axe_head":bark_axe_head,
-    // "half_stick":half_stick,
-    // "bark_knife_head":bark_knife_head,
-    // "bark_hoe_head":bark_hoe_head,
-    // "bark_pickaxe_head":bark_pickaxe_head,
+
+}
 
 
-    // "axe":axe,
-    // "knife":knife,
-    // "hoe":hoe,
-    // "pickaxe":pickaxe,
-    // "wheat":wheat,
-    // "wheat_seed":wheat_seed,
-    // "dough":dough,
-    // "bread":bread
 
 
+items_structure = {
+
+}
+
+
+item_json.forEach(item_js => {
+    items[item_js.name] = {}
+    let item = items[item_js.name]
+
+    items_structure[item_js.name] = {}
+    let item_structure = items_structure[item_js.name]
+
+    for(let state in item_js){
+        let component = item_components[state]
+        if(component){
+
+
+            // console.log(component)
+
+            if(component.value_types == undefined || component.value_types.includes(typeof item_js[state])){
+                // console.log(block_js.name,component.value_types)
+                if(typeof item_js[state]=="object" && component.element_structure){
+
+                    console.log("T")
+                    let return_value = grnef(item_js[state],component.element_structure)
+
+                    if(return_value.type=="json_error"){
+
+                        let types_string = ""
+
+                        for(let i=0;i<return_value.element_structure[return_value.element_name].types.length;i++){
+                            types_string+=return_value.element_structure[return_value.element_name].types[i]
+        
+                            if(i<return_value.element_structure[return_value.element_name].types.length-1){
+                                types_string+=" or " 
+                            }
+                        }
+
+                        
+
+                        // console.log(return_value)
+                        console.error("Json error: Item '"+item_js.name+"' has propertie"+" '"+state+"'"+" this is type object and it has the propertry '"+return_value.element_name+"' with type "+return_value.object_type+", when only types "+types_string+" are allowed.")
+                    }
+                    if(return_value.type=="element_structure_component_error"){
+
+
+                        console.error(`Component error: Component ${state} has a ${return_value.needed_element_structure_location} propertie that allows type object but has no element_structure propertie.`)
+                    }
+                }
+
+                if(component["properties"]){
+                    component["properties"].forEach(propertie => {
+                    
+                        let value = propertie.value
+    
+                        if(value){
+                            item[propertie.name] = value(item_js[state])
+                        }
+                        else{
+                                    // console.log(component.value_types,block_js[state])
+            
+                                    item[propertie.name] = item_js[state]
+                                
+                        }
+                      
+                        
+                        
+                    });
+                    
+                }
+                
+                if(component["structure_properties"]){
+                    component["structure_properties"].forEach(propertie => {
+    
+                        
+    
+                        let value = propertie.value
+    
+                        if(propertie.type=="on_created"){
+                                if(item_structure["on_created_functions"]==undefined){
+                                    item_structure["on_created_functions"] = {}
+                                }
+        
+                                item_structure["on_created_functions"][propertie.name]=value
+        
+                                
+                        }
+                        else{
+                                // console.log(value)
+        
+        
+        
+        
+                                if(value){
+        
+                                    item_structure[propertie.name] = value(item_js[state])
+        
+                                }
+                                else{
+                                    
+                                    item_structure[propertie.name] = item_js[state]
+                                    
+                                }
+                                
+                        }
+    
+    
+                        
+                        
+                    });
+                    
+                }
+
+                if(component["update_item_function"]){
+                    if(item_structure["update_item_functions"]==undefined){
+                        item_structure["update_item_functions"] = []
+                    }
+                    item_structure["update_item_functions"].push(component["update_item_function"])
+                }
+
+
+            }
+            else{
+
+                let types_string = ""
+
+                for(let i=0;i<component.value_types.length;i++){
+                    types_string+=component.value_types[i]
+
+                    if(i<component.value_types.length-1){
+                        types_string+=" or " 
+                    }
+                }
+                
+
+                console.error("Json error: Item '"+item_js.name+"' has propertie"+" '"+state+"'"+" that allows types "+types_string+" but is given type "+typeof item_js[state]+".")
+            }
+
+
+
+
+
+        }
+        // else{
+        //     block[state] = block_js[state]
+        // }
+
+        // blocks[block.name][]
+    }
+
+    // blocks
+    // alert(block)
+});
+
+
+
+blocks_and_items_structure = {
+
+}
+
+for(let item_name in items_structure){
+    blocks_and_items_structure[item_name] = items_structure[item_name]
+}
+
+for(let block_name in blocks_structure){
+    blocks_and_items_structure[block_name] = blocks_structure[block_name]
 }
 
 

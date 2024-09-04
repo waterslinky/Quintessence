@@ -79,27 +79,27 @@ function redo_accended_blocks(search_text = "",category){
 
     accended_blocks_list.splice(0)
 
-    // for(const block_name in blocks_and_items){
-    //     let new_block = create_item(blocks_and_items[block_name].name)
-    //     // console.log(new_block)
-    //     if(!get_property(new_block,"hiden_in_accended")){ 
-    //         let display_name
+    for(const block_name in blocks_and_items){
+        let new_block = create_item(block_name)
+        // console.log(new_block,block_name)
+        if(!get_property(new_block,"hiden_in_accended")){ 
+            let display_name
                 
 
-    //         if(typeof get_property(new_block,"display_name")=="object"){
-    //             display_name = get_property(new_block,"display_name")[0].name
-    //         }
-    //         else{
-    //             display_name = get_property(new_block,"display_name")
-    //         }    
+            if(typeof get_property(new_block,"display_name")=="object"){
+                display_name = get_property(new_block,"display_name")[0].name
+            }
+            else{
+                display_name = get_property(new_block,"display_name")
+            }    
                 
-    //         if((display_name.toLowerCase().startsWith(search_text.toLowerCase()) || display_name.toLowerCase().includes(search_text.toLowerCase())) && (category==undefined || get_property(new_block,"category") == category) && get_property(new_block,"in_accended_inventory")!=false){
+            if(display_name && (display_name.toLowerCase().startsWith(search_text.toLowerCase()) || display_name.toLowerCase().includes(search_text.toLowerCase())) && (category==undefined || get_property(new_block,"category") == category) && get_property(new_block,"in_accended_inventory")!=false){
 
-    //             accended_blocks_list.push(new inventory_slot(new_block))
+                accended_blocks_list.push(new inventory_slot(new_block))
 
-    //         }
-    //     }     
-    // }
+            }
+        }     
+    }
 
     reset_slidder()
 
@@ -342,7 +342,7 @@ window.onload = function(){
                 // console.log("UP")
                 // this.partner.search_selector.show=true
                 this.partner.text.text_input=true
-                console.log()
+                
             }
             else{
                 // this.partner.search_selector.show=false

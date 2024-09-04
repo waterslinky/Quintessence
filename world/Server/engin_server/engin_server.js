@@ -120,9 +120,9 @@ function server_engin_update(){
 
                             let block = get_block_from_index(x,y)
                             
-                            if(get_property(block,"update_functions")!=undefined){
-                                get_property(block,"update_functions").forEach(update_function => {
-                                    update_function(block)
+                            if(get_property(block,"update_block_functions")!=undefined){
+                                get_property(block,"update_block_functions").forEach(update_block_function => {
+                                    update_block_function(block)
                                 });
                             }
                         }

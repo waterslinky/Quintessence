@@ -27,7 +27,7 @@ async function convert_file(file){
         return new_image
     }
 
-    if(file[1]=="txt"){
+    if(file[1]=="txt" || file[1]=="json" || file[1]=="js"){
         let data
 
         try{
@@ -61,7 +61,11 @@ async function get_files(folder, path = folder.name,begin_filter){
         
         let new_path = path+"/"+file.name
 
+        // console.log(file)
+
         if (file.kind == "file") {
+            
+            
           
             let got_file = await file.getFile()
             let text = await got_file.text()
@@ -91,11 +95,21 @@ async function get_files(folder, path = folder.name,begin_filter){
 
             }
 
+            
+
             if(new_file_name.endsWith("json")){
 
                 file_type="json"
 
                 new_file_name = new_file_name.slice(0,new_file_name.length-5)
+
+            }
+
+            if(new_file_name.endsWith("js")){
+
+                file_type="js"
+
+                new_file_name = new_file_name.slice(0,new_file_name.length-3)
 
             }
 

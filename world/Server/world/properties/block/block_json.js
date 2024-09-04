@@ -232,6 +232,27 @@ block_json = [
         image:"dirt"
        
     },
+
+    {
+
+        name:"soil",
+    
+        display_name:"Soil",
+
+        broken_with : [
+            {
+                "tool_type" : "shovel"         
+            }
+        ],
+       
+        category:"nature",
+    
+        destroy_time:2,
+      
+        image:"soil"
+       
+    },
+
     {
 
         name : "log",
@@ -699,6 +720,9 @@ block_json = [
         image:"tall_grass_block"
 
     },
+
+ 
+
     {
     
         display_name:"Stone Brick",
@@ -778,28 +802,186 @@ block_json = [
         state_propertys:{
             "groth":[
                 {
-                    "image":images.wheat_crop1,
-                    "bottom_side_image":images.wheat_crop_bottom1,
+                    "image":"wheat_crop1",
+                    "bottom_side_image":"wheat_crop_bottom1",
                     "loot_table":block_loot_tables.wheat_seed
                 },
                 {
-                    "image":images.wheat_crop2,
-                    "bottom_side_image":images.wheat_crop_bottom2,
+                    "image":"wheat_crop2",
+                    "bottom_side_image":"wheat_crop_bottom2",
                     "loot_table":block_loot_tables.wheat_seed
                 },
                 {
-                    "image":images.wheat_crop3,
-                    "bottom_side_image":images.wheat_crop_bottom3,
+                    "image":"wheat_crop3",
+                    "bottom_side_image":"wheat_crop_bottom3",
                     "loot_table":block_loot_tables.wheat_seed
     
                 },
                 {
-                    "image":images.wheat_crop4,
-                    "top_side_image":images.wheat_crop4_top,
-                    "bottom_side_image":images.wheat_crop_bottom4,
+                    "image":"wheat_crop4",
+                    "top_side_image":"wheat_crop4_top",
+                    "bottom_side_image":"wheat_crop_bottom4",
                     "loot_table":block_loot_tables.wheat_crop
                 }
             ]
         }
+    },
+    {
+
+        name:"slightly_striped_log",
+    
+        display_name:"Slightly Striped Log",
+    
+        collision_box:false,
+    
+        broken_with : [
+                {
+                    "tool_type" : "axe" 
+                },
+                {
+                    "tool_type" : "knife",
+                    "minning_speed" : 0.75,
+                    "loot_table" : item_loot_tables.bark_knife,
+                    "replace_with" : {
+                        "name" : "moderately_striped_log"
+                    }
+                }
+        ],
+    
+        destroy_time:2.5,
+      
+        image:"slightly_striped_log"
+    
+    },
+    {
+    
+        name:"moderately_striped_log",
+    
+        display_name:"Moderately Striped Log",
+    
+        collision_box:false,
+    
+        broken_with : [
+                {
+                    "tool_type" : "axe" 
+                },
+                {
+                    "tool_type" : "knife",
+                    "minning_speed" : 0.75,
+                    "loot_table" : item_loot_tables.bark_knife,
+                    "replace_with" : {
+                        "name" : "mostly_striped_log"
+                    }
+                }
+        ],
+    
+        destroy_time:2.5,
+            
+        image:"moderately_striped_log"
+    
+    },
+    {
+    
+        name:"mostly_striped_log",
+    
+        display_name:"Mostly Striped Log",
+    
+        collision_box:false,
+    
+        broken_with : [
+                {
+                    "tool_type" : "axe" 
+                },
+                {
+                    "tool_type" : "knife",
+                    "minning_speed" : 5,
+                    "loot_table" : item_loot_tables.bark_knife,
+                    "replace_with" : {
+                        "name" : "striped_log"
+                    }
+                }
+        ],
+    
+        destroy_time : 2.5,
+               
+        image:"mostly_striped_log"
+    
+    },
+    {
+      
+        name : "striped_log",
+    
+        display_name:"Striped Log",
+    
+        collision_box:false,
+    
+        broken_with : [
+            {
+                "tool_type" : "axe" 
+            }
+        ],
+    
+        destroy_time:2.5,
+        
+        image:"striped_log"
+    
+    },
+    {
+        
+        name:"plank",
+    
+        display_name:"Plank",
+            
+        broken_with : [
+                {
+                    "tool_type" : "axe" 
+                }
+        ],
+    
+    
+        destroy_time:1.5,
+        
+        image:"plank"
+           
+    },
+    {
+    
+        name:"crafting_table",
+    
+        display_name:"Crafting Table",
+    
+        collision_box : false,
+    
+        transparent : true,
+            
+        on_right_clicked : function(){
+                engin.change_selected_layer("crafting_table","push")
+        },
+    
+        broken_with : [
+                {
+                    "tool_type" : "axe" 
+                }
+        ],
+    
+        destroy_time:1.5,
+    
+        left_side_image : "crafting_table_left",
+    
+        top_side_image : "crafting_table_top",
+    
+        image:"crafting_table",
+            
+    },
+    {
+      
+        name:"missing_block",
+    
+        display_name:"Missing Block",
+    
+        destroy_time:0,
+    
+        image:"missing_block"
+          
     }
 ]

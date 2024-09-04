@@ -2116,7 +2116,7 @@ function engin_draw(){
 
 
         screen.drawImage(
-            break_block_sheet,
+            images.break_block_sheet,
             parseInt(((engin.time_in_loop-player.started_breakking)/(player.end_break-player.started_breakking))*5)*8,
             0,
             8,
