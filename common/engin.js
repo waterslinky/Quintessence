@@ -1227,10 +1227,13 @@ class engin_class{
 
 }
 
-if(is_server){
-    module.exports={engin_class}
+if (typeof is_server === "undefined") {
+    is_server = false;
 }
-else{
+
+if (is_server) {
+    module.exports = engin_class;
+} else {
     document.addEventListener("visibilitychange", () => {
         
         if (document.visibilityState=="visible") {
@@ -1344,10 +1347,6 @@ else{
         })
 
     })
-     
-
-
-
-
 }
-
+console.log("ENGIN")
+// module.exports={engin_class}

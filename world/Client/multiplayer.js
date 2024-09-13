@@ -80,6 +80,7 @@ alert("K")
 
 
     socket.on("connect", function () {
+
         player.id=socket.id
         console.log("I CONNECTED TO A SERVER")
         connected=true

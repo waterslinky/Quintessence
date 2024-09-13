@@ -1,3 +1,9 @@
+if (typeof window == 'undefined') {
+    images = []
+    item_json = require("./item_json")
+    item_components = require("../components/item_components")
+}
+
 function get_just_item(item_name,info){
     let item=false
 
@@ -45,7 +51,7 @@ let defalt_item = {
 
     "type":"item",
 
-    "image":images.missing_block
+    "image":(images || {}).missing_block
 
 }
 
@@ -55,7 +61,7 @@ let defalt_block = {
     "stack_size":stack_size,
     "hand_size":0.6,
     "type":"block",
-    "image":images.missing_block
+    "image":(images || {}).missing_block
 
 }
 
@@ -183,7 +189,7 @@ items_structure = {
 
 }
 
-
+console.log(item_json)
 item_json.forEach(item_js => {
     items[item_js.name] = {}
     let item = items[item_js.name]
@@ -357,9 +363,24 @@ function item_type(item){
         return "block"
     }
 }
-
+if (copy==undefined) {
+function copy(variable){
+    return Object.assign({}, variable)
+}
+}
 blocks_and_items=copy(blocks)
 for(item in items){
     
     blocks_and_items[item]=items[item]
+}
+
+if (typeof window == 'undefined') {
+    module.exports = {
+        get_just_item,
+        get_property,
+        add_void,
+        remove_void,
+        item_type,
+        capitalize_string
+    };
 }

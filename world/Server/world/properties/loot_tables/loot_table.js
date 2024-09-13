@@ -69,7 +69,7 @@ function random_a_b(value_a,value_b,percent_for_b){
     }
 }
 
-class loot_table{
+loot_table = class {
     constructor(items){
         this.items=items
     }
@@ -98,4 +98,13 @@ class loot_table{
         return return_items
     }
 
+}
+
+if (typeof window == 'undefined') {
+    module.exports = {
+        number_from,
+        chance_table,
+        random_a_b,
+        loot_table
+    };
 }

@@ -1,6 +1,7 @@
 //V2.7
 if(is_server){
     var {blank_world,generate_elevation_list,convert_names_to_blcoks,convert_blcoks__to_names,reload_path,noise} = require("./world_parts")
+    chuck_size = 20
 }
 
 
@@ -13,6 +14,50 @@ blue=0
 
 test_map=[]
 
+function create_item(data={}){
+
+    let item
+
+    let x = 0
+    let y = 0
+
+    if(data.x && data.y){
+
+        x = data.x
+        y = data.y
+
+    }
+
+    if(typeof data=="string"){
+        item = copy(blocks_and_items_structure[data] )
+    }
+    else{
+        item = copy(blocks_and_items_structure[data.name] )
+    }
+
+    item.x = x
+    item.y = y
+
+
+    if(item.on_created_functions){
+        for(on_created_function_name in item.on_created_functions){
+
+            let on_created_function = item.on_created_functions[on_created_function_name]
+            item[on_created_function_name] = on_created_function(item)
+            
+        }  
+    }
+
+
+    delete item.y
+    delete item.x
+    delete item.on_created_functions
+
+    return item
+    
+    
+    
+}
 
 function generate_block(block_name,x,y){
 
@@ -770,6 +815,6 @@ function over_world(noise_settings){
 
 
 if(is_server){
-    module.exports={over_world}
+    module.exports={over_world, generate_chuck}
 }
 

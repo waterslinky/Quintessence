@@ -15,34 +15,34 @@ var socketIO= require("socket.io") (http, {
     }
 });
 
-const {emit_self_data,disconect_player} = require("./globle_emit_functions.js")
+const {emit_self_data,disconect_player} = require("../../network/globle_emit_functions.js")
 
-const {engin_class} = require("../../common/engin.js")
+const {engin_class} = require("../../../common/engin.js")
 
 
 
-var {players,entities,block_list} = require("./setup_world.js")
+var {players,entities,block_list} = require("../world/setup/setup_world.js")
 
 // console.log(players)
 
 
 
 
-var {over_world,seed,new_block_list} = require("./world/generation/over_wold.js")
-var {} = require("./valids")
+var {over_world,seed,new_block_list} = require("../world/generation/over_wold.js")
+var {} = require("../../network/valids")
 
 
 
 console.log(emit_self_data)
 
-var  {change_block,block_is,server_engin_update,get_block,reload_path} = require("./engin_server");
+var  {change_block,block_is,server_engin_update,get_block,reload_path} = require("../engin_server/engin_server.js");
 
-const {run_on_packet_callback,new_setTimeout,emit_packet,send_to_all_except,player_connected,filter_player_traits}= require("./emit_functions")
+const {run_on_packet_callback,new_setTimeout,emit_packet,send_to_all_except,player_connected,filter_player_traits}= require("../../network/emit_functions.js")
 
 
-users=JSON.parse( fs.readFileSync("./save_data/acouts.js"))
+users=JSON.parse( fs.readFileSync("/workspaces/Quintessence/world/Server/save/acouts.json"))
 
-var {block_list} = require("./setup_world.js");
+var {block_list} = require("../world/setup/setup_world.js");
 
 
 
@@ -78,7 +78,7 @@ rggrgrrg=function (){
 
 
 setInterval(function () {
-    fs.writeFile('./save_data/block_list.js', "g", err => {
+    fs.writeFile('/workspaces/Quintessence/world/Server/backend/server.js', "g", err => {
         if (err) {
           console.error(err);
         }
@@ -88,11 +88,11 @@ setInterval(function () {
 }, 1000)
 
     
-http.listen (3898, function () {
+http.listen (3899, function () {
     console.log("Server 2 started...");
     console.log()
     socketIO.on("connection", function (socket) {
-        // console.log("CONNECT")
+        console.log("CONNECT")
     
         socket.setMaxListeners(0)
         
@@ -553,8 +553,7 @@ server={
 
 
 
-
-
-engin=new engin_class()
-
-engin.set_game_state(server)
+if (is_server) {
+   EnginClass  = require('../../../common/engin.js');
+}
+const engin = new EnginClass();

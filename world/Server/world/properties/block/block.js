@@ -1,3 +1,8 @@
+if (typeof window == 'undefined') {
+    item_components = require("../components/item_components")
+    chuck_size = 20
+}
+
 reseve=false
 change_block=function(x,y,block_name,break_block=false){
     // let new_block_list=[]
@@ -389,7 +394,10 @@ blocks = {
 
 blocks_structure = {
 }
-
+console.log(item_components)
+if (typeof window == 'undefined') {
+    block_json = require("./block_json")
+}
 block_json.forEach(block_js => {
     blocks[block_js.name] = {}
     let block = blocks[block_js.name]
@@ -553,7 +561,7 @@ block_json.forEach(block_js => {
 
 
 if(is_server){
-    module.exports={get_item,get_just_block,change_block,block_is}
+    module.exports={get_block_from_index}
 }
 
             

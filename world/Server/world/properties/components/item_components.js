@@ -356,7 +356,10 @@ const item_components = {
     
 }
 
-
+if (typeof window == 'undefined') {
+    module.exports = 
+        item_components
+}
 
 
 

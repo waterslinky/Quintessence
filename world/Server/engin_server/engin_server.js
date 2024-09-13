@@ -1,7 +1,13 @@
 //V2.7
 
 if(is_server){
-    var {get_block,reload_path,change_block,block_is, get_just_block} = require("./block")
+    var {get_block,reload_path,change_block,block_is, get_just_block} = require("../../../start/block")
+    var {game_rules} = require("../../Server/world/settings/game_rules")
+    render_distance = require("../../Client/setup")
+    var {get_block_from_index} = require("../world/properties/block/block")
+    var {get_property} = require("../world/properties/item/items")
+    var {generate_chuck} = require("../../Server/world/generation/over_wold")
+    chuck_size = 20
 }
 
 

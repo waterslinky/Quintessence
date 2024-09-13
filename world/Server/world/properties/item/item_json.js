@@ -484,3 +484,7 @@ const item_json = [
         
     }
 ]
+
+if(typeof window == "undefined"){
+    module.exports = item_json
+}

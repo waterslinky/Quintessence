@@ -1,3 +1,8 @@
+if (typeof window == 'undefined') {
+    block_loot_tables = require("../../../world/properties/loot_tables/block_loot_tables")
+    item_loot_tables = require("../../../world/properties/loot_tables/item_loot_tables")
+}
+
 block_json = [
     {
         "name":"air",
@@ -985,3 +990,7 @@ block_json = [
           
     }
 ]
+
+if (typeof window == 'undefined') {
+    module.exports = block_json;
+}

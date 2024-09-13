@@ -1,3 +1,6 @@
+if (typeof require !== 'undefined') {
+    const {get_local, save_local, selected_slot} = require('../../Client/setup');
+}
 
 function save_server(){
 
@@ -140,3 +143,7 @@ function import_saved_server(){
     
 
 }  
+
+if (typeof window == 'undefined') {
+    module.exports = { save_server, import_saved_server }
+}

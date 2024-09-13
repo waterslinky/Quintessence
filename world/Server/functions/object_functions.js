@@ -5,45 +5,42 @@ function run_function(function_name,parameters){
 }
 
 
-function randomize_list(list){
-    let old_list=list.splice(0)
-
-    list.splice(0,list.length)
-    
-
-    let length=old_list.length
-    for(let num=0;num<length;num++){
-        let i = Math.round((old_list.length-1)*Math.random())
-
-
-        list.push(old_list[i])
-
-        old_list.splice(i,1)           
+function randomize_list(list) {
+    for (let i = list.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [list[i], list[j]] = [list[j], list[i]];
     }
-
-    return list
-
 }
 
-function replace_list_object(list,new_list){
-    list.splice(0,list.length)
+function replace_list_object(list, new_list) {
+    list.splice(0, list.length);
     new_list.forEach(element => {
-        list.push(element)
+        list.push(element);
     });
 }
 
-function make_new_array(width,base=undefined){
-    let list=[]
-    for(let i=0;i<width;i++){
-        list.push(base)
+function make_new_array(width, base = undefined) {
+    let list = [];
+    for (let i = 0; i < width; i++) {
+        list.push(base);
     }
-    return list
+    return list;
 }
 
-function make_new_2D_array(width,hieght,base=undefined){
-    let list=[]
-    for(let i=0;i<width;i++){
-        list.push(make_new_array(hieght,base))
+function make_new_2D_array(width, height, base = undefined) {
+    let list = [];
+    for (let i = 0; i < width; i++) {
+        list.push(make_new_array(height, base));
     }
-    return list
+    return list;
+}
+
+if (typeof window == 'undefined') {
+module.exports = {
+    run_function,
+    randomize_list,
+    replace_list_object,
+    make_new_array,
+    make_new_2D_array
+};
 }

@@ -1,7 +1,9 @@
 document.body.style.backgroundColor="rgb(0,0,0)"
 
 
-
+if(typeof window !== 'undefined'){
+    engin = new engin_class();
+}
 
 
 
@@ -1290,6 +1292,7 @@ function engin_update(){
 }
 
 function start_game(){
+    console.log("what")
     compile_blocks_and_items()
 
     if(selected_status=="offline"){
@@ -1340,9 +1343,7 @@ function start_game(){
 if(selected_mods){
     engin.set_game_state(world_load)
 }
-else{
-    start_game()
-}
+start_game()
 
 
 

@@ -1,7 +1,7 @@
 //V2.7
 
 if(is_server){
-    var {get_block,reload_path} = require("../../block")
+    var {get_block,reload_path} = require("../../../../start/block")
     var {noise} = require("../../../../common/noise")
 
 }
@@ -324,7 +324,7 @@ function convert_blocks_to_names(blocks = block_list){
 
 
 
-
+//blank_world,generate_elevation_list,convert_names_to_blocks,get_block,reload_path,
 if(is_server){
-    module.exports={blank_world,generate_elevation_list,convert_names_to_blocks,convert_blocks_to_names,get_block,reload_path,noise}
+    module.exports={convert_blocks_to_names,noise}
 }

@@ -14,7 +14,7 @@ class texture{
     constructor(){
         
     }
-    set_up(image,chances=undefined){
+    set_up(image,chances=[]){
         if(chances==undefined){
             chances=[]
 
@@ -81,16 +81,17 @@ class texture{
                 console.error(this.texture)
             }
 
-           
+            if (this.chances==undefined) {
+                this.chances=[]
+            }
             for(let i=0;i<this.chances.length;i++){
                 // let chance = i<chances.length ? chances[i] : 1
-           
+        
                 // console.log(chances)
                 chance_total+=chances[i]
 
                 // new_chances.push({"name":this.texture[i].name,"chance":chance})
             }
-            
             if(x!=undefined && y!=undefined){
 
       
